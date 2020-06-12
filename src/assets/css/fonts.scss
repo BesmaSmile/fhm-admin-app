@@ -1,0 +1,84 @@
+
+
+.thin {
+	font-weight: 100;
+}
+
+.light {
+	font-weight: 200;
+}
+
+.extralight{
+	font-weight: 300;
+}
+ 
+.medium {
+	font-weight: 500;
+}
+
+.bold {
+	font-weight: bold;
+}
+
+.italic {
+	font-style: italic;
+}
+
+
+@for $i from 1 through 70 {
+	.fs#{$i} {
+		font-size : #{$i}px;
+	}
+	.lh#{$i} {
+		line-height: #{$i}px;
+	}
+}
+
+@for $i from 0 through 500 {
+  .pad#{$i} {
+    padding: #{$i}px;
+  }
+  .padh#{$i} {
+    padding-left: #{$i}px;
+    padding-right: #{$i}px;
+  }
+  .padv#{$i} {
+    padding-top: #{$i}px;
+    padding-bottom: #{$i}px;
+  }
+  .padt#{$i} {
+    padding-top: #{$i}px;
+  }
+  .padl#{$i} {
+    padding-left: #{$i}px;
+  }
+  .padr#{$i} {
+    padding-right: #{$i}px;
+  }
+  .padb#{$i} {
+    padding-bottom: #{$i}px;
+  }
+  .mar#{$i} {
+    margin: #{$i}px;
+  }
+  .marh#{$i} {
+    margin-left: #{$i}px;
+    margin-right: #{$i}px;
+  }
+  .marv#{$i} {
+    margin-top: #{$i}px;
+    margin-bottom: #{$i}px;
+  }
+  .mart#{$i} {
+    margin-top: #{$i}px;
+  }
+  .marl#{$i} {
+    margin-left: #{$i}px;
+  }
+  .marr#{$i} {
+    margin-right: #{$i}px;
+  }
+  .marb#{$i} {
+    margin-bottom: #{$i}px;
+  }
+}

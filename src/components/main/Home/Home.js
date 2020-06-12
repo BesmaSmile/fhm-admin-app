@@ -1,13 +1,13 @@
 import React from 'react';
 import './Home.css';
-import foodImage from '../../../assets/images/food.jpg' ;
+import foodImage from 'assets/img/food.jpg' ;
 function Home() {
   return (
     <div className="Home">
       <header className="Home-header">
         <img className="Home-img" src={foodImage} alt='food'/>
         <span
-          className="Home-message"
+          className="Home-message mart50"
           href="https://reactjs.org"
           target="_blank"
           rel="noopener noreferrer"
