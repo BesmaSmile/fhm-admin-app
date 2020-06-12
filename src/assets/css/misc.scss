@@ -42,6 +42,81 @@
   align-items: flex-end;
 }
 
+.asc{
+  align-self: center;
+}
+
+.asfs{
+  align-self: flex-start;
+}
+
+.asfe{
+  align-self: flex-end;
+}
+
+.txtac{
+  text-align: center;
+}
+
+.txtal{
+  text-align: left;
+}
+
+.txtar{
+  text-align: right;
+}
+
+.txtaj{
+  text-align: justify
+}
+
+@for $i from 0 through 3000 {
+  .w#{$i}{
+    width: #{$i}px;
+  }
+  .h#{$i}{
+    height: #{$i}px;
+  }
+  .maxw#{$i}{
+    max-width: #{$i}px;
+  }
+  .maxh#{$i}{
+    max-height: #{$i}px;
+  }
+  .minw#{$i}{
+    max-width: #{$i}px;
+  }
+  .minh#{$i}{
+    max-height: #{$i}px;
+  }
+}
+
+@for $i from 0 through 100 {
+  .relw#{$i}{
+    position: relative;
+    width: #{$i}+'%';
+  }
+  .relh#{$i}{
+    position: relative;
+    height: #{$i}'%';
+  }
+  .relw#{$i}vw {
+    position: relative;
+    width: #{$i + "vw"};
+  }
+  .relh#{$i}vh {
+    position: relative;
+    height: #{$i + "vh"};
+  }
+}
+
+
+@for $i from 1 through 10 {
+  .f#{$i} {
+    flex: #{$i};
+  }
+}
+
 @for $i from 0 through 500 {
   .pad#{$i} {
     padding: #{$i}px;
@@ -105,4 +180,8 @@
 
 .circle{
   border-radius: 50%;
+}
+
+.pointer{
+  cursor: pointer;
 }

@@ -1,5 +1,83 @@
 :root {
-  --vyoley: #51c088;
-  --grey: #eeeeee;
+  --purple: #5E72E3;
+  --lightpurple: rgb(131, 146, 228);
+  --strongpurple:rgb(76, 99, 231);
+  --grey : #686565;
+  --lightgrey: #d4d3d3;
+  --stronggrey:#3a383a;
   --white: #ffffff;
+  --light:#eee;
+  --dark:#222121;
+}
+
+.cpurple{
+  color:var(--purple)
+}
+
+.clightpurple{
+  color:var(--lightpurple)
+}
+
+.cstrongpurple{
+  color:var(--strongpurple)
+}
+
+.cgrey{
+  color:var(--grey)
+}
+
+.clightgrey{
+  color:var(--lightgrey)
+}
+
+.cstronggrey{
+  color:var(--stronggrey)
+}
+
+.cwhite{
+  color:var(--white)
+}
+
+.clight{
+  color:var(--light)
+}
+
+.cdark{
+  color:var(--dark)
+}
+
+.bpurple{
+  background-color:var(--purple)
+}
+
+.blightpurple{
+  background-color:var(--lightpurple)
+}
+
+.bstrongpurple{
+  background-color:var(--strongpurple)
+}
+
+.bgrey{
+  background-color:var(--grey)
+}
+
+.blightgrey{
+  background-color:var(--lightgrey)
+}
+
+.bstronggrey{
+  background-color:var(--stronggrey)
+}
+
+.bwhite{
+  background-color:var(--white)
+}
+
+.blight{
+  background-color:var(--light)
+}
+
+.bdark{
+  background-color:var(--dark)
 }
