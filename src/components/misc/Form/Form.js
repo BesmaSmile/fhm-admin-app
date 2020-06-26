@@ -24,7 +24,7 @@ const Form=(props)=>{
           ))
         }
       </div>
-      <button className='frm-button relw100 mart20 brad5 fs14 fw600 bpurple cwhite'  type='submit'>{submitText} </button>
+      <button className='frm-button pointer relw100 mart20 brad5 fs14 fw600 bpurple cwhite'  type='submit'>{submitText} </button>
     </form>
   )
 }

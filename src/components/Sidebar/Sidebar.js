@@ -17,7 +17,7 @@ const Sidebar=({className, items})=>{
         </div>
 
         <div className='sidebar-user flex row aic padv20'>
-          <img src={avatar} alt=''/>
+          <img className='circle' src={avatar} alt=''/>
           <div className='marl10 cgrey medium'>Ali FACI</div>
         </div>
         <div className="sidebar-items padv20 flex col">
