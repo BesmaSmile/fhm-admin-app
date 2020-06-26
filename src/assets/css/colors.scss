@@ -1,13 +1,14 @@
 :root {
-  --purple: #5E72E3;
-  --lightpurple: rgb(131, 146, 228);
-  --strongpurple:rgb(76, 99, 231);
-  --grey : #686565;
-  --lightgrey: #d4d3d3;
+  --purple:rgb(10, 119, 170); //#5E72E3;
+  --lightpurple: rgb(68, 170, 218);//rgb(131, 146, 228);
+  --strongpurple:rgb(6, 109, 156);//rgb(76, 99, 231);
+  --grey : #9FA1AA;
+  --lightgrey: #CCD1D5;
   --stronggrey:#3a383a;
   --white: #ffffff;
-  --light:#eee;
+  --light:#FCF9F9;
   --dark:#222121;
+  --red:#D8115F;
 }
 
 .cpurple{
@@ -46,6 +47,10 @@
   color:var(--dark)
 }
 
+.cred{
+  color: var(--red)
+}
+
 .bpurple{
   background-color:var(--purple)
 }
@@ -80,4 +85,8 @@
 
 .bdark{
   background-color:var(--dark)
+}
+
+.bred{
+  background-color: var(--red)
 }

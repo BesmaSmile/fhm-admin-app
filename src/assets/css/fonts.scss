@@ -1,4 +1,14 @@
 
+@font-face {
+	font-family: 'Bauhaus93';
+	src : url('../fonts/bauhaus-93-regular.ttf') format('truetype');
+	font-weight: normal;
+	font-style: normal;
+}
+
+.bauhaus93{
+	font-family: 'Bauhaus93'
+}
 
 .thin {
 	font-weight: 100;
@@ -13,7 +23,7 @@
 }
  
 .medium {
-	font-weight: 500;
+	font-weight: 600;
 }
 
 .bold {
@@ -24,13 +34,24 @@
 	font-style: italic;
 }
 
+.lhn{
+	line-height: normal;
+}
 
-@for $i from 1 through 70 {
+
+@for $i from 1 through 100 {
 	.fs#{$i} {
 		font-size : #{$i}px;
 	}
 	.lh#{$i} {
 		line-height: #{$i}px;
 	}
+}
+
+@for $i from 1 through 1000 {
+	.fw#{$i} {
+		font-weight : #{$i};
+	}
+
 }
 

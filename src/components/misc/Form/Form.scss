@@ -1,0 +1,42 @@
+
+
+.Form{
+  & .frm-inputField{ 
+    width: 300px;   
+    & input{
+      border: none;
+      outline: none;
+      box-shadow: 1px 1px 2px 0px var(--grey);
+      height: 35px;
+      transition: all 0.6s linear 0s;
+      &::placeholder{
+        color: var(--grey);
+        font-weight: 100;
+      }
+    }    
+    & .frm-error{
+      max-height: 0;
+      transition: all 0.6s linear 0s;
+    }
+    &[witherror=true]{
+      & input{
+        border: 0.8px solid var(--red);
+        transition: all 0.6s linear 0s;
+      }
+      & .frm-error{
+        max-height: 15px;
+        transition: all 0.6s linear 0s;
+      }
+    }
+  }
+  & .frm-button{
+    height: 40px;
+    border: none;
+    cursor: pointer;
+    outline: none;
+    &:hover{
+      box-shadow: 2px 2px 3px 0px #9b9b9b;
+    }
+    
+  }
+}

@@ -94,11 +94,11 @@
 @for $i from 0 through 100 {
   .relw#{$i}{
     position: relative;
-    width: #{$i}+'%';
+    width: #{$i +'%'};
   }
   .relh#{$i}{
     position: relative;
-    height: #{$i}'%';
+    height: #{$i +'%'};
   }
   .relw#{$i}vw {
     position: relative;
