@@ -1,9 +1,11 @@
 import React from 'react';
 import Form from 'components/misc/Form/Form';
 import './Login.scss';
+import {useHistory} from "react-router-dom";
 
 const Login=() =>{
-  const onSubmit = values => console.log(values);
+  const history=useHistory()
+  const onSubmit = values => history.replace('/home')
   const loginInputs=[
     {
       name:'username',
