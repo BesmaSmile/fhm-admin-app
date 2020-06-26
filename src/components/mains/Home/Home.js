@@ -1,11 +1,9 @@
 import React from 'react';
-import Sidebar from 'components/Sidebar/Sidebar';
-import foodImage from 'assets/img/food.jpg'
+import foodImage from 'assets/img/food.jpg';
+
 function Home() {
   return (
-    <div className="flex fdr">
-      <Sidebar />
-      <header className="flex f1 col jcc aic relh100vh blight">
+    <div className='flex col aic'>
         <img className="w350 brad10" src={foodImage} alt='food'/>
         <span
           className="fs30 mart50 cpurple"
@@ -15,7 +13,6 @@ function Home() {
         >
          Welcome to Faci Hostpitality Master ! 
         </span>
-      </header>
     </div>
   );
 }

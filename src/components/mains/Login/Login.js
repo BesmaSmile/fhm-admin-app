@@ -5,7 +5,7 @@ import {useHistory} from "react-router-dom";
 
 const Login=() =>{
   const history=useHistory()
-  const onSubmit = values => history.replace('/home')
+  const onSubmit = values => history.replace('/')
   const loginInputs=[
     {
       name:'username',

@@ -3,21 +3,31 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import './assets/css/index.scss';
 import LoginPage from './pages/login';
-import HomePage from './pages/home';
+import MainPage from './pages/main';
 import * as serviceWorker from './serviceWorker';
-import { Router, Route, Switch } from "react-router-dom";
-import { createBrowserHistory } from 'history';
+import { BrowserRouter, Route, Switch } from "react-router-dom";
+//import { createBrowserHistory } from 'history';
+import Home from 'components/mains/Home/Home';
+import Clients from 'components/mains/Clients/Clients';
 
-const history = createBrowserHistory();
+//const history = createBrowserHistory();
 
 ReactDOM.render(
   <React.StrictMode>
-    <Router history={history}>
+    <BrowserRouter>
       <Switch>
-          <Route exact path="/" component={LoginPage} />
-          <Route exact path="/home" component={HomePage}/>
+          <Route exact path="/login" component={LoginPage} />
+          <MainPage>
+          <Route component={({ match }) =>
+          <>
+            <Route exact path="/home" component={Home}/>
+            <Route exact path="/clients" component={Clients}/>
+            </>
+          }/>
+          </MainPage>
+          
       </Switch>
-    </Router>
+    </BrowserRouter>
   </React.StrictMode>,
   document.getElementById('root')
 );
