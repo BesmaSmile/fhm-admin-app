@@ -1,7 +1,9 @@
 
 .Sidebar{
-  background-color:  var(--dark);
-  &::before{
+  background-color:  var(--white);
+  box-shadow: 2px 2px 3px 0px #9b9b9b;
+  z-index: 1;
+ /* &::before{
     display: block;
     content: "";
     position: absolute;
@@ -12,7 +14,7 @@
     z-index: 2;
     opacity: .93;
     background-color:  var(--stronggrey);
-  }
+  }*/
   
   & .sidebar-background{
       position: absolute;
@@ -31,18 +33,22 @@
     position: relative;
       z-index: 4;
     & .sidebar-logo{
-      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+      
+    }
+    & .sidebar-user{
+      border-bottom: 1px solid var(--lightgrey);
+      border-top: 1px solid var(--lightgrey);
     }
     & .sidebar-item{
       text-decoration: none;
       &:hover{
-        color: var(--white);
+        color: var(--grey);
         
         //background-color: rgba(255, 255, 255, 0.2)
       }
       &[active=true]{
         font-weight: bold;
-        color: var(--white);
+        color: var(--stronggrey);
         //background-color: rgba(255, 255, 255, 0.2)
       }
 

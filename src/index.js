@@ -6,26 +6,13 @@ import LoginPage from './pages/login';
 import MainPage from './pages/main';
 import * as serviceWorker from './serviceWorker';
 import { BrowserRouter, Route, Switch } from "react-router-dom";
-//import { createBrowserHistory } from 'history';
-import Home from 'components/mains/Home/Home';
-import Clients from 'components/mains/Clients/Clients';
-
-//const history = createBrowserHistory();
 
 ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
       <Switch>
           <Route exact path="/login" component={LoginPage} />
-          <MainPage>
-          <Route component={({ match }) =>
-          <>
-            <Route exact path="/home" component={Home}/>
-            <Route exact path="/clients" component={Clients}/>
-            </>
-          }/>
-          </MainPage>
-          
+          <MainPage/>  
       </Switch>
     </BrowserRouter>
   </React.StrictMode>,

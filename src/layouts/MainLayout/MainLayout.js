@@ -5,9 +5,9 @@ const MainLayout=(props)=>{
   return(
     <div className="flex fdr">
       <Sidebar />
-      <header className="flex f1 col jcc aic relh100vh blight">
+      <div className="flex f1 col jcc aic relh100vh blight">
         {props.children}
-      </header>
+      </div>
     </div>
   )
 }
