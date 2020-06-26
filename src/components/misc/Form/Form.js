@@ -17,6 +17,7 @@ const Form=(props)=>{
                 name={input.name} 
                 placeholder={input.placeholder}   
                 ref={register(input.validation)}
+                type={input.type || 'text'}
                 />
               <div className='frm-error fs12 marl3 mart5 cred' >{errors[input.name] && errors[input.name].message}</div>
             </div>

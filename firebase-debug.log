@@ -1,0 +1,13 @@
+[debug] [2020-06-26T11:07:48.759Z] ----------------------------------------------------------------------
+[debug] [2020-06-26T11:07:48.761Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\asus\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js deploy
+[debug] [2020-06-26T11:07:48.761Z] CLI Version:   8.4.0
+[debug] [2020-06-26T11:07:48.761Z] Platform:      win32
+[debug] [2020-06-26T11:07:48.762Z] Node Version:  v12.13.1
+[debug] [2020-06-26T11:07:48.763Z] Time:          Fri Jun 26 2020 13:07:48 GMT+0200 (GMT+02:00)
+[debug] [2020-06-26T11:07:48.764Z] ----------------------------------------------------------------------
+[debug] [2020-06-26T11:07:48.764Z] 
+[debug] [2020-06-26T11:07:48.774Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2020-06-26T11:07:48.775Z] > authorizing via signed-in user
+[debug] [2020-06-26T11:07:48.775Z] [iam] checking project faci-hospitality-master-3d3e7 for permissions ["firebase.projects.get","firebasehosting.sites.update"]
+[debug] [2020-06-26T11:07:48.779Z] >>> HTTP REQUEST POST https://cloudresourcemanager.googleapis.com/v1/projects/faci-hospitality-master-3d3e7:testIamPermissions  
+ {"permissions":["firebase.projects.get","firebasehosting.sites.update"]}

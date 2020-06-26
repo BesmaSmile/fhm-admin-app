@@ -13,6 +13,7 @@ const Login=() =>{
     {
       name:'password',
       placeholder:'Mot de passe',
+      type:'password',
       validation: {required: 'Mot de passe requis'}
     }
   ]
