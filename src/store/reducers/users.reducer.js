@@ -8,7 +8,6 @@ export function users(state = {}, action) {
         superAdminExists : action.exists
     }
     case usersConstants.REGISTER_SUPER_ADMIN :
-    console.log("dispatch working")
     return {
       ...state,
       user : action.user

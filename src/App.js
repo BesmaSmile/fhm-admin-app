@@ -8,8 +8,6 @@ import {connect} from 'react-redux';
 
 const App=(props)=>{
   const {user} = props
-  console.log("from app!")
-  console.log(user)
   const [loading, setLoading]= useState(!user)
   const [superAdminExists, setSuperAdminExists]=useState()
   useEffect(()=>{
@@ -25,7 +23,7 @@ const App=(props)=>{
       loading ? <div className='relh100vh flex col jcc aic'>Chargement de l'application...</div>
       : <Switch>
           <Route exact path="/">
-            {user ? <Redirect to="/home"/> 
+            {user ? <Redirect to="/accueil"/> 
               : (superAdminExists 
                 ? <Redirect to="/login"/>
                 : <Redirect to="/inscription_super_admin"/>)

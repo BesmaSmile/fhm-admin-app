@@ -36,6 +36,9 @@
     &:hover{
       box-shadow: 2px 2px 3px 0px #9b9b9b;
     }
+    &:disabled{
+      opacity: 0.7;
+    }
     
   }
 }

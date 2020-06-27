@@ -17,7 +17,6 @@ function checkSuperUser(){
 function registerSuperAdmin(user, secretKey){
   return dispatch => {
     return usersService.registerSuperAdmin(user, secretKey).then(user=>{
-      console.log(user)
       dispatch({ type: usersConstants.REGISTER_SUPER_ADMIN, user })
       return user
     })

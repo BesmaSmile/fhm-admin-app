@@ -21,4 +21,15 @@ function registerSuperAdmin(user, secretKey){
   }
   return fetch(`${apiConstants.URL}/registerSuperAdmin`, options)
   .then(handleResponse)
+  .catch(error=>{
+    let msg=''
+    switch(error){
+      case 'invalid_secret_key' :
+      msg='La clé secrète est invalide'
+      break;
+      default :
+      msg='Une erreur est survenue !'
+    }
+    throw msg
+  })
 }
