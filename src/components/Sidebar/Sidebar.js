@@ -21,8 +21,8 @@ const Sidebar=({className, items})=>{
           <div className='marl10 cgrey medium'>Ali FACI</div>
         </div>
         <div className="sidebar-items padv20 flex col">
-          {items.map((item,i)=>(
-            <Link to={item.path} key={item} 
+          {items.map(item=>(
+            <Link to={item.path} key={item.name} 
               className='sidebar-item pointer cgrey mar15 brad5' 
               active={currentPath===item.path ? 'true':'false'}>
               {item.name}
@@ -40,7 +40,8 @@ Sidebar.defaultProps={
     {name:'Accueil', path:'/accueil'},
     {name:'Clients', path:'/clients'},
     {name:'Commandes', path:'/commandes'},
-    {name:'Catalogue', path:'/catalogue'}
+    {name:'Catalogue', path:'/catalogue'},
+    {name:'Utilisateurs', path:'/utilisateurs'}
   ],
   className:'w270'
 }

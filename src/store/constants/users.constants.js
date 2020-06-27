@@ -1,0 +1,4 @@
+export const usersConstants = {
+  CHECK_SUPER_ADMIN : 'CHECK_SUPER_ADMIN',
+  REGISTER_SUPER_ADMIN : 'REGISTER_SUPER_ADMIN'
+}

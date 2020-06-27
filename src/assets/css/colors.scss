@@ -5,6 +5,7 @@
   --grey : #9FA1AA;
   --lightgrey: #CCD1D5;
   --stronggrey:#4F4C4C;
+  --green: #03EB29;
   --white: #ffffff;
   --light:#FCF9F9;
   --dark:#222121;
@@ -33,6 +34,10 @@
 
 .cstronggrey{
   color:var(--stronggrey)
+}
+
+.cgreen{
+  color: var(--green)
 }
 
 .cwhite{
@@ -73,6 +78,10 @@
 
 .bstronggrey{
   background-color:var(--stronggrey)
+}
+
+.bgreen{
+  background-color: var(--green)
 }
 
 .bwhite{

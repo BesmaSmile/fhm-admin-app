@@ -3,25 +3,29 @@ import { useForm } from "react-hook-form";
 import './Form.scss';
 
 const Form=(props)=>{
-  const {inputs, onSubmit, submitText}=props
-  const { handleSubmit, register, errors } = useForm();
-
+  const {inputs, onSubmit, submitText, className}=props
+  const { handleSubmit, register, errors, getValues } = useForm();
+  
   return(
-    <form className='Form' onSubmit={handleSubmit(onSubmit)}>
+    <form className={`Form ${className || ''} `} onSubmit={handleSubmit(onSubmit)} >
       <div className='flex col'>
         {
-          inputs.map(input=>(
-
-            <div witherror={errors[input.name] ? 'true' : 'false'} className='frm-inputField flex col mart10 marb10'>
-              <input className='padl15 padr15 brad5 bwhite fs14 medium' 
-                name={input.name} 
-                placeholder={input.placeholder}   
-                ref={register(input.validation)}
-                type={input.type || 'text'}
-                />
-              <div className='frm-error fs12 marl3 mart5 cred' >{errors[input.name] && errors[input.name].message}</div>
-            </div>
-          ))
+          inputs.map(input=>{
+            const additionalValidation = input.combinedValdation 
+            ? { validate : value=> input.combinedValdation(getValues()) } : {}
+            return(
+              <div key={input.name} witherror={errors[input.name] ? 'true' : 'false'} className='frm-inputField flex col marv5'>
+                <input className='padl15 padr15 brad5 bwhite fs14 medium' 
+                  name={input.name} 
+                  autoComplete='off'
+                  placeholder={input.placeholder}   
+                  ref={register({...input.validation, ...additionalValidation})}
+                  type={input.type || 'text'}
+                  />
+                <div className='frm-error fs12 marl3 mart5 cred' >{errors[input.name] && errors[input.name].message}</div>
+              </div>
+            )
+          })
         }
       </div>
       <button className='frm-button pointer relw100 mart20 brad5 fs14 fw600 bpurple cwhite'  type='submit'>{submitText} </button>

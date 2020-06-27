@@ -5,7 +5,7 @@ import {useHistory} from "react-router-dom";
 
 const Login=() =>{
   const history=useHistory()
-  const onSubmit = values => history.replace('/')
+  const onSubmit = values => history.replace('/home')
   const loginInputs=[
     {
       name:'username',
@@ -26,7 +26,7 @@ const Login=() =>{
         <div className='bauhaus93 lh80 fs80 clightpurple'>FHM</div>
         <span className='cstronggrey txtac fs18 light'>Faci Hospitality Master</span>
       </div>
-      <Form inputs={loginInputs} onSubmit={onSubmit} submitText='Se connecter'
+      <Form className='w300' inputs={loginInputs} onSubmit={onSubmit} submitText='Se connecter'
       />
     </div>
   );
