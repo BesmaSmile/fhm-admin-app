@@ -3,7 +3,7 @@ import RegisterSuperAdmin from 'pages/register_super_admin';
 import LoginPage from 'pages/login';
 import MainPage from 'pages/main';
 import { Route, Switch, Redirect } from "react-router-dom";
-import {usersService} from 'services';
+import {authService} from 'services';
 import {connect} from 'react-redux';
 
 const App=(props)=>{
@@ -12,7 +12,7 @@ const App=(props)=>{
   const [superAdminExists, setSuperAdminExists]=useState()
   useEffect(()=>{
     if(!user)
-      usersService.checkSuperUser().then(result=>{
+      authService.checkSuperUser().then(result=>{
         setSuperAdminExists(result.exists)
         setLoading(false)       
       })
@@ -39,7 +39,7 @@ const App=(props)=>{
   )
 }
 const mapState=(state)=> ({
-   user : state.users.user
+   user : state.auth.user
 })
 
 export default connect(mapState)(App);

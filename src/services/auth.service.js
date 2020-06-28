@@ -1,7 +1,7 @@
 import {apiConstants} from 'consts';
 import {handleResponse} from 'helpers';
 
-export const usersService={
+export const authService={
   checkSuperUser,
   registerSuperAdmin
 }

@@ -1,10 +1,10 @@
 import React from 'react';
 import { Link, useHistory } from "react-router-dom";
 import avatar from 'assets/img/avatar.svg';
-
+import {connect} from 'react-redux';
 import './Sidebar.scss'
 
-const Sidebar=({className, items})=>{
+const Sidebar=({className, items, user})=>{
   const history=useHistory()
   const currentPath=history.location.pathname
   return(
@@ -18,7 +18,10 @@ const Sidebar=({className, items})=>{
 
         <div className='sidebar-user flex row aic padv20'>
           <img className='circle' src={avatar} alt=''/>
-          <div className='marl10 cgrey medium'>Ali FACI</div>
+          <div className='flex col marl20'>
+            <span className='cstronggrey medium fs16'>{user.username}</span>
+            <span className='cgrey extralight fs12'>{user.role==='super-admin' ? 'Super admin' : 'Admin'}</span>
+          </div>
         </div>
         <div className="sidebar-items padv20 flex col">
           {items.map(item=>(
@@ -45,4 +48,8 @@ Sidebar.defaultProps={
   ],
   className:'w270'
 }
-export default Sidebar
+const mapState=(state)=> ({
+  user : state.auth.user
+})
+
+export default connect(mapState)(Sidebar);

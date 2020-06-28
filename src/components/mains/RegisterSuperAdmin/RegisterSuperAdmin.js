@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import Form from 'components/misc/Form/Form';
 import './RegisterSuperAdmin.scss';
 import {useHistory} from "react-router-dom";
-import { usersActions } from 'store/actions';
+import { authActions } from 'store/actions';
 import {connect} from 'react-redux';
 
 const RegisterSuperAdmin=(props) =>{
@@ -69,7 +69,7 @@ const RegisterSuperAdmin=(props) =>{
 }
 
 const actionCreators = {
-  registerSuperAdmin: usersActions.registerSuperAdmin
+  registerSuperAdmin: authActions.registerSuperAdmin
 
 }
 
