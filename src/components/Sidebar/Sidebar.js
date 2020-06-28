@@ -2,15 +2,15 @@ import React from 'react';
 import { Link, useHistory } from "react-router-dom";
 import avatar from 'assets/img/avatar.svg';
 import {connect} from 'react-redux';
+import {authActions} from 'store/actions';
 import './Sidebar.scss'
 
-const Sidebar=({className, items, user})=>{
+const Sidebar=(props)=>{
   const history=useHistory()
   const currentPath=history.location.pathname
   return(
-    <div className={`Sidebar relh100vh ${className || ''}`}>
+    <div className={`Sidebar relh100vh ${props.className || ''}`}>
       <div className='sidebar-wrapper mar20'>
-        
         <div className='sidebar-logo flex jcc aic col  padv15'>
           <div className='bauhaus93 fs50 lh50 cpurple'>FHM</div>
           <span className='cgrey txtac fs18 light'>Faci Hospitality Master</span>
@@ -19,12 +19,12 @@ const Sidebar=({className, items, user})=>{
         <div className='sidebar-user flex row aic padv20'>
           <img className='circle' src={avatar} alt=''/>
           <div className='flex col marl20'>
-            <span className='cstronggrey medium fs16'>{user.username}</span>
-            <span className='cgrey extralight fs12'>{user.role==='super-admin' ? 'Super admin' : 'Admin'}</span>
+            <span className='cstronggrey medium fs16'>{props.user.username}</span>
+            <span className='cgrey extralight fs12'>{props.user.role==='super-admin' ? 'Super admin' : 'Admin'}</span>
           </div>
         </div>
         <div className="sidebar-items padv20 flex col">
-          {items.map(item=>(
+          {props.items.map(item=>(
             <Link to={item.path} key={item.name} 
               className='sidebar-item pointer cgrey mar15 brad5' 
               active={currentPath===item.path ? 'true':'false'}>
@@ -34,6 +34,7 @@ const Sidebar=({className, items, user})=>{
           ))}
         </div>
       </div>
+      <div className='sidebar-logout pointer marh40 marv20 cgrey bold' onClick={props.logout}>Déconnexion</div>
     </div>
  )
 }
@@ -52,4 +53,8 @@ const mapState=(state)=> ({
   user : state.auth.user
 })
 
-export default connect(mapState)(Sidebar);
+const actionCreators = {
+  logout: authActions.logout
+}
+
+export default connect(mapState, actionCreators)(Sidebar);

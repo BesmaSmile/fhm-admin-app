@@ -7,10 +7,15 @@ export function auth(state = {}, action) {
         ...state,
         superAdminExists : action.exists
     }
-    case authConstants.REGISTER_SUPER_ADMIN :
+    case authConstants.LOGGED_IN :
     return {
       ...state,
       user : action.user
+    }
+    case authConstants.LOGGED_OUT : 
+    return {
+      ...state,
+      user : undefined
     }
     default :
     return state

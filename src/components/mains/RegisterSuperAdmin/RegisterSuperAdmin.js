@@ -16,7 +16,6 @@ const RegisterSuperAdmin=(props) =>{
     const {secretKey, confirmPassword ,...user}=values
     props.registerSuperAdmin(user, secretKey).then(result=>
     {
-      setPending(false)
       history.replace('/')
     }).catch(error=>{
       setPending(false)
