@@ -25,12 +25,12 @@ const Login=(props) =>{
   const loginInputs=[
     {
       name:'username',
-      label:"Nom d'utilisateur",
+      label:"Nom d'utilisateur *",
       validation: {required: "Nom d'utilisateur requis"}
     },
     {
       name:'password',
-      label:'Mot de passe',
+      label:'Mot de passe *',
       type:'password',
       validation: {required: 'Mot de passe requis'}
     }

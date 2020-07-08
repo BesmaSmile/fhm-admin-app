@@ -25,25 +25,25 @@ const RegisterSuperAdmin=(props) =>{
   const registerInputs=[
     {
       name:'username',
-      label:"Nom d'utilisateur",
+      label:"Nom d'utilisateur *",
       validation: {required: "Nom d'utilisateur requis"}
     },
     {
       name:'password',
-      label:'Mot de passe',
+      label:'Mot de passe *',
       type:'password',
       validation: {required: 'Mot de passe requis'}
     },
     {
       name:'confirmPassword',
-      label:'Confirmer mot de passe',
+      label:'Confirmer mot de passe *',
       type:'password',
       validation: { required: 'Confirmation mot de passe requise'},
       combinedValdation : (values) =>values.password === values.confirmPassword || "The passwords do not match"
     },
     {
       name:'secretKey',
-      label:'Clé secrète',
+      label:'Clé secrète *',
       validation: {required: 'Clé secrète requise'}
     }
   ]

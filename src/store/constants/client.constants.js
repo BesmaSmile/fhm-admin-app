@@ -1,0 +1,4 @@
+export const clientConstants = {
+  GET_CLIENTS : 'GET_CLIENTS',
+  TOGGLE_CLIENT_ACCOUNT : 'TOGGLE_CLIENT_ACCOUNT'
+}

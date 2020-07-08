@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { Link, useHistory } from "react-router-dom";
 import avatar from 'assets/img/avatar.svg';
 import {connect} from 'react-redux';
@@ -7,12 +7,17 @@ import './Sidebar.scss'
 
 const Sidebar=(props)=>{
   const history=useHistory()
-  const currentPath=history.location.pathname
+  const [_currentPath, _setCurrentPath]=useState(history.location.pathname)
 
+  const handleClick=(path)=>{
+    _setCurrentPath(path)
+  }
+  
   const handleLogout=()=>{
     props.logout()
     history.replace('/')
   }
+
   return(
     <div className={`Sidebar relh100vh ${props.className || ''}`}>
       <div className='sidebar-wrapper mar20'>
@@ -28,14 +33,13 @@ const Sidebar=(props)=>{
             <span className='cgrey extralight fs12'>{props.user.role==='super-admin' ? 'Super admin' : 'Admin'}</span>
           </div>
         </div>
-        <div className="sidebar-items padv20 flex col">
+        <div className="sidebar-items padv20 flex col" >
           {props.items.map(item=>(
             <Link to={item.path} key={item.name} 
               className='sidebar-item pointer cgrey mar15 brad5' 
-              active={currentPath===item.path ? 'true':'false'}>
-              {item.name}
+              active={_currentPath===item.path ? 'true':'false'}>
+              <span onClick={()=>handleClick(item.path)}>{item.name}</span>
             </Link>
-
           ))}
         </div>
       </div>
