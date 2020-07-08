@@ -5,7 +5,7 @@ import Clients from 'components/mains/Clients/Clients';
 import Orders from 'components/mains/Orders/Orders';
 import Catalog from 'components/mains/Catalog/Catalog';
 import Users from 'components/mains/Users/Users';
-import { Route,Redirect } from "react-router-dom";
+import { Route } from "react-router-dom";
 
 
 const MainPage=(props)=> {

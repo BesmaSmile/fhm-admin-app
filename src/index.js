@@ -7,6 +7,7 @@ import { BrowserRouter } from "react-router-dom";
 import { Provider } from 'react-redux';
 import  { persistor, store } from 'store/configureStore'
 import { PersistGate } from 'redux-persist/lib/integration/react';
+import 'fontsource-roboto';
 
 import App from 'App';
 

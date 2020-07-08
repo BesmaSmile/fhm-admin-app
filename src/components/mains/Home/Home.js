@@ -6,7 +6,7 @@ function Home() {
     <div className='flex col aic'>
         <img className="w350 brad10" src={foodImage} alt='food'/>
         <span
-          className="fs30 mart50 cpurple"
+          className="fs30 mart50 cblue"
           href="https://reactjs.org"
           target="_blank"
           rel="noopener noreferrer"

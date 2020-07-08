@@ -1,11 +1,12 @@
 import React from 'react';
-import Sidebar from 'components/Sidebar/Sidebar';
+import Sidebar from 'components/misc/Sidebar/Sidebar';
+import "./MainLayout.scss";
 
 const MainLayout=(props)=>{
   return(
-    <div className="flex fdr">
-      <Sidebar />
-      <div className="flex f1 col jcc aic relh100vh blight">
+    <div className="MainLayout flex fdr">
+      <Sidebar className='w270'/>
+      <div className="ml-container marl270 flex f1 col jcc aic relh100vh blight">
         {props.children}
       </div>
     </div>

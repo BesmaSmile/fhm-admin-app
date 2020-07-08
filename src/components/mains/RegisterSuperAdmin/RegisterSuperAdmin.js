@@ -25,44 +25,45 @@ const RegisterSuperAdmin=(props) =>{
   const registerInputs=[
     {
       name:'username',
-      placeholder:"Nom d'utilisateur",
+      label:"Nom d'utilisateur",
       validation: {required: "Nom d'utilisateur requis"}
     },
     {
       name:'password',
-      placeholder:'Mot de passe',
+      label:'Mot de passe',
       type:'password',
       validation: {required: 'Mot de passe requis'}
     },
     {
       name:'confirmPassword',
-      placeholder:'Confirmer mot de passe',
+      label:'Confirmer mot de passe',
       type:'password',
       validation: { required: 'Confirmation mot de passe requise'},
       combinedValdation : (values) =>values.password === values.confirmPassword || "The passwords do not match"
     },
     {
       name:'secretKey',
-      placeholder:'Clé secrète',
+      label:'Clé secrète',
       validation: {required: 'Clé secrète requise'}
     }
   ]
   
   return (
     <div className='RegisterSuperAdmin padv20 flex col aic'>
-      <span className='cstronggrey txtac fs25 bold marb10'>Vous êtes le premier SUPER admin à s'inscrire à FHM !</span>
-      <div className='w300 flex jcc col marb10 txtac'>
-        <div className='bauhaus93 lh80 fs80 clightpurple'>FHM</div>
-        <span className='cstronggrey txtac fs18 light'>Faci Hospitality Master</span>    
-        <span className='cstronggrey txtac fs12 light mart15 txtal'>En poursuivant l'inscription, vous devenez le Super Administrateur de FHM !</span>
-        <div visible={error ? 'true' : 'false'} className='reg-error fs14 cred medium txtal mart5'>{error ? '⚠ '+error : ''}</div>
+      <span className='cstronggrey txtac fs18 medium marb10'>Vous êtes le premier SUPER admin à s'inscrire à FHM !</span>
+      <div className='w300'>
+        <div className='flex jcc col marb10 txtac'>
+          <div className='bauhaus93 lh80 fs80 clightblue'>FHM</div>
+          <span className='cstronggrey txtac fs18 light'>Faci Hospitality Master</span>    
+          <span className='cstronggrey txtac fs12 light mart15 txtal'>En poursuivant l'inscription, vous devenez le Super Administrateur de FHM !</span> 
+        </div>
+        <Form inputs={registerInputs} 
+          onSubmit={onSubmit} 
+          submitText='Enregistrer'
+          pending={pending}
+          error={error}
+        />
       </div>
-      <Form className='w300' 
-        inputs={registerInputs} 
-        onSubmit={onSubmit} 
-        submitText='Enregistrer'
-        pending={pending}
-      />
     </div>
   );
 }

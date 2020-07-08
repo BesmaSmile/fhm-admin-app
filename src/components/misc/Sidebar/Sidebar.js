@@ -8,11 +8,16 @@ import './Sidebar.scss'
 const Sidebar=(props)=>{
   const history=useHistory()
   const currentPath=history.location.pathname
+
+  const handleLogout=()=>{
+    props.logout()
+    history.replace('/')
+  }
   return(
     <div className={`Sidebar relh100vh ${props.className || ''}`}>
       <div className='sidebar-wrapper mar20'>
         <div className='sidebar-logo flex jcc aic col  padv15'>
-          <div className='bauhaus93 fs50 lh50 cpurple'>FHM</div>
+          <div className='bauhaus93 fs50 lh50 cblue'>FHM</div>
           <span className='cgrey txtac fs18 light'>Faci Hospitality Master</span>
         </div>
 
@@ -34,7 +39,7 @@ const Sidebar=(props)=>{
           ))}
         </div>
       </div>
-      <div className='sidebar-logout pointer marh40 marv20 cgrey bold' onClick={props.logout}>Déconnexion</div>
+      <div className='sidebar-logout pointer marh40 marv20 cgrey bold' onClick={handleLogout}>Déconnexion</div>
     </div>
  )
 }

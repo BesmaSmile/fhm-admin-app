@@ -25,12 +25,12 @@ const Login=(props) =>{
   const loginInputs=[
     {
       name:'username',
-      placeholder:"Nom d'utilisateur",
+      label:"Nom d'utilisateur",
       validation: {required: "Nom d'utilisateur requis"}
     },
     {
       name:'password',
-      placeholder:'Mot de passe',
+      label:'Mot de passe',
       type:'password',
       validation: {required: 'Mot de passe requis'}
     }
@@ -38,17 +38,18 @@ const Login=(props) =>{
   
   return (
     <div className='Login relh100vh flex col aic'>
-      <div className='w300 flex jcc col marb30 txtac'>
-        <div className='bauhaus93 lh80 fs80 clightpurple'>FHM</div>
-        <span className='cstronggrey fs18 light'>Faci Hospitality Master</span>
-        <div visible={error ? 'true' : 'false'} className='reg-error fs14 cred medium txtal mart5'>{error ? '⚠ '+error : ''}</div>
+      <div className='w300'>
+        <div className='flex jcc col marv20 txtac'>
+          <div className='bauhaus93 lh80 fs80 clightblue'>FHM</div>
+          <span className='cstronggrey fs18 light'>Faci Hospitality Master</span>
+        </div>
+        <Form inputs={loginInputs} 
+          onSubmit={onSubmit} 
+          submitText='Se connecter'
+          pending={pending}
+          error={error}
+        />
       </div>
-      <Form className='w300' 
-        inputs={loginInputs} 
-        onSubmit={onSubmit} 
-        submitText='Se connecter'
-        pending={pending}
-      />
     </div>
   );
 }
