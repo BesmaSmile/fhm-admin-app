@@ -1,5 +1,5 @@
 import {apiConstants} from 'consts';
-import {handleResponse} from 'helpers';
+import {handleResponse} from 'functions';
 
 export const authService={
   checkSuperUser,

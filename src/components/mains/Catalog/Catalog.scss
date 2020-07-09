@@ -1,0 +1,93 @@
+.Catalog{
+  & .ctg-categories{
+    /*position: absolute;
+    left: 0;
+    right: 0;*/
+    background-color:  var(--white);
+    box-shadow: 0px 0px 3px 0px var(--grey);
+    & .ctg-categoryButton{
+      min-width: unset;
+      color: var(--lightblue);
+      font-size: 14px;
+      text-transform : none;
+      line-height: normal;
+      margin-right: 10px;
+      margin-top: 5px;
+      margin-bottom: 5px;
+      & .ctg-categoryButton_label{
+        color: var(--grey);
+        font-weight: 500;
+      }
+    }
+    
+    & .ctg-categoryButton_outlined{
+      border-color: var(--grey);
+      border-width: 0.8px; 
+      &:hover{
+        border-color: var(--lightblue);
+        background-color: rgba(68, 170, 218, 0.1);
+      }
+      &[active=true]{
+        color: var(--lightblue);
+        border-color: var(--lightblue);
+        background-color: rgba(68, 170, 218, 0.1);
+        & .ctg-categoryButton_label{
+          color: var(--lightblue);
+        }
+      }
+    }
+  }
+  & .ctg-subCategories{
+    & .ctg-subCategoryButton{
+      min-width: unset;
+      color: var(--lightblue);
+      font-size: 12px;
+      text-transform : none;
+      line-height: normal;
+      margin-right: 10px;
+      margin-top: 5px;
+      margin-bottom: 5px;
+      border-radius: 10px;
+      & .ctg-subCategoryButton_label{
+        color: var(--lightblue);
+        font-weight: 500;
+      }
+    }
+    & .ctg-subCategoryButton_outlined{
+      border-color: var(--lightblue);
+      border-width: 0.8px; 
+      &:hover{
+        background-color: rgba(68, 170, 218, 0.1);
+      }
+      &[active=true]{
+        background-color: rgba(68, 170, 218, 0.1);
+      }
+    }
+  }
+  & .ctg-newButton{
+    color: var(--white);
+    height: 40px;
+    font-size: 14px;
+    text-transform : none;
+    line-height: normal;
+    & .ctg-newButton_label{
+      color: var(--white);
+      font-weight: 500;
+    }
+  }
+  & .ctg-newButton_contained{
+    background-color: var(--lightblue);
+  }
+  & .ctg-productList{
+    & .ctg-productCard{
+      width: 180px;
+      height: 80px;
+      padding: 10px;
+      background-color: var(--white);
+      box-shadow: 0px 0px 3px 0px var(--grey);
+      margin-right: 10px;
+      margin-bottom: 10px;
+      border-radius: 3px;
+    }
+  }
+}

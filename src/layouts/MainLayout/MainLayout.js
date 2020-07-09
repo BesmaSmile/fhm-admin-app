@@ -6,7 +6,7 @@ const MainLayout=(props)=>{
   return(
     <div className="MainLayout flex fdr">
       <Sidebar className='w270'/>
-      <div className="ml-container marl270 flex f1 col jcc aic relh100vh blight">
+      <div className="ml-container marl270 flex f1 relh100vh blight">
         {props.children}
       </div>
     </div>

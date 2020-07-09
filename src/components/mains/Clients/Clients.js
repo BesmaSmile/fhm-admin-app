@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import ClientsList from 'components/mains/Clients/ClientsList';
+import Clients_List from 'components/mains/Clients/Clients_List';
 import {clientActions} from 'store/actions';
 import {connect} from 'react-redux';
 
@@ -27,14 +27,19 @@ const Clients=(props)=>{
     })
   }
 
+  const clientWithOrders=props.clients && props.clients.map(client=>({
+    ...client,
+    orders : props.orders[client.id]
+  }))
   return (
     <div className='Clients relw100'>
       <div className='mar30'>
         {_pending && <div>Chargement en cours...</div>}
         {_error && <div>{_error}</div> }
         {!_pending && props.clients && 
-          <ClientsList clients={props.clients} 
-            activateClientAccount={props.activateClientAccount}/>
+          <Clients_List clients={clientWithOrders} 
+            activateClientAccount={props.activateClientAccount}
+            getClientOrders={props.getClientOrders}/>
         }
       </div>
     </div>
@@ -42,12 +47,14 @@ const Clients=(props)=>{
 }
 
 const mapState=(state)=> ({
-  clients : state.client.clients
+  clients : state.client.clients,
+  orders : state.client.orders
 })
 
 const actionCreators = {
   getClients: clientActions.getClients,
-  activateClientAccount : clientActions.activateClientAccount
+  activateClientAccount : clientActions.activateClientAccount,
+  getClientOrders : clientActions.getClientOrders,
 
 }
 

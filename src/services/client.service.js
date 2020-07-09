@@ -3,8 +3,8 @@ import {firebase} from './firebase';
 
 export const clientService={
   getClients,
-  getPhotoUrl,
-  activateClientAccount
+  activateClientAccount,
+  getClientOrders
 }
 
 function getClients(){
@@ -20,6 +20,7 @@ function getClients(){
         lastname : data.nom, 
         restaurant : data.restaurant,
         active: data.active,
+        phoneNumber : data.mobile,
         city :(data.wilaya || data.commune) &&
            `${data.wilaya ? data.wilaya+',' : ''} ${data.commune  ? data.commune : ''}`
       })
@@ -32,19 +33,34 @@ function getClients(){
   });
 }
 
-function getPhotoUrl(id){
-  const storage=firebase.storage();
-  return storage.ref(`photosProfile/${id}`).getDownloadURL()
-  .then(result => result)
-  .catch(error => {
-    console.log(error)
-  });
-}
-
 function activateClientAccount(id, active){
   const db = firebase.firestore();
   return db.collection('utilisateurs').doc(id).update({active})
   .catch(error => {
     console.log(error)
+  });
+}
+
+function getClientOrders(id){
+  const db = firebase.firestore();
+  return db.collection(`utilisateurs/${id}/commandes`).get()
+  .then((querySnapshot)=> {
+    const docs= []
+    querySnapshot.forEach((doc)=> {
+      const data=doc.data()
+      docs.push({
+        id : doc.id, 
+        date : data.date,
+        aticles : data.articles.map(article=>({
+          id :article.id, 
+          quantity : article.quantite
+        }))
+      })
+    });
+    return docs;
+  })
+  .catch(error=>{
+    console.log(error);
+    throw Error('Echec de chargement des commandes !')
   });
 }

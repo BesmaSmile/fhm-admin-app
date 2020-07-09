@@ -1,12 +1,18 @@
-import React, {/*useEffect,*/ useState} from 'react';
+import React, {useEffect, useState} from 'react';
 //import avatar from 'assets/img/avatar.png';
 import SvgIcon from 'components/misc/SvgIcon/SvgIcon';
 //import {clientService} from 'services';
 import './Clients.scss';
 
 const ClientCard=(props)=>{
-  const {client, activateClientAccount}=props
+  const {client, activateClientAccount, getClientOrders}=props
   const [_activatePending, _setActivatePending]=useState()
+  console.log(client)
+  useEffect(()=>{
+    getClientOrders(client.id).then(orders=>{
+      console.log(orders)
+    })
+  }, [])
   /*const [_photoUrl, _setPhotoUrl]=useState()
 
   useEffect(()=>{
@@ -29,8 +35,8 @@ const ClientCard=(props)=>{
         {!_photoUrl && <img className='h80 w80 marr15' src={_photoUrl} alt=''/>*/}
         <div className='flex col marh10'>
           <div className='bold fs18 cstronggrey'>{client.firstname} {client.lastname}</div>
-          <div className='extralight fs14 cstronggrey'>{client.restaurant}</div>
-          <div className='extralight fs14 cstronggrey'>{client.phoneNumber}</div>
+          <div className='fs14 cblue'>{client.restaurant || '--------'}</div>
+          <div className='extralight fs12 cstronggrey'>{client.phoneNumber}</div>
         </div>
         <div className='flex row f1 jcfe'>
           <div className='clt-detailContainer'>
@@ -38,7 +44,7 @@ const ClientCard=(props)=>{
             <div className='clt-datailText'> {client.city} </div>
           </div>
           <div className='clt-detailContainer'>
-            <div className='clt-datailTop fs25 lh25 bold cgreen'>{client.ordersNumber}</div>
+            <div className='clt-datailTop fs25 lh25 bold cgreen'>{client.orders && client.orders.length}</div>
             <div className='clt-datailText'>Commandes</div>
           </div>
           <div className='clt-detailContainer pointer' onClick={toogleAccount}>
@@ -56,13 +62,17 @@ const ClientCard=(props)=>{
   )
 }
 
-const ClientsList=(props)=>{
+const Clients_List=(props)=>{
   console.log(props.clients)
   return(
     <div className='clt-clientsList brad15 bwhite'>
-    {props.clients.map((client,i)=>(<ClientCard key={i} client={client} activateClientAccount={props.activateClientAccount}/>))}
+    {props.clients.map((client,i)=>(<ClientCard key={i} 
+      client={client} 
+      activateClientAccount={props.activateClientAccount}
+      getClientOrders={props.getClientOrders}
+    />))}
     </div>
   )
 }
 
-export default ClientsList;
+export default Clients_List;

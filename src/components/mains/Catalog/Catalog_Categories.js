@@ -1,0 +1,33 @@
+import React from 'react';
+import {Button} from '@material-ui/core';
+
+const Catalog_Categories=(props)=>{
+  const {categories, selectedCategory, handleSelectCategory}=props
+  return(
+    <div className='relw100'>
+      <div className='medium fs25 cstronggrey marb10'>Catégories</div>
+      <div className='flex row fww'>
+        {categories.map(category=>(
+          <Button key={category.id}
+            onClick={()=>handleSelectCategory(category.id)}
+            active={category.id==selectedCategory ? 'true' : 'false'}
+            variant="outlined" 
+            classes={{
+              root : 'ctg-categoryButton', 
+              outlined : 'ctg-categoryButton_outlined',
+              label : 'ctg-categoryButton_label'}}>
+            {category.label}
+          </Button>
+        ))}
+         <Button variant="outlined" classes={{
+            root : 'ctg-categoryButton', 
+            outlined : 'ctg-categoryButton_outlined',
+            label : 'ctg-categoryButton_label'}}>
+            +
+          </Button>
+      </div>
+    </div>
+  )
+}
+
+export default Catalog_Categories;

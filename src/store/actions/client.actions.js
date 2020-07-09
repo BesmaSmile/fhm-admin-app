@@ -3,7 +3,8 @@ import {clientConstants} from 'store/constants';
 
 export const clientActions= {
   getClients,
-  activateClientAccount
+  activateClientAccount,
+  getClientOrders
 }
 
 function getClients(){
@@ -20,6 +21,15 @@ function activateClientAccount(id, active){
     return clientService.activateClientAccount(id, active).then((result)=>{
       dispatch({ type: clientConstants.TOGGLE_CLIENT_ACCOUNT, id, active })
       return result
+    })
+  }
+}
+
+function getClientOrders(id){
+  return dispatch => {
+    return clientService.getClientOrders(id).then(orders=>{
+      dispatch({ type: clientConstants.GET_ORDERS, id, orders })
+      return orders;
     })
   }
 }

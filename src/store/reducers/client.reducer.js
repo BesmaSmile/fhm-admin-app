@@ -1,6 +1,6 @@
 import {clientConstants} from 'store/constants';
 
-export function client(state = {}, action) {
+export function client(state = {orders : {}}, action) {
   switch(action.type) {
     case clientConstants.GET_CLIENTS :
     return {
@@ -15,6 +15,14 @@ export function client(state = {}, action) {
           ...client,
           active : action.active
         } : client)
+    }
+    case clientConstants.GET_ORDERS : 
+    return {
+      ...state,
+      orders : {
+        ...state.orders,
+        [action.id] : action.orders
+      }
     }
     default :
     return state
