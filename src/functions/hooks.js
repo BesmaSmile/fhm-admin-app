@@ -1,14 +1,29 @@
-import {useState, useEffect} from 'react';
+import {useState} from 'react';
 
 export const hooks = {
   useRequest
 }
 
-function useRequest(request, success, failure){
+function useRequest(/*request, success, failure*/){
   const [pending, setPending]=useState()
   const [error, setError]=useState()
 
-  useEffect(()=>{
+  const execute=({action, success, failure})=>{
+    setPending(true)
+    setError()
+    action().then(result=>{
+      setPending(false)
+      if(success){
+        success(result)
+      }
+    }).catch((err)=>{
+      setPending(false)
+      setError(err)
+      if(failure)
+        failure(err)
+    })
+  }
+  /*useEffect(()=>{
     setPending(true)
     setError()
     request().then(result=>{
@@ -22,6 +37,6 @@ function useRequest(request, success, failure){
       if(failure)
         failure()
     })
-  }, [])
-  return {pending, error}
+  }, [])*/
+  return {execute, pending, error}
 }

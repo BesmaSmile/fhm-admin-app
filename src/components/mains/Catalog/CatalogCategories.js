@@ -1,7 +1,7 @@
 import React from 'react';
 import {Button} from '@material-ui/core';
 
-const Catalog_Categories=(props)=>{
+const CatalogCategories=(props)=>{
   const {categories, selectedCategory, handleSelectCategory}=props
   return(
     <div className='relw100'>
@@ -10,7 +10,7 @@ const Catalog_Categories=(props)=>{
         {categories.map(category=>(
           <Button key={category.id}
             onClick={()=>handleSelectCategory(category.id)}
-            active={category.id==selectedCategory ? 'true' : 'false'}
+            active={category.id===selectedCategory ? 'true' : 'false'}
             variant="outlined" 
             classes={{
               root : 'ctg-categoryButton', 
@@ -30,4 +30,4 @@ const Catalog_Categories=(props)=>{
   )
 }
 
-export default Catalog_Categories;
+export default CatalogCategories;

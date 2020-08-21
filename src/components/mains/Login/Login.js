@@ -4,11 +4,19 @@ import './Login.scss';
 import {useHistory} from "react-router-dom";
 import { authActions } from 'store/actions';
 import {connect} from 'react-redux';
+import { InputAdornment, IconButton  } from '@material-ui/core';
+import Visibility from '@material-ui/icons/Visibility';
+import VisibilityOff from '@material-ui/icons/VisibilityOff';
 
 const Login=(props) =>{
   const history=useHistory()
   const [pending, setPending]=useState(false)
   const [error, setError]=useState()
+  const [_passwordVisible, _setPasswordVisible]=useState(false)
+
+  const handleClickShowPassword = () => {
+    _setPasswordVisible(!_passwordVisible)
+  }
 
   const onSubmit = values => { 
     setPending(true)
@@ -31,7 +39,17 @@ const Login=(props) =>{
     {
       name:'password',
       label:'Mot de passe *',
-      type:'password',
+      type: _passwordVisible ? 'text' : 'password',
+      endAdornment:
+        <InputAdornment position="end">
+          <IconButton
+            aria-label="toggle password visibility"
+            edge="end"
+            onClick={handleClickShowPassword}
+          >
+              {_passwordVisible ? <Visibility /> : <VisibilityOff />}
+          </IconButton>
+        </InputAdornment>,
       validation: {required: 'Mot de passe requis'}
     }
   ]

@@ -3,7 +3,8 @@ import {catalogConstants} from 'store/constants';
 
 export const catalogActions= {
   getCategories,
-  getProducts
+  getProducts,
+  setProduct
 }
 
 function getCategories(){
@@ -20,6 +21,15 @@ function getProducts(){
     return catalogService.getProducts().then(products=>{
       dispatch({ type: catalogConstants.GET_PRODUCTS, products })
       return products;
+    })
+  }
+}
+
+function setProduct(product, picture){
+  return dispatch => {
+    return catalogService.setProduct(product, picture).then((poductToSet)=>{
+      dispatch({ type: product.id ? catalogConstants.UPDATE_PRODUCT : catalogConstants.ADD_PRODUCT, product : poductToSet })
+      return product;
     })
   }
 }

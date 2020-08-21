@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {createRef} from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import './assets/css/index.scss';
@@ -7,17 +7,40 @@ import { BrowserRouter } from "react-router-dom";
 import { Provider } from 'react-redux';
 import  { persistor, store } from 'store/configureStore'
 import { PersistGate } from 'redux-persist/lib/integration/react';
+import { SnackbarProvider } from 'notistack';
+import { DialogProvider} from 'components/misc/Dialog/Dialog';
+import IconButton from '@material-ui/core/IconButton';
+import CloseIcon from '@material-ui/icons/Close';
 import 'fontsource-roboto';
 
 import App from 'App';
+
+const notistackRef = createRef();
+
+const onClickDismiss = key => () => { 
+    console.log(notistackRef.current)
+    notistackRef.current.closeSnackbar(key);
+}
 
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
       <PersistGate loading={<div>Loading</div>} persistor={persistor}>
-        <BrowserRouter>
-          <App/>
-        </BrowserRouter>
+        <SnackbarProvider
+          maxSnack={3} 
+          autoHideDuration={3000} 
+          ref={notistackRef}
+          action={(key) => (
+              <IconButton size="small" aria-label="close" onClick={onClickDismiss(key)}>
+                <CloseIcon classes={{root : 'snackbar-closeIcon'}} fontSize="small" />
+              </IconButton>
+          )}>
+          <DialogProvider >
+            <BrowserRouter>
+              <App/>
+            </BrowserRouter>
+          </DialogProvider>
+        </SnackbarProvider>
       </PersistGate>
     </Provider>
   </React.StrictMode>,

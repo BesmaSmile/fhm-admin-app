@@ -10,50 +10,49 @@
     }
   }
   & .frm-inputField{ 
-    width: 100%;   
-    & .frm-outlineInput{
-      & .frm-input{
+    width: 100%;  
+    & .MuiOutlinedInput-root{
+      & .MuiOutlinedInput-input{
         height: 1em;
         font-size: 14px;
         font-weight: 500;
         color: var(--stronggrey)
       }
-      & .frm-notchedOutlineInput{
+      & .MuiOutlinedInput-notchedOutline{
         border-color: var(--lightgrey);
         border-width: 0.7px;
       }
       &:hover{
-        & .frm-notchedOutlineInput{
+        & .MuiOutlinedInput-notchedOutline{
           border-color: var(--blue);
           border-width: 1px;
         }
       } 
-
     }
-    & .frm-focusedOutlineInput{
-      & .frm-notchedOutlineInput{
-        border-color: var(--blue);
-        border-width: 0.7px;
-      }
-    } 
-    & .frm-inputLabel{
+    & .Mui-focused .MuiOutlinedInput-notchedOutline{
+      border-color: var(--blue);
+      border-width: 0.7px;
+    }
+    & .MuiInputLabel-root{
       color: var(--grey);
       font-size: 14px;
     }
-    & .frm-focusedInputLabel{
+    & .Mui-focused.MuiInputLabel-root{
       color: var(--blue);
       font-weight: bold;
     }
-    & .frm-error{
-      max-height: 0;
-      transition: all 0.6s linear 0s;
-    }
-    &[witherror=true]{
-      & .frm-error{
-        max-height: 15px;
-        transition: all 0.6s linear 0s;
+
+    & .Mui-disabled {
+      & .MuiOutlinedInput-input{
+        color: var(--grey)
       }
-    }
+      &:hover{
+        & .MuiOutlinedInput-notchedOutline{
+          border-color: var(--lightgrey);
+          border-width: 0.7px;
+        }
+      } 
+    }   
   }
   & .frm-button{
     height: 40px;

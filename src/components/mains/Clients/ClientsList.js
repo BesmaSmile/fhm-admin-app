@@ -7,19 +7,13 @@ import './Clients.scss';
 const ClientCard=(props)=>{
   const {client, activateClientAccount, getClientOrders}=props
   const [_activatePending, _setActivatePending]=useState()
-  console.log(client)
+
   useEffect(()=>{
     getClientOrders(client.id).then(orders=>{
       console.log(orders)
     })
+    // eslint-disable-next-line
   }, [])
-  /*const [_photoUrl, _setPhotoUrl]=useState()
-
-  useEffect(()=>{
-    clientService.getPhotoUrl(client.id).then(url=>{
-      _setPhotoUrl(url)
-    })
-  }, [])*/
 
   const toogleAccount=()=>{
     _setActivatePending(true)
@@ -62,8 +56,7 @@ const ClientCard=(props)=>{
   )
 }
 
-const Clients_List=(props)=>{
-  console.log(props.clients)
+const ClientsList=(props)=>{
   return(
     <div className='clt-clientsList brad15 bwhite'>
     {props.clients.map((client,i)=>(<ClientCard key={i} 
@@ -75,4 +68,4 @@ const Clients_List=(props)=>{
   )
 }
 
-export default Clients_List;
+export default ClientsList;

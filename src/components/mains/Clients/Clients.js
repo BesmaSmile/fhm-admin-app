@@ -1,61 +1,55 @@
-import React, {useEffect, useState} from 'react';
-import Clients_List from 'components/mains/Clients/Clients_List';
-import {clientActions} from 'store/actions';
-import {connect} from 'react-redux';
-
+import React, { useEffect } from 'react';
+import ClientsList from 'components/mains/Clients/ClientsList';
+import { clientActions } from 'store/actions';
+import { connect } from 'react-redux';
+import { hooks } from 'functions';
 import './Clients.scss';
 
-const Clients=(props)=>{
-  const [_pending, _setPending]=useState(true)
-  const [_error, _setError]=useState()
+const Clients = (props) => {
+  const clientsRequest = hooks.useRequest()
 
-  useEffect(()=>{
-    if(!props.clients){
+  useEffect(() => {
+    if (!props.clients) {
       loadClients()
     }
-    else _setPending(false)
+    // eslint-disable-next-line
   }, [])
 
-  const loadClients=()=>{
-    _setPending(true)
-    _setError()
-    props.getClients().then((clients)=>{
-      _setPending(false)
-    }).catch(error=>{
-      _setPending(false)
-      _setError(error)
+  const loadClients = () => {
+    clientsRequest.execute({
+      action: props.getClients
     })
   }
 
-  const clientWithOrders=props.clients && props.clients.map(client=>({
+  const clientWithOrders = props.clients && props.clients.map(client => ({
     ...client,
-    orders : props.orders[client.id]
+    orders: props.orders[client.id]
   }))
   return (
     <div className='Clients relw100'>
       <div className='mar30'>
-        {_pending && <div>Chargement en cours...</div>}
-        {_error && <div>{_error}</div> }
-        {!_pending && props.clients && 
-          <Clients_List clients={clientWithOrders} 
+        {clientsRequest.pending && <div>Chargement en cours...</div>}
+        {clientsRequest.error && <div>{clientsRequest.error}</div>}
+        {!clientsRequest.pending && props.clients &&
+          <ClientsList clients={clientWithOrders}
             activateClientAccount={props.activateClientAccount}
-            getClientOrders={props.getClientOrders}/>
+            getClientOrders={props.getClientOrders} />
         }
       </div>
     </div>
   )
 }
 
-const mapState=(state)=> ({
-  clients : state.client.clients,
-  orders : state.client.orders
+const mapState = (state) => ({
+  clients: state.client.clients,
+  orders: state.client.orders
 })
 
 const actionCreators = {
   getClients: clientActions.getClients,
-  activateClientAccount : clientActions.activateClientAccount,
-  getClientOrders : clientActions.getClientOrders,
+  activateClientAccount: clientActions.activateClientAccount,
+  getClientOrders: clientActions.getClientOrders,
 
 }
 
-export default connect(mapState,actionCreators)(Clients);
+export default connect(mapState, actionCreators)(Clients);

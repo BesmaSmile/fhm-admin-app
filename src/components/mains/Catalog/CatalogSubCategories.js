@@ -1,14 +1,14 @@
 import React from 'react';
 import {Button} from '@material-ui/core';
 
-const Catalog_SubCategories=(props)=>{
+const CatalogSubCategories=(props)=>{
   const {subCategories,selectedSubCategory, handleSelectSubCategory}=props
   return(
     <div className='flex row fww'>
       {subCategories.map(subCategory=>(
         <Button key={subCategory} 
           onClick={()=>handleSelectSubCategory(subCategory)}
-          active={subCategory==selectedSubCategory ? 'true' : 'false'}
+          active={subCategory===selectedSubCategory ? 'true' : 'false'}
           variant="outlined" 
           classes={{
             root : 'ctg-subCategoryButton', 
@@ -28,4 +28,4 @@ const Catalog_SubCategories=(props)=>{
   )
 }
 
-export default Catalog_SubCategories;
+export default CatalogSubCategories;

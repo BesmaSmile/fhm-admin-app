@@ -1,0 +1,17 @@
+.ProductForm{
+  overflow-y: auto;
+  & .pf-imgContainer{
+    position: relative;
+    border-radius: 10px;
+    border: 0.6px solid var(--lightgrey);
+    & .pf-imgIcon{
+      font-size: 40px
+    }
+    & .pf-replyIcon{
+      font-size: 40px;
+      color: var(--light);
+    }
+  }
+  
+  
+}
