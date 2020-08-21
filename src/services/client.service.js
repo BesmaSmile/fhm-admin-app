@@ -29,7 +29,7 @@ function getClients(){
   })
   .catch(error=>{
     console.log(error);
-    throw Error('Echec de chargement de la liste des clients !')
+    throw 'Echec de chargement de la liste des clients !'
   });
 }
 
@@ -37,7 +37,7 @@ function activateClientAccount(id, active){
   const db = firebase.firestore();
   return db.collection('utilisateurs').doc(id).update({active})
   .catch(error => {
-    console.log(error)
+    throw `Echec ${active ? "d'activation" : "de désactivation" } du compte client`
   });
 }
 
@@ -61,6 +61,6 @@ function getClientOrders(id){
   })
   .catch(error=>{
     console.log(error);
-    throw Error('Echec de chargement des commandes !')
+    throw 'Echec de chargement des commandes !'
   });
 }

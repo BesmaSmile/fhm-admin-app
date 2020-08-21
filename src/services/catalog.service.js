@@ -28,7 +28,7 @@ function getCategories(){
   })
   .catch(error=>{
     console.log(error);
-    throw Error('Echec de chargement des catégories de produit !')
+    throw 'Echec de chargement des catégories de produit !'
   });
 }
 
@@ -55,7 +55,7 @@ function getProducts(){
   })
   .catch(error=>{
     console.log(error);
-    throw Error('Echec de chargement des produits !')
+    throw 'Echec de chargement des produits !'
   });
 }
 

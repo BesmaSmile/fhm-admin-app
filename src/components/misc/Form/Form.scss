@@ -1,14 +1,23 @@
 
 
 .Form{
-  & .frm-error{
-    max-height: 0;
-    transition: all 0.6s linear 0s;
-    &[visible=true]{
-      max-height: 15px;
-      transition: all 0.6s linear 0s;
-    }
+  width: 100%;
+  .MuiDialogContent-root{
+    max-height: calc(100vh - 200px)
   }
+  .MuiDialogTitle-root{
+    background-color: var(--light);
+    box-shadow: 0px 0px 3px 0px var(--grey);
+  }
+  .MuiDialogActions-root{
+    box-shadow: 0px 0px 3px 0px var(--grey);
+    padding: 15px;
+  }
+  .form-content{
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+  
   & .frm-inputField{ 
     width: 100%;  
     & .MuiOutlinedInput-root{
@@ -53,17 +62,48 @@
         }
       } 
     }   
+    & .frm-error{
+      max-height: 0;
+      transition: all 0.6s linear 0s;
+    }
+    &[witherror=true]{
+      & .frm-error{
+        max-height: 15px;
+        transition: all 0.6s linear 0s;
+      }
+    }
   }
-  & .frm-button{
+
+  & .frm-submitButton{
     height: 40px;
-    border: none;
-    outline: none;
-    &:hover{
-      box-shadow: 2px 2px 3px 0px #9b9b9b;
+    font-size: 14px;
+    text-transform : none;
+    line-height: normal;
+    .MuiButton-label{
+      color: var(--white);
+      font-weight: 500;
     }
-    &:disabled{
-      opacity: 0.7;
+  }
+  & .Mui-disabled.MuiButton-root{
+    opacity: 0.7;
+  }
+  & .frm-largeButton{
+    & .frm-submitButton{
+      width: 100%;
     }
-    
+  }
+  & .frm-submitButton.MuiButton-contained{
+    background-color: var(--lightblue);
+  }
+
+  & .frm-cancelButton{
+    height: 40px;
+    font-size: 14px;
+    text-transform : none;
+    line-height: normal;
+    .MuiButton-label{
+      color: var(--stronggrey);
+      font-weight: 500;
+    }
   }
 }

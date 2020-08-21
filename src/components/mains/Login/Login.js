@@ -7,11 +7,13 @@ import {connect} from 'react-redux';
 import { InputAdornment, IconButton  } from '@material-ui/core';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
+import { hooks } from 'functions';
+import { useSnackbar } from 'notistack';
 
 const Login=(props) =>{
   const history=useHistory()
-  const [pending, setPending]=useState(false)
-  const [error, setError]=useState()
+  const loginRequest = hooks.useRequest()
+  const { enqueueSnackbar } = useSnackbar();
   const [_passwordVisible, _setPasswordVisible]=useState(false)
 
   const handleClickShowPassword = () => {
@@ -19,14 +21,10 @@ const Login=(props) =>{
   }
 
   const onSubmit = values => { 
-    setPending(true)
-    setError()
-    props.login(values).then(result=>
-    {
-      history.replace('/')
-    }).catch(error=>{
-      setPending(false)
-      setError(error)
+    loginRequest.execute({
+      action : ()=>props.login(values),
+      success : ()=> history.replace('/'),
+      failure : (error)=> enqueueSnackbar(error, { variant: 'error' })
     })
   }
 
@@ -64,8 +62,7 @@ const Login=(props) =>{
         <Form inputs={loginInputs} 
           onSubmit={onSubmit} 
           submitText='Se connecter'
-          pending={pending}
-          error={error}
+          pending={loginRequest.pending}
         />
       </div>
     </div>

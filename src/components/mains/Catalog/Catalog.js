@@ -104,7 +104,7 @@ const Catalog = (props) => {
             contained: 'ctg-newButton_contained',
             label: 'ctg-newButton_label'
           }} 
-          onClick={()=>{formDialog.open(productForm())}}
+          onClick={()=>{formDialog.open(productForm(), true)}}
         >
           Nouveau produit
         </Button>
@@ -113,7 +113,7 @@ const Catalog = (props) => {
 
       <div className='flex row marh20 marb20'>
         <div className='ctg-productList f1 marr10'>
-          <CatalogProductsList products={products} openProductForm={(product, pictureUrl)=>formDialog.open(productForm(product, pictureUrl))}/>
+          <CatalogProductsList products={products} openProductForm={(product, pictureUrl)=>formDialog.open(productForm(product, pictureUrl), true)}/>
         </div>
         <div className='w250'></div>
       </div>

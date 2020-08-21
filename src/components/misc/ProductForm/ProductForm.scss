@@ -1,5 +1,5 @@
 .ProductForm{
-  overflow-y: auto;
+
   & .pf-imgContainer{
     position: relative;
     border-radius: 10px;
@@ -12,6 +12,4 @@
       color: var(--light);
     }
   }
-  
-  
 }

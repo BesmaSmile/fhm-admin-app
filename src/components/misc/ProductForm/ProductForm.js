@@ -17,7 +17,71 @@ const ProductForm = props => {
   const uploadPictureRequest=hooks.useRequest()
   const { enqueueSnackbar } = useSnackbar();
   const  [_retryUploadingPicture, _setRetryUploadingPicture] = useState({retry : false})
+  
+  const onSubmit = values => {
+    if(_.isEmpty(_image.preview)){
+      enqueueSnackbar("Veuiller ajouter l'image du produit  !", { variant: 'warning' })
+    }
+    else{
+      setProductRequest.execute({
+        action: () => setProduct({...values,id : _.get(product, 'id')},_image.raw && _image.raw!==pictureUrl ? _image.raw : undefined),
+        success: (res) => {
+          enqueueSnackbar("Le produit a bien été enregistré !", { variant: 'success' })
+          close()
+        },
+        failure: (error) => {
+          enqueueSnackbar(_.get(error, 'message', 'Une erreur est survenue !'), { variant: _.get(error, 'pictureUploadFailed') ? 'warning' : 'error' })
+          if (_.get(error, 'pictureUploadFailed'))
+            _setRetryUploadingPicture({retry : true, path : error.path})
+        }
+      })
+    }
+  }
+
+  const onUpdateImage=(image)=>{
+    _setImage(image)
+    if(_retryUploadingPicture.retry && _.get(image, 'raw'))
+      sendImage(image)
+  }
+
+  const sendImage=(image)=>{
+    uploadPictureRequest.execute({
+      action : ()=> storageService.uploadFile(_retryUploadingPicture.path, _.get(image, 'raw',_image.raw) ),
+      success : ()=> {
+        enqueueSnackbar("L'imagea bien été enregistrée !", { variant: 'success' })
+        close()
+      },
+      failure : ()=>{
+        enqueueSnackbar("Echec de chargement de l'image. Réessayer !", { variant: 'error' })
+      }
+    })
+  }
+
+
   const productInputs = [
+    {
+      content : <div className='mart10 marb20'>
+          <div className='pf-imgContainer  w150 h150'>
+            <ImageUploader image={_image} updateImage={onUpdateImage}
+              preview={(image) => <img className='relw100 relh100' src={image} alt='produit' />}
+              pending={uploadPictureRequest.pending || setProductRequest.pending}
+              retry={_retryUploadingPicture.retry}
+              emptyPreview={() =>
+                <div className='relw100 relh100 flex aic jcc cgrey'>
+                  <ImageIcon classes={{ root: 'pf-imgIcon' }} />
+                </div>}
+              retryPreview={()=>
+                <div className='relw100 relh100 flex aic jcc cgrey pointer' onClick={sendImage}>
+                  <ReplayIcon classes={{ root: 'pf-replyIcon' }} />
+                </div>
+              }
+              pendingPreview={() =>
+                <div className='relh100 flex aife jcc'>
+                  <p className='cwhite fs10 marb10'>Enregistrement en cours de l'image...</p>
+                </div>} />
+          </div>
+        </div>
+    },
     {
       name: 'nomFr',
       label: 'Nom du produit',
@@ -83,50 +147,8 @@ const ProductForm = props => {
       endAdornment: <span className='fs14 cgrey medium'>DA</span>
     }
   ]
-  const onSubmit = values => {
-    console.log(_image)
-    if(_.isEmpty(_image.preview)){
-      enqueueSnackbar("Veuiller ajouter l'image du produit  !", { variant: 'warning' })
-    }
-    else{
-      setProductRequest.execute({
-        action: () => setProduct({...values,id : _.get(product, 'id')},_image.raw && _image.raw!==pictureUrl ? _image.raw : undefined),
-        success: (res) => {
-          enqueueSnackbar("Le produit a bien été enregistré !", { variant: 'success' })
-          close()
-        },
-        failure: (error) => {
-          enqueueSnackbar(_.get(error, 'message', 'Une erreur est survenue !'), { variant: _.get(error, 'pictureUploadFailed') ? 'warning' : 'error' })
-          if (_.get(error, 'pictureUploadFailed'))
-            _setRetryUploadingPicture({retry : true, path : error.path})
-        }
-      })
-    }
-  }
-
-  const onUpdateImage=(image)=>{
-
-    _setImage(image)
-    if(_retryUploadingPicture.retry && _.get(image, 'raw'))
-      sendImage(image)
-  }
-
-  const sendImage=(image)=>{
-    uploadPictureRequest.execute({
-      action : ()=> storageService.uploadFile(_retryUploadingPicture.path, _.get(image, 'raw',_image.raw) ),
-      success : ()=> {
-        enqueueSnackbar("L'imagea bien été enregistrée !", { variant: 'success' })
-        close()
-      },
-      failure : ()=>{
-        enqueueSnackbar("Echec de chargement de l'image. Réessayer !", { variant: 'error' })
-      }
-    })
-  }
-
-  return (
-    <div className='ProductForm pad20'>
-      <div className='fs20 clightblue'>Nouveau Produit</div>
+  /*return (
+    <div className='ProductForm'>
       <div className='flex row'>
         <div className=''>
 
@@ -159,6 +181,23 @@ const ProductForm = props => {
                 </div>} />
           </div>
         </div>
+      </div>
+    </div>
+  )*/
+  return (
+    <div className='ProductForm w500'>
+    <div className='flex row'>
+
+      <Form className='' 
+        title={product ?  "Modifier les informations du produit" : "Nouveau produit"}
+        disabled={_retryUploadingPicture.retry}
+        inputs={productInputs}
+        onSubmit={onSubmit}
+        submitText='Enregistrer'
+        pending={setProductRequest.pending}
+        isDialog={true}
+        cancel={close}
+      />
       </div>
     </div>
   )
