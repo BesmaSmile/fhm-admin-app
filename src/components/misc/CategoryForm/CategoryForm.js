@@ -10,7 +10,7 @@ const CategoryForm=props=>{
   const { enqueueSnackbar } = useSnackbar();
 
   const onSubmit=values=>{
-    if(categories.find(category=>category.name==values.name))
+    if(categories.find(category=>category.name===values.name))
       enqueueSnackbar(`La catégrorie de produit "${values.name}" existe déja!`, { variant: 'warning' })
     else
       addCategoryRequest.execute({
@@ -20,7 +20,9 @@ const CategoryForm=props=>{
           close()
         },
         failure: (error) => {
-          enqueueSnackbar(error, { variant: 'error' })
+          enqueueSnackbar(error.message, { variant: error.added ? 'warning' : 'error' })
+          if(error.added)
+            close()
         }
       })
   }
@@ -47,8 +49,7 @@ const CategoryForm=props=>{
   ]
   return (
     <div className='CategoryForm'>
-      <Form className='' 
-        title="Nouvelle catégorie de produit"
+      <Form title="Nouvelle catégorie de produit"
         inputs={categoryInputs}
         onSubmit={onSubmit}
         submitText='Enregistrer'

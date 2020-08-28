@@ -42,6 +42,13 @@ const CatalogSubCategories=(props)=>{
       })
   }
 
+  const cancelOnClick=(e)=>{
+    _setSubCategoryForm({
+      ..._subCategoryForm,
+      visible:false
+    })
+  }
+
   return(
     <div className='flex row fww'>
       {subCategories.map(subCategory=>(
@@ -81,9 +88,18 @@ const CatalogSubCategories=(props)=>{
                 root : 'ctg-subCategoryButton', 
                 outlined : 'ctg-subCategoryButton_outlined',
                 label : 'ctg-subCategoryButton_label'}}>
-              ok
+              Ok
             </Button> : <span>en cours...</span>
           }
+          <Button variant="outlined" 
+              onClick={cancelOnClick}
+              disabled={addSubCategoryRequest.pending}
+              classes={{
+                root : 'ctg-subCategoryButton', 
+                outlined : 'ctg-subCategoryButton_outlined',
+                label : 'ctg-subCategoryButton_label'}}>
+              Annuler
+          </Button>
         </>
         :
         <Button variant="outlined" classes={{

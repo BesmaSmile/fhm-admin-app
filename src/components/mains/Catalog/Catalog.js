@@ -45,6 +45,12 @@ const Catalog = (props) => {
     // eslint-disable-next-line
   }, [props.categories])
 
+  useEffect(()=>{
+    if(_selectedCategory)
+      _selectCategory(_.get(props, 'categories', []).find(category=>category.id===_selectedCategory.id))
+    // eslint-disable-next-line
+  }, [props.categories])
+
   useEffect(() => {
     if (_selectedCategory)
       _selectSubCategory(_.get(_selectedCategory.subCategories, '0'))

@@ -61,7 +61,7 @@ async function setProduct(product, pictureFile){
   const collectionRef = firebase.firestore().collection('produits');
   const {id, ...toSend}=product
   const productRef =id ? collectionRef.doc(product.id) :  collectionRef.doc();
-  const result= await productRef.set(toSend)
+  await productRef.set(toSend)
   .catch(err=>{
     console.log(err);
     throw {message : "Echec d'enregistrement du produit" };
@@ -93,13 +93,22 @@ async function addCategory(category, existingCategories){
   const collectionRef = firebase.firestore().collection('categories');
   let categories=Object.assign([], existingCategories)
   const categoryRef=collectionRef.doc()
-  const result =await categoryRef.set(category)
+  await categoryRef.set(category)
+  .catch(error=>{
+    console.log(error);
+    throw {message :"Echec d'ajout d'une catégorie de produit !", added:false}
+  });
   categories.splice(category.order-1, 0, {...category, id : categoryRef.id});
+
   if(category.order<=existingCategories.lenght){
     categories=categories.map((category,i)=>({...category, order :i+1}))
     const categoriesToUpdate=categories.filter(category=>category.id!==categoryRef.id)
     for(const category of categoriesToUpdate)
       await collectionRef.doc(category.id).update({order : category.order})
+      .catch(error=>{
+        console.log(error);
+        throw {message :"Echec de mise en ordre des catégorie !", added:true}
+      });
   }
   return categories
 }
@@ -107,4 +116,8 @@ async function addCategory(category, existingCategories){
 function updateSubCategories(categoryId, subCategories){
   const collectionRef = firebase.firestore().collection('categories');
   return collectionRef.doc(categoryId).update({subCategories})
+  .catch(error=>{
+    console.log(error);
+    throw "Echec d'ajout d'une sous-catégorie de produit !"
+  });
 }

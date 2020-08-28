@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 //import avatar from 'assets/img/avatar.png';
 import SvgIcon from 'components/misc/SvgIcon/SvgIcon';
 import CircularProgress from '@material-ui/core/CircularProgress';
@@ -10,7 +10,6 @@ import './Clients.scss';
 
 const ClientCard=(props)=>{
   const {client, activateClientAccount, getClientOrders}=props
-  const [_activatePending, _setActivatePending]=useState()
   const activateAccountRequest = hooks.useRequest()
   const dialog=useDialog()
   const { enqueueSnackbar } = useSnackbar();

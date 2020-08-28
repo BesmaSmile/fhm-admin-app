@@ -147,43 +147,7 @@ const ProductForm = props => {
       endAdornment: <span className='fs14 cgrey medium'>DA</span>
     }
   ]
-  /*return (
-    <div className='ProductForm'>
-      <div className='flex row'>
-        <div className=''>
 
-          <Form className='w250' 
-            disabled={_retryUploadingPicture.retry}
-            inputs={productInputs}
-            onSubmit={onSubmit}
-            submitText='Enregistrer'
-            pending={setProductRequest.pending}
-          />
-        </div>
-        <div className='w200 marl10 mart30'>
-          <div className='pf-imgContainer  w150 h150'>
-            <ImageUploader image={_image} updateImage={onUpdateImage}
-              preview={(image) => <img className='relw100 relh100' src={image} alt='produit' />}
-              pending={uploadPictureRequest.pending || setProductRequest.pending}
-              retry={_retryUploadingPicture.retry}
-              emptyPreview={() =>
-                <div className='relw100 relh100 flex aic jcc cgrey'>
-                  <ImageIcon classes={{ root: 'pf-imgIcon' }} />
-                </div>}
-              retryPreview={()=>
-                <div className='relw100 relh100 flex aic jcc cgrey pointer' onClick={sendImage}>
-                  <ReplayIcon classes={{ root: 'pf-replyIcon' }} />
-                </div>
-              }
-              pendingPreview={() =>
-                <div className='relh100 flex aife jcc'>
-                  <p className='cwhite fs10 marb10'>Enregistrement en cours de l'image...</p>
-                </div>} />
-          </div>
-        </div>
-      </div>
-    </div>
-  )*/
   return (
     <div className='ProductForm w500'>
     <div className='flex row'>

@@ -29,7 +29,7 @@ const FormLayout=({isDialog,title, content, submitAction, submitButton, cancelDi
 
   )
   else return(
-    <form className={`Form`} onSubmit={submitAction} >
+    <form className='Form' onSubmit={submitAction} >
       {content}
       <div className='frm-largeButton relw100 mart20'>{submitButton()}</div>
     </form>
@@ -37,7 +37,7 @@ const FormLayout=({isDialog,title, content, submitAction, submitButton, cancelDi
 }
 
 const Form=(props)=>{
-  const {title, inputs, onSubmit, submitText, className, pending, disabled, isDialog, cancel}=props
+  const {title, inputs, onSubmit, submitText, pending, disabled, isDialog, cancel}=props
   const { handleSubmit, errors, getValues , control, setValue } = useForm();
 
   const dependentSelection =useWatch({
