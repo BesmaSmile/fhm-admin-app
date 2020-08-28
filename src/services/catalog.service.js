@@ -5,7 +5,8 @@ import {storageService} from './storage.service';
 export const catalogService={
   getCategories,
   getProducts, 
-  setProduct
+  setProduct,
+  addCategory
 }
 
 function getCategories(){
@@ -17,11 +18,7 @@ function getCategories(){
       const data=doc.data()
       docs.push({
         id : doc.id, 
-        label : data.libelle,
-        order : data.ordre,
-        states : data.etats,
-        subCategories : data.sousCategories,
-        importation : data.importation
+        ...data
       })
     });
     return docs;
@@ -89,4 +86,22 @@ async function setProduct(product, pictureFile){
     importationPrice :product.prixImportation,
     image : productRef.id
   }
+}
+
+async function addCategory(category, existingCategories){
+  console.log(category)
+  const collectionRef = firebase.firestore().collection('categories');
+  let categories=Object.assign([], existingCategories)
+  const categoryRef=collectionRef.doc()
+  const result =await categoryRef.set(category)
+  console.log(result)
+  categories.splice(category.order-1, 0, {...category, id : categoryRef.id});
+  if(category.order<=existingCategories.lenght){
+    categories=categories.map((category,i)=>({...category, order :i+1}))
+    const categoriesToUpdate=categories.filter(category=>category.id!==categoryRef.id)
+    for(const category of categoriesToUpdate)
+      await collectionRef.doc(category.id).update({order : category.order})
+  }
+  console.log(categories)
+  return categories
 }

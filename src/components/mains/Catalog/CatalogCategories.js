@@ -2,7 +2,7 @@ import React from 'react';
 import {Button} from '@material-ui/core';
 
 const CatalogCategories=(props)=>{
-  const {categories, selectedCategory, handleSelectCategory}=props
+  const {categories, selectedCategory, handleSelectCategory, openCategoryForm}=props
   return(
     <div className='relw100'>
       <div className='medium fs25 cstronggrey marb10'>Catégories</div>
@@ -16,13 +16,14 @@ const CatalogCategories=(props)=>{
               root : 'ctg-categoryButton', 
               outlined : 'ctg-categoryButton_outlined',
               label : 'ctg-categoryButton_label'}}>
-            {category.label}
+            {category.name}
           </Button>
         ))}
          <Button variant="outlined" classes={{
             root : 'ctg-categoryButton', 
             outlined : 'ctg-categoryButton_outlined',
-            label : 'ctg-categoryButton_label'}}>
+            label : 'ctg-categoryButton_label'}}
+            onClick={openCategoryForm}>
             +
           </Button>
       </div>

@@ -4,7 +4,8 @@ import {catalogConstants} from 'store/constants';
 export const catalogActions= {
   getCategories,
   getProducts,
-  setProduct
+  setProduct,
+  addCategory
 }
 
 function getCategories(){
@@ -30,6 +31,15 @@ function setProduct(product, picture){
     return catalogService.setProduct(product, picture).then((poductToSet)=>{
       dispatch({ type: product.id ? catalogConstants.UPDATE_PRODUCT : catalogConstants.ADD_PRODUCT, product : poductToSet })
       return product;
+    })
+  }
+}
+
+function addCategory(category, categories){
+  return dispatch => {
+    return catalogService.addCategory(category, categories).then((categories)=>{
+      dispatch({ type:catalogConstants.UPDATE_CATEGORIES, categories })
+      return categories;
     })
   }
 }

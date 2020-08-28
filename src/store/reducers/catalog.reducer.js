@@ -22,6 +22,11 @@ export function catalog(state = {orders : {}}, action) {
       ...state,
       products : state.products.map(product=>product.id===action.product.id ? action.product : product)
     }
+    case catalogConstants.UPDATE_CATEGORIES:
+    return{
+      ...state,
+      categories : action.categories
+    }
     default :
     return state
   }

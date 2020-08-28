@@ -8,6 +8,7 @@ import { hooks } from 'functions';
 import { Button } from '@material-ui/core';
 import {useDialog} from 'components/misc/Dialog/Dialog';
 import ProductForm from 'components/misc/ProductForm/ProductForm';
+import CategoryForm from 'components/misc/CategoryForm/CategoryForm';
 import _ from 'lodash';
 import './Catalog.scss';
 
@@ -23,7 +24,7 @@ const Catalog = (props) => {
   const subCategories = _.get(_selectedCategory, 'subCategories', [])
 
   const products = _.get(props, 'products', []).filter(product =>
-    product.category === _.get(_selectedCategory, 'label')
+    product.category === _.get(_selectedCategory, 'name')
     && (!_selectedSubCategory || product.subCategory === _selectedSubCategory)
   )
 
@@ -58,15 +59,23 @@ const Catalog = (props) => {
     _selectSubCategory(subCategory)
   }
 
-  const productForm=(product, pictureUrl)=>{
-    return (
-      <ProductForm product={product} 
+  const openProductForm=(product, pictureUrl)=>{
+    const productForm=<ProductForm product={product} 
         pictureUrl={pictureUrl}
-        defaultCategory={!product && _.get(_selectedCategory, 'label')}
+        defaultCategory={!product && _.get(_selectedCategory, 'name')}
         categories={_.get(props, 'categories', [])} 
         setProduct={props.setProduct}
         close={formDialog.close} />
-    )
+
+    formDialog.open(productForm, true)
+  }
+
+  const openCategoryForm=(category)=>{
+    const categoryForm= <CategoryForm close={formDialog.close} 
+                          categories={_.get(props, 'categories', [])}
+                          addCategory={props.addCategory}
+                          category={category}/>
+    formDialog.open(categoryForm, true)
   }
 
   return (
@@ -77,6 +86,7 @@ const Catalog = (props) => {
             categories={categories}
             selectedCategory={_.get(_selectedCategory, 'id')}
             handleSelectCategory={handleSelectCategory}
+            openCategoryForm={openCategoryForm}
           />
         }
         {categoriesRequest.pending && <div>Chargement en cours...</div>}
@@ -104,7 +114,7 @@ const Catalog = (props) => {
             contained: 'ctg-newButton_contained',
             label: 'ctg-newButton_label'
           }} 
-          onClick={()=>{formDialog.open(productForm(), true)}}
+          onClick={()=>openProductForm()}
         >
           Nouveau produit
         </Button>
@@ -113,7 +123,7 @@ const Catalog = (props) => {
 
       <div className='flex row marh20 marb20'>
         <div className='ctg-productList f1 marr10'>
-          <CatalogProductsList products={products} openProductForm={(product, pictureUrl)=>formDialog.open(productForm(product, pictureUrl), true)}/>
+          <CatalogProductsList products={products} openProductForm={openProductForm}/>
         </div>
         <div className='w250'></div>
       </div>
@@ -128,7 +138,8 @@ const mapState = (state) => ({
 const actionCreators = {
   getCategories: catalogActions.getCategories,
   getProducts: catalogActions.getProducts,
-  setProduct : catalogActions.setProduct
+  setProduct : catalogActions.setProduct,
+  addCategory : catalogActions.addCategory
 }
 
 export default connect(mapState, actionCreators)(Catalog);
