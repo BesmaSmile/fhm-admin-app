@@ -19,7 +19,7 @@ const Catalog = (props) => {
 
   const [_selectedCategory, _selectCategory] = useState()
   const [_selectedSubCategory, _selectSubCategory] = useState()
-
+  console.log(props.categories)
   const categories = _.get(props, 'categories', []).sort((c1, c2) => c1.order > c2.order ? 1 : -1)
   const subCategories = _.get(_selectedCategory, 'subCategories', [])
 
@@ -102,6 +102,7 @@ const Catalog = (props) => {
                 subCategories={subCategories}
                 selectedSubCategory={_selectedSubCategory}
                 handleSelectSubCategory={handleSelectSubCategory}
+                updateSubCategories={(subCategories)=>props.updateSubCategories(_selectedCategory.id, subCategories)}
               />
             }
           </div>
@@ -139,7 +140,8 @@ const actionCreators = {
   getCategories: catalogActions.getCategories,
   getProducts: catalogActions.getProducts,
   setProduct : catalogActions.setProduct,
-  addCategory : catalogActions.addCategory
+  addCategory : catalogActions.addCategory,
+  updateSubCategories: catalogActions.updateSubCategories
 }
 
 export default connect(mapState, actionCreators)(Catalog);

@@ -17,6 +17,7 @@
       & .ctg-categoryButton_label{
         color: var(--grey);
         font-weight: 500;
+        white-space: nowrap;
       }
     }
     
@@ -51,6 +52,7 @@
       & .ctg-subCategoryButton_label{
         color: var(--lightblue);
         font-weight: 500;
+        white-space: nowrap;
       }
     }
     & .ctg-subCategoryButton_outlined{
@@ -62,6 +64,34 @@
       &[active=true]{
         background-color: rgba(68, 170, 218, 0.1);
       }
+    }
+    & .MuiOutlinedInput-root{
+      height: fit-content;
+      margin-top: 5px;
+      margin-bottom: 5px;
+      margin-right: 10px;
+      & .MuiOutlinedInput-input{
+        height: 1em;
+        font-size: 14px;
+        font-weight: 500;
+        color: var(--stronggrey);
+        height: 20px;
+        padding: 5px 15px;
+      }
+      & .MuiOutlinedInput-notchedOutline{
+        border-color: var(--lightgrey);
+        border-width: 0.7px;
+      }
+      &:hover{
+        & .MuiOutlinedInput-notchedOutline{
+          border-color: var(--blue);
+          border-width: 1px;
+        }
+      } 
+    }
+    & .Mui-focused .MuiOutlinedInput-notchedOutline{
+      border-color: var(--blue);
+      border-width: 0.7px;
     }
   }
   & .ctg-newButton{

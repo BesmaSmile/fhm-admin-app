@@ -6,7 +6,8 @@ export const catalogService={
   getCategories,
   getProducts, 
   setProduct,
-  addCategory
+  addCategory,
+  updateSubCategories 
 }
 
 function getCategories(){
@@ -89,12 +90,10 @@ async function setProduct(product, pictureFile){
 }
 
 async function addCategory(category, existingCategories){
-  console.log(category)
   const collectionRef = firebase.firestore().collection('categories');
   let categories=Object.assign([], existingCategories)
   const categoryRef=collectionRef.doc()
   const result =await categoryRef.set(category)
-  console.log(result)
   categories.splice(category.order-1, 0, {...category, id : categoryRef.id});
   if(category.order<=existingCategories.lenght){
     categories=categories.map((category,i)=>({...category, order :i+1}))
@@ -102,6 +101,10 @@ async function addCategory(category, existingCategories){
     for(const category of categoriesToUpdate)
       await collectionRef.doc(category.id).update({order : category.order})
   }
-  console.log(categories)
   return categories
+}
+
+function updateSubCategories(categoryId, subCategories){
+  const collectionRef = firebase.firestore().collection('categories');
+  return collectionRef.doc(categoryId).update({subCategories})
 }

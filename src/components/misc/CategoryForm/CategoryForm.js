@@ -16,7 +16,7 @@ const CategoryForm=props=>{
       addCategoryRequest.execute({
         action: () => addCategory({...values, order :parseInt(values.order) }, categories),
         success: (res) => {
-          enqueueSnackbar("La cétegorie de produit a bien été enregistré !", { variant: 'success' })
+          enqueueSnackbar(`La cétegorie de produit "${values.name}" a bien été enregistrée !`, { variant: 'success' })
           close()
         },
         failure: (error) => {
