@@ -11,7 +11,7 @@ import { useSnackbar } from 'notistack';
 import _ from 'lodash';
 
 const ProductForm = props => {
-  const { categories, defaultCategory, setProduct, close, product, pictureUrl } = props
+  const { categories, defaultCategory, defaultSubCategory, setProduct, close, product, pictureUrl } = props
   const [_image, _setImage] = useState({ preview: pictureUrl, raw: "" });
   const setProductRequest = hooks.useRequest()
   const uploadPictureRequest=hooks.useRequest()
@@ -100,17 +100,18 @@ const ProductForm = props => {
       type: 'select',
       defaultValue : defaultCategory || _.get(product,'category'),
       validation: { required: "Champs requis" },
-      options: (values) => categories.map(category => ({ value: category.label, name: category.label }))
+      options: (values) => categories.map(category => ({ value: category.name, name: category.name }))
     },
     {
       name: 'sousCategorie',
       label: "Sous-catégorie",
       type: 'select',
-      defaultValue : _.get(product,'subCategory'),
+      defaultValue : defaultSubCategory || _.get(product,'subCategory'),
       validation: { required: "Champs requis" },
       watch: 'categorie',
       options: (watchedValue) => {
-        const category = watchedValue && categories.find(category => category.label === watchedValue)
+        console.log(watchedValue)
+        const category = watchedValue && categories.find(category => category.name === watchedValue)
         return _.get(category, 'subCategories') && category.subCategories.map(subCategory => ({ value: subCategory, name: subCategory }))
       }
     },
@@ -122,7 +123,7 @@ const ProductForm = props => {
       validation: { required: "Champs requis" },
       watch:'categorie',
       options: (watchedValue) => {
-        const category = watchedValue && categories.find(category => category.label === watchedValue)
+        const category = watchedValue && categories.find(category => category.name === watchedValue)
         return _.get(category, 'states') && category.states.map(state => ({ value: state, name: state }))
       }
     },
@@ -141,7 +142,7 @@ const ProductForm = props => {
       watch : 'categorie',
       defaultValue : _.get(product,'importationPrice'),
       hidden : watchedValue =>{
-        const category = watchedValue && categories.find(category => category.label === watchedValue)
+        const category = watchedValue && categories.find(category => category.name === watchedValue)
         return _.get(category, 'importation')!==true
       },
       endAdornment: <span className='fs14 cgrey medium'>DA</span>

@@ -69,6 +69,7 @@ const Catalog = (props) => {
     const productForm=<ProductForm product={product} 
         pictureUrl={pictureUrl}
         defaultCategory={!product && _.get(_selectedCategory, 'name')}
+        defaultSubCategory={!product && _selectedSubCategory}
         categories={_.get(props, 'categories', [])} 
         setProduct={props.setProduct}
         close={formDialog.close} />

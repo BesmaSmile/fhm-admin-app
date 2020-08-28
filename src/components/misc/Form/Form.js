@@ -40,9 +40,14 @@ const Form=(props)=>{
   const {title, inputs, onSubmit, submitText, pending, disabled, isDialog, cancel}=props
   const { handleSubmit, errors, getValues , control, setValue } = useForm();
 
+  const defaultValues={}
+  inputs.forEach(input=>{
+    if(input.defaultValue) defaultValues[input.name]=input.defaultValue
+  })
+  
   const dependentSelection =useWatch({
     control,
-    defaultValue: [] 
+    defaultValue: defaultValues
   })
   
   const resetWatchingInputs=(e)=>{
