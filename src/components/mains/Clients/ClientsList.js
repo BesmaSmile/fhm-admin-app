@@ -2,14 +2,20 @@ import React, {useEffect} from 'react';
 //import avatar from 'assets/img/avatar.png';
 import SvgIcon from 'components/misc/SvgIcon/SvgIcon';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import Map from 'components/misc/Map/Map';
 import {useDialog} from 'components/misc/Dialog/Dialog';
 import { useSnackbar } from 'notistack';
 import { hooks } from 'functions';
+import  _ from 'lodash'; 
 import './Clients.scss';
 
 
 const ClientCard=(props)=>{
   const {client, activateClientAccount, getClientOrders}=props
+  const province=_.get(client, 'address.province')
+  const municipality=_.get(client, 'address.municipality')
+  const city = (province || municipality) && `${province ? province+',' : ''} ${municipality}`   
+
   const activateAccountRequest = hooks.useRequest()
   const dialog=useDialog()
   const { enqueueSnackbar } = useSnackbar();
@@ -21,6 +27,13 @@ const ClientCard=(props)=>{
     // eslint-disable-next-line
   }, [])
 
+  const handlePositionClick=()=>{
+    const location=_.get(client, 'address.location')
+    if(location){
+      const mapLocation=<Map className='w400 h250' zoom={13} {...location}/>
+      dialog.open(mapLocation, false)
+    } 
+  }
   
 
   const toggleAccount=()=>{
@@ -57,9 +70,9 @@ const ClientCard=(props)=>{
           <div className='extralight fs12 cstronggrey'>{client.phoneNumber}</div>
         </div>
         <div className='flex row f1 jcfe'>
-          <div className='clt-detailContainer'>
-            <div className='clt-datailTop'><SvgIcon name='mapLocation' color={client.city ? 'var(--green)' : 'var(--lightgrey)'}/></div>
-            <div className='clt-datailText'> {client.city} </div>
+          <div className={`clt-detailContainer ${_.get(client, 'address.location') ? 'pointer' :''}`} onClick={handlePositionClick}>
+            <div className='clt-datailTop'><SvgIcon name='mapLocation' color={_.get(client, 'address.location') ? 'var(--green)' : 'var(--lightgrey)'}/></div>
+            <div className='clt-datailText'> {city} </div>
           </div>
           <div className='clt-detailContainer'>
             <div className='clt-datailTop fs25 lh25 bold cgreen'>{client.orders && client.orders.length}</div>
