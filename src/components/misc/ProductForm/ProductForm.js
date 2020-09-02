@@ -83,19 +83,13 @@ const ProductForm = props => {
         </div>
     },
     {
-      name: 'nomFr',
-      label: 'Nom du produit',
-      defaultValue : _.get(product,'nameFr'),
-      validation: { required: 'Champs requis' }
+      name: 'available',
+      label: 'Produit disponible',
+      type : 'switch',
+      defaultValue : !_.isUndefined(_.get(product,'available')) ? product.available : true 
     },
     {
-      name: 'nomAr',
-      label: 'إسم المنتوج',
-      defaultValue : _.get(product,'nameAr'),
-      validation: { required: 'Champs requis' }
-    },
-    {
-      name: 'categorie',
+      name: 'category',
       label: "Catégorie",
       type: 'select',
       defaultValue : defaultCategory || _.get(product,'category'),
@@ -103,12 +97,12 @@ const ProductForm = props => {
       options: (values) => categories.map(category => ({ value: category.name, name: category.name }))
     },
     {
-      name: 'sousCategorie',
+      name: 'subCategory',
       label: "Sous-catégorie",
       type: 'select',
       defaultValue : defaultSubCategory || _.get(product,'subCategory'),
       validation: { required: "Champs requis" },
-      watch: 'categorie',
+      watch: 'category',
       options: (watchedValue) => {
         console.log(watchedValue)
         const category = watchedValue && categories.find(category => category.name === watchedValue)
@@ -116,19 +110,31 @@ const ProductForm = props => {
       }
     },
     {
-      name: 'etat',
+      name: 'state',
       label: "Etat",
       type: 'select',
       defaultValue : _.get(product,'state'),
       validation: { required: "Champs requis" },
-      watch:'categorie',
+      watch:'category',
       options: (watchedValue) => {
         const category = watchedValue && categories.find(category => category.name === watchedValue)
         return _.get(category, 'states') && category.states.map(state => ({ value: state, name: state }))
       }
     },
     {
-      name: 'prix',
+      name: 'nameFr',
+      label: 'Nom du produit',
+      defaultValue : _.get(product,'nameFr'),
+      validation: { required: 'Champs requis' }
+    },
+    {
+      name: 'nameAr',
+      label: 'إسم المنتوج',
+      defaultValue : _.get(product,'nameAr'),
+      validation: { required: 'Champs requis' }
+    },
+    {
+      name: 'price',
       label: "Prix",
       type: 'number',
       defaultValue : _.get(product,'price'),
@@ -136,10 +142,10 @@ const ProductForm = props => {
       endAdornment: <span className='fs14 cgrey medium'>DA</span>
     },
     {
-      name: 'prixImportation',
+      name: 'importationPrice',
       label: "Prix importation",
       type: 'number',
-      watch : 'categorie',
+      watch : 'category',
       defaultValue : _.get(product,'importationPrice'),
       hidden : watchedValue =>{
         const category = watchedValue && categories.find(category => category.name === watchedValue)
