@@ -4,22 +4,20 @@ import './RegisterSuperAdmin.scss';
 import {useHistory} from "react-router-dom";
 import { authActions } from 'store/actions';
 import {connect} from 'react-redux';
+import { hooks } from 'functions';
+import { useSnackbar } from 'notistack';
 
 const RegisterSuperAdmin=(props) =>{
   const history=useHistory()
-  const [pending, setPending]=useState(false)
-  const [error, setError]=useState()
+  const registerRequest = hooks.useRequest()
+  const { enqueueSnackbar } = useSnackbar();
 
   const onSubmit = values => { 
-    setPending(true)
-    setError()
     const {secretKey, confirmPassword ,...user}=values
-    props.registerSuperAdmin(user, secretKey).then(result=>
-    {
-      history.replace('/')
-    }).catch(error=>{
-      setPending(false)
-      setError(error)
+    registerRequest.execute({
+      action : ()=>props.registerSuperAdmin(user, secretKey),
+      success : () => history.replace('/'),
+      failure : (error)=>enqueueSnackbar(error, { variant: 'error' })
     })
   }
   const registerInputs=[
@@ -60,8 +58,7 @@ const RegisterSuperAdmin=(props) =>{
         <Form inputs={registerInputs} 
           onSubmit={onSubmit} 
           submitText='Enregistrer'
-          pending={pending}
-          error={error}
+          pending={registerRequest.pending}
         />
       </div>
     </div>
