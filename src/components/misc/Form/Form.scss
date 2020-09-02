@@ -50,6 +50,22 @@
       color: var(--blue);
       font-weight: bold;
     }
+    & .MuiSwitch-root{
+      margin-left: 15px;
+    }
+    & .Mui-checked{
+      & .MuiSwitch-thumb{
+        background-color: var(--blue);
+      }
+    }
+    & .Mui-checked + .MuiSwitch-track{
+      background-color: var(--blue);
+    }
+    & .MuiFormControlLabel-label{
+      font-size: 14px;
+      font-weight: 500;
+      color : var(--stronggrey)
+    }
 
     & .Mui-disabled {
       & .MuiOutlinedInput-input{
