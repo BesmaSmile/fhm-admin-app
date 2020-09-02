@@ -1,5 +1,5 @@
 
-import React, { Component, useEffect, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import mapboxgl from 'mapbox-gl';
 import { apiConstants } from 'consts/api.constants';
 import './Map.scss';

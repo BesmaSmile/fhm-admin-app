@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import Form from 'components/misc/Form/Form';
 import './RegisterSuperAdmin.scss';
 import {useHistory} from "react-router-dom";
