@@ -24,7 +24,7 @@ const Login=(props) =>{
     loginRequest.execute({
       action : ()=>props.login(values),
       success : ()=> history.replace('/'),
-      failure : (error)=> enqueueSnackbar(error, { variant: 'error' })
+      failure : (error)=>enqueueSnackbar(error, { variant: 'error' })
     })
   }
 
