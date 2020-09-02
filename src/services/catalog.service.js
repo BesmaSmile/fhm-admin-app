@@ -32,21 +32,14 @@ function getCategories(){
 
 function getProducts(){
   const db = firebase.firestore();
-  return db.collection(`produits`).get()
+  return db.collection(`products`).get()
   .then((querySnapshot)=> {
     const docs= []
     querySnapshot.forEach((doc)=> {
       const data=doc.data()
       docs.push({
         id : doc.id, 
-        nameFr : data.nomFr,
-        nameAr : data.nomAr,
-        category : data.categorie,
-        subCategory : data.sousCategorie,
-        state : data.etat,
-        price :data.prix ,
-        importationPrice :data.prixImportation,
-        image : data.image
+        ...data
       })
     });
     return docs;
@@ -58,7 +51,7 @@ function getProducts(){
 }
 
 async function setProduct(product, pictureFile){
-  const collectionRef = firebase.firestore().collection('produits');
+  const collectionRef = firebase.firestore().collection('products');
   const {id, ...toSend}=product
   const productRef =id ? collectionRef.doc(product.id) :  collectionRef.doc();
   await productRef.set(toSend)
@@ -69,7 +62,7 @@ async function setProduct(product, pictureFile){
   //const {id}=result
   console.log(productRef)
   if(pictureFile){
-    const path=`${product.categorie}/${productRef.id}`
+    const path=`${product.category}/${productRef.id}`
     await storageService.uploadFile(path, pictureFile) 
     .catch(err=>{
       console.log(err);
@@ -77,19 +70,14 @@ async function setProduct(product, pictureFile){
     })
   }
   return {
+    ...product,
     id : productRef.id, 
-    category : product.categorie,
-    nameFr : product.nomFr,
-    nameAr:product.nomAr,
-    subCategory : product.sousCategorie,
-    state : product.etat,
-    price :product.prix ,
-    importationPrice :product.prixImportation,
     image : productRef.id
   }
 }
 
 async function addCategory(category, existingCategories){
+  console.log(category)
   const collectionRef = firebase.firestore().collection('categories');
   let categories=Object.assign([], existingCategories)
   const categoryRef=collectionRef.doc()

@@ -10,20 +10,20 @@ const ProductCard=(props)=>{
   useEffect(()=>{
     _setPictureUrl()
     pictureRequest.execute({
-      action : ()=>storageService.getFileUrl(`${product.category}/${product.image || product.id}`),
+      action : ()=>storageService.getFileUrl(`${product.category}/${product.id}`),
       success : (url)=> _setPictureUrl(url)
     })
     // eslint-disable-next-line
   }, [product])
 
   return (
-    <div className='ctg-productCard flex row pointer' onClick={(e)=>openProductForm(product, _pictureUrl)} >
+    <div className='ctg-productCard flex row pointer' active={product.available? 'true' : 'false'} onClick={(e)=>openProductForm(product, _pictureUrl)} >
       {_pictureUrl && <img className='w80 marr10' src={_pictureUrl} alt={product.nameFr}/>}
       <div className='flex f1 col txtar'>
         <div className='fs16 cstronggrey green'>{product.nameFr}</div>
         <div className='fs12 light cgrey green'>{product.nameAr}</div>
         <div className='fs12 medium cgreen f1 flex aife jcfe'>
-          <div className=''>{product.price} DZ</div>
+          <div className='ctg-productPrice'>{product.price} DZ</div>
         </div>
       </div>
     </div>

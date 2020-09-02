@@ -124,6 +124,15 @@
       & img{
         border-radius: 5px;
       }
+      &[active=false]{
+        opacity: 0.5;
+        & .ctg-productPrice{
+          color : var(--grey)
+        }
+        & img{
+          filter: grayscale(100%);
+        }
+      }
     }
   }
 }

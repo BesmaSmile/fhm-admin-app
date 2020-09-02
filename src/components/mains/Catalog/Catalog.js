@@ -88,7 +88,7 @@ const Catalog = (props) => {
   return (
     <div className='Catalog relw100'>
       <div className='ctg-categories pad20'>
-        {!categoriesRequest.pending && props.categories && props.categories.length > 0 &&
+        {!categoriesRequest.pending && props.categories &&
           <CatalogCategories
             categories={categories}
             selectedCategory={_.get(_selectedCategory, 'id')}
