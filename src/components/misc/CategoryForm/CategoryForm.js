@@ -45,6 +45,12 @@ const CategoryForm=props=>{
         min : {value : 1, message: orderErrorMessage}, 
         max: {value :categories.length+1, message:orderErrorMessage}
       }
+    },
+    {
+      name: 'importation',
+      label: 'Importation',
+      type : 'switch',
+      defaultValue : _.get(category,'importation')
     }
   ]
   return (
