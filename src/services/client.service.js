@@ -3,23 +3,41 @@ import {firebase} from './firebase';
 
 export const clientService={
   getClients,
-  activateClientAccount,
-  getClientOrders
+  activateClientAccount
 }
 
 function getClients(){
   const db = firebase.firestore();
   return db.collection("users").get()
-  .then((querySnapshot)=> {
-    const docs= []
-    querySnapshot.forEach((doc)=> {
-      const data=doc.data()
-      docs.push({
-        ...data,
-        id : doc.id, 
+  .then(async (result)=> {
+    const clients= []
+    result.forEach(async client=>{
+      const clientData=client.data()
+      clients.push({
+        ...clientData,
+        id : client.id
       })
-    });
-    return docs;
+    })
+    for(const client of clients){
+      const orders=await db.collection(`users/${client.id}/orders`).get()
+      const ordersList=[]
+      orders.forEach((order)=>{
+        const orderData=order.data()
+        ordersList.push({ 
+          ...orderData, 
+          date : orderData.date.toDate(),
+          id : order.id,
+          client : {
+            id : client.id,
+            firstname : client.firstname,
+            lastname : client.lastname
+          }
+        })
+      })
+      client.orders=ordersList
+    }
+    console.log(clients)
+    return clients;
   })
   .catch(error=>{
     console.log(error);
@@ -32,29 +50,5 @@ function activateClientAccount(id, active){
   return db.collection('users').doc(id).update({active})
   .catch(error => {
     throw `Echec ${active ? "d'activation" : "de désactivation" } du compte client`
-  });
-}
-
-function getClientOrders(id){
-  const db = firebase.firestore();
-  return db.collection(`utilisateurs/${id}/commandes`).get()
-  .then((querySnapshot)=> {
-    const docs= []
-    querySnapshot.forEach((doc)=> {
-      const data=doc.data()
-      docs.push({
-        id : doc.id, 
-        date : data.date,
-        aticles : data.articles.map(article=>({
-          id :article.id, 
-          quantity : article.quantite
-        }))
-      })
-    });
-    return docs;
-  })
-  .catch(error=>{
-    console.log(error);
-    throw 'Echec de chargement des commandes !'
   });
 }
