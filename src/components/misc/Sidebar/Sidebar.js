@@ -1,18 +1,14 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import { Link, useHistory } from "react-router-dom";
 import avatar from 'assets/img/avatar.svg';
 import {connect} from 'react-redux';
 import {authActions} from 'store/actions';
+import { withRouter } from "react-router";
 import './Sidebar.scss'
 
 const Sidebar=(props)=>{
   const history=useHistory()
-  const [_currentPath, _setCurrentPath]=useState(history.location.pathname)
 
-  const handleClick=(path)=>{
-    _setCurrentPath(path)
-  }
-  
   const handleLogout=()=>{
     props.logout()
     history.replace('/')
@@ -37,8 +33,8 @@ const Sidebar=(props)=>{
           {props.items.map(item=>(
             <Link to={item.path} key={item.name} 
               className='sidebar-item pointer cgrey mar15 brad5' 
-              active={_currentPath===item.path ? 'true':'false'}>
-              <span onClick={()=>handleClick(item.path)}>{item.name}</span>
+              active={props.location.pathname===item.path ? 'true':'false'}>
+              <span>{item.name}</span>
             </Link>
           ))}
         </div>
@@ -66,4 +62,4 @@ const actionCreators = {
   logout: authActions.logout
 }
 
-export default connect(mapState, actionCreators)(Sidebar);
+export default connect(mapState, actionCreators)(withRouter(Sidebar));

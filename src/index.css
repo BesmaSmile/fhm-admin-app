@@ -28,3 +28,9 @@ input[type=number] {
 .snackbar-closeIcon{
   color: var(--white);
 }
+
+a{
+  text-decoration: none;
+  color: var(--lightblue);
+  font-weight: 500;
+}

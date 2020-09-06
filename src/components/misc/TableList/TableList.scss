@@ -2,10 +2,56 @@
   border-radius: 4px;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05), 0 0 0 1px rgba(63, 63, 68, 0.1);
   background-color: #FFFFFF;
-  .header{
+  .tl-header{
     padding: 15px 15px 0;
+    margin-left: -15px;
+    margin-right: -15px;
+    & .tl-title {
+      border : 0 solid #ddd ;
+      border-bottom-width: 1px;
+      padding-left: 15px;
+      padding-bottom: 10px;
+     
+    }
+    & .tl-filters{
+      padding : 10px 15px;
+      & .tl-rowsNumber{
+        .MuiOutlinedInput-root{
+          width: 70px;
+        }
+      }
+      & .MuiOutlinedInput-root{
+        height: fit-content;
+        margin-top: 5px;
+        margin-bottom: 5px;
+        margin-right: 10px;
+        width: 150px;
+        & .MuiOutlinedInput-input{
+          height: 1em;
+          font-size: 14px;
+          font-weight: 500;
+          color: var(--stronggrey);
+          height: 20px;
+          padding: 5px 15px;
+        }
+        & .MuiOutlinedInput-notchedOutline{
+          border-color: var(--lightgrey);
+          border-width: 0.7px;
+        }
+        &:hover{
+          & .MuiOutlinedInput-notchedOutline{
+            border-color: var(--blue);
+            border-width: 1px;
+          }
+        } 
+      }
+      & .Mui-focused .MuiOutlinedInput-notchedOutline{
+        border-color: var(--blue);
+        border-width: 0.7px;
+      }
+    }
   }
-  .content{
+  .tl-content{
     padding: 15px 15px 10px 15px;
     margin-left: -15px;
     margin-right: -15px;

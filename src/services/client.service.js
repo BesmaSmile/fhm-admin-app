@@ -30,7 +30,8 @@ function getClients(){
           client : {
             id : client.id,
             firstname : client.firstname,
-            lastname : client.lastname
+            lastname : client.lastname,
+            phoneNumber : client.phoneNumber
           }
         })
       })

@@ -1,25 +1,119 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
+import { OutlinedInput, Select, MenuItem, } from '@material-ui/core';
+import Pagination from '@material-ui/lab/Pagination';
+import _ from 'lodash';
 import './TableList.scss';
 
 const TableList=props=>{
+  const defaultFilters={}
+  _.get(props,'filters', []).forEach(filter=>{
+    defaultFilters[filter.key]={value : filter.value || '', type :filter.type, fields : filter.fields}
+  })
+  const [_rows, _setRows]=useState(props.rows)
+  const [_filters, _setFilters] = useState(defaultFilters)
+  const [_pageSize, _setPageSize]=useState(20)
+  const [_page, _setPage]=useState(1)
+  const pageCount= Math.ceil(_rows.length/_pageSize)
+
+  useEffect(()=>{
+    if(pageCount<_page)
+      _setPage(1)
+  }, [_pageSize])
+
+  useEffect(()=>{
+    _setRows(props.rows)
+  }, [props.rows])
+
+  useEffect(()=>{
+    let rows =Object.assign([], props.rows)
+    rows = rows.filter(row=>{
+      return Object.keys(_filters).every(key=>{
+        const {value, fields, type}= _filters[key]
+        return fields.some(field=> (type==='select' &&( value==='all' || row[field].value===value)) 
+          || (type!=='select' && row[field].value.toLowerCase().includes(value.toLowerCase()))
+        )
+      })
+    })
+    _setRows(rows)
+  }, [props.rows, _filters])
+
+  const applyFilter=(e, fields, type )=>{
+    const filters =Object.assign({}, _filters)
+    filters[e.target.name] = {value : e.target.value, fields, type}
+    _setFilters(filters)
+  }
+
   return(
     <div className='TableList relw100'>
-      <div className='header'>
-        <div className='fs22 cstronggrey lh30 extralight'>{props.title}</div>
-        <div className='fs16 cgrey medium'>{props.subTitle}</div>
+      <div className='tl-header'>
+        <div className='tl-title fs22 cstronggrey lh30 extralight'>{props.title}</div>
+        <div className='tl-filters flex row jcsb'>
+          <div className='flex row aic'>
+            {/*<div className='fs16 cgrey medium'>{props.subTitle}</div>*/}
+            <div className='fs14 cstronggrey marr10'>Afficher</div>
+            <div className='tl-rowsNumber'>
+              <OutlinedInput
+                value={_pageSize}
+                type='number'
+                onChange={(e)=>_setPageSize(parseInt(e.target.value))} />
+            </div>
+            <div className='fs14 cstronggrey marr10'>lignes</div>
+          </div>
+          {props.filters && 
+            <div className='flex row'>
+              {props.filters.map((filter, i)=>{
+                return(
+                  <div key={i} className='flex row aic'>
+                    <div className='fs14 cstronggrey marr10'>{filter.name}</div>
+                    <div>
+                      {filter.type==='input' && 
+                        <OutlinedInput
+                          name={filter.key}
+                          value={_.get(_filters[filter.key], 'value')}
+                          placeholder={filter.name}
+                          onChange={(e)=>applyFilter(e, filter.fields, filter.type)} />
+                      }
+                      {
+                        filter.type==='select' &&
+                        <Select
+                          variant='outlined'
+                          value={_.get(_filters[filter.key], 'value')}
+                          onChange={(e)=>applyFilter(e, filter.fields, filter.type)}
+                          name={filter.key}>
+                          {filter.options.map(option => (
+                            <MenuItem key={option.value} value={option.value}>{option.name}</MenuItem>
+                            ))
+                          }
+                        </Select>
+                      }
+                    </div>
+                  </div>
+
+                )
+              })}
+            </div>
+          }
+        </div>
       </div>
-      <div className='content'>
+      <div className='tl-content'>
         <table>
           <thead><tr>{props.columns.map(column=><td key={column.key}>{column.name}</td>)}</tr></thead>
           <tbody>
-            {props.raws.map((raw)=>(
-              <tr key={raw.id}>
-              {props.columns.map(column=><td key={column.key}>{raw[column.key]}</td>)}
+            {_rows.slice((_page-1)*_pageSize,_page*_pageSize).map((row)=>(
+              <tr key={row.id}>
+              {props.columns.map(column=><td key={column.key}>{row[column.key].render}</td>)}
               </tr>
             ))}
             
           </tbody>
         </table>
+        <div className='tl-foot flex jcfe'>
+          <Pagination count={pageCount} 
+            showFirstButton 
+            showLastButton
+            page={_page}
+            onChange={(e, page)=>_setPage(page)} />
+        </div>
       </div>
     </div>
   )
@@ -33,7 +127,7 @@ TableList.defaultProps={
     {key : 'firstname', name : 'Prénom'},
     {key : 'lastname', name : 'Nom'}
   ],
-  raws : [
+  rows : [
     { 
       id : '1',
       firstname : 'Besma',

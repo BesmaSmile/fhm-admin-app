@@ -1,42 +1,26 @@
-import {useState} from 'react';
-
+import { useState } from 'react';
 export const hooks = {
-  useRequest
+  useRequest,
 }
 
-function useRequest(/*request, success, failure*/){
-  const [pending, setPending]=useState()
-  const [error, setError]=useState()
+function useRequest(/*request, success, failure*/) {
+  const [pending, setPending] = useState()
+  const [error, setError] = useState()
 
-  const execute=({action, success, failure})=>{
+  const execute = ({ action, success, failure }) => {
     setPending(true)
     setError()
-    action().then(result=>{
+    action().then(result => {
       setPending(false)
-      if(success){
+      if (success) {
         success(result)
       }
-    }).catch((err)=>{
+    }).catch((err) => {
       setPending(false)
       setError(err)
-      if(failure)
+      if (failure)
         failure(err)
     })
   }
-  /*useEffect(()=>{
-    setPending(true)
-    setError()
-    request().then(result=>{
-      setPending(false)
-      if(success){
-        success(result)
-      }
-    }).catch((err)=>{
-      setPending(false)
-      setError(err)
-      if(failure)
-        failure()
-    })
-  }, [])*/
-  return {execute, pending, error}
+  return { execute, pending, error }
 }
