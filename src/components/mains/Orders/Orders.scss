@@ -1,6 +1,36 @@
 .Orders{
   & .clt-orderCell{
     font-size: 14px;
-    color: var(-stronggrey)
+    color: var(--stronggrey);
+  }
+  & .clt-deliveryButton, .clt-paymentButton{
+    &.MuiButton-contained{
+      color: var(--white);
+      height: 25px;
+      font-size: 12px;
+      text-transform : none;
+      line-height: normal;
+      box-shadow: none;
+      padding: 5px 10px;
+      & .MuiButton-label{
+        color: var(--white);
+        font-weight: 500;
+        white-space: nowrap;
+      }
+    }
+    &.Mui-disabled{
+      opacity: 0.6;
+    }
+  }
+  & .clt-deliveryButton.MuiButton-contained{
+    background-color: var(--strongorange);
+  }
+  & .clt-paymentButton.MuiButton-contained{
+    background-color: var(--stronggreen);
+  }
+  & .clt-dateCell{
+    font-size: 12px;
+    font-weight: 300;
+    color: var(--grey)
   }
 }

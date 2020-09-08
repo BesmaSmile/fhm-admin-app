@@ -22,11 +22,12 @@ const ClientsList = (props) => {
     { key: 'restaurant', name: 'Restaurant' },
     { key: 'phoneNumber', name: 'Téléphone' },
     { key: 'address', name: 'Adresse' },
-    { key: 'orders', name: 'Commandes' },
     { key: 'status', name: 'Statut' },
+    { key: 'orders', name: 'Commandes' },
+    
   ]
   const filters = [
-    { key : 'status',name: 'Statut', type: 'select', value: 'all', fields: ['status'], options: [{ value: 'all', name: 'Tout' },{ value: 'active', name: 'Activé' }, { value: 'disabled', name: 'Désactivé' }] },
+    { key : 'status',name: 'Statut', type: 'select', value: 'all', fields: ['status'], options: [{ value: 'all', name: 'Tout' },{ value: 'pending', name: 'Nouveau' }, { value: 'active', name: 'Activé' }, { value: 'disabled', name: 'Désactivé' }] },
     { key : 'search', name: 'Rechercher', type: 'input', value :_.get(window.location, 'hash', '').substring(1), fields : ['lastname', 'firstname', 'restaurant', 'phoneNumber', 'address'] }
   ]
 
@@ -37,16 +38,16 @@ const ClientsList = (props) => {
     const activateAccountRequest = hooks.useRequest()
 
     const toggleAccount = () => {
-      const active = !client.active
+      const status = client.status==='pending' || client.status==='disabled' ? 'active' : 'disabled'
       activateAccountRequest.execute({
-        action: () => props.activateClientAccount(client.id, active),
-        success: () => enqueueSnackbar(`Le compte du client a bien été ${active ? 'activé' : 'désactivé'} !`, { variant: 'success' }),
+        action: () => props.updateClientStatus(client.id, status),
+        success: () => enqueueSnackbar(`Le compte du client a bien été ${status==='active' ? 'activé' : 'désactivé'} !`, { variant: 'success' }),
         failure: (error) => enqueueSnackbar(error, { variant: 'error' }),
       })
     }
 
     const handleAccountClick = () => {
-      if (client.active) {
+      if (client.status==='active') {
         dialog.openConfirmation({
           title: "Désactiver le compte du client",
           message: "Voulez vous désactiver le compte d'un client ?",
@@ -69,7 +70,7 @@ const ClientsList = (props) => {
     return {
       lastname: { value: client.lastname, render: <div className='clt-clientCell'>{client.lastname}</div> },
       firstname: { value: client.firstname, render: <div className='clt-clientCell'>{client.firstname}</div> },
-      restaurant: { value: client.restaurant, render: <div className='clt-clientCell'>{client.restaurant || '--------'}</div> },
+      restaurant: { value: client.restaurant, render: <div className='clt-clientCell'>{client.restaurant || '----'}</div> },
       phoneNumber: { value: client.phoneNumber, render: <div className='clt-clientCell'>{client.phoneNumber}</div> },
 
       address: {
@@ -77,6 +78,21 @@ const ClientsList = (props) => {
         render: <div className={`clt-detailContainer ${_.get(client, 'address.location') ? 'pointer' : ''}`} onClick={handlePositionClick}>
           <div className='clt-datailTop'><SvgIcon name='mapLocation' color={_.get(client, 'address.location') ? 'var(--green)' : 'var(--lightgrey)'} /></div>
           <div className='clt-clientCell'> {city} </div>
+        </div>
+      },
+      status: {
+        value: client.status,
+        render: <div className='clt-detailContainer pointer' onClick={handleAccountClick}>
+          <div className='clt-datailTop'>
+            {!activateAccountRequest.pending && <SvgIcon name={client.status==='active' ? 'valid' : 'invalid'} />}
+            {activateAccountRequest.pending && <CircularProgress size={20} />}
+          </div>
+          <div className='clt-clientCell'>
+            {!activateAccountRequest.pending && client.status==='active' && 'Activé'}
+            {!activateAccountRequest.pending && client.status==='disabled' && 'Désactivé'}
+            {!activateAccountRequest.pending && client.status==='pending' && 'Nouveau'}
+            {activateAccountRequest.pending && 'En cours...'}
+          </div>
         </div>
       },
       orders: {
@@ -87,20 +103,6 @@ const ClientsList = (props) => {
           <div className='clt-clientCell'>Commandes</div>
         </div></Link>
       },
-      status: {
-        value: client.active ? 'active' : 'disabled',
-        render: <div className='clt-detailContainer pointer' onClick={handleAccountClick}>
-          <div className='clt-datailTop'>
-            {!activateAccountRequest.pending && <SvgIcon name={client.active ? 'valid' : 'invalid'} />}
-            {activateAccountRequest.pending && <CircularProgress size={20} />}
-          </div>
-          <div className='clt-clientCell'>
-            {!activateAccountRequest.pending && client.active && 'Activé'}
-            {!activateAccountRequest.pending && !client.active && 'Désactivé'}
-            {activateAccountRequest.pending && 'En cours...'}
-          </div>
-        </div>
-      }
     }
 
   })

@@ -7,22 +7,24 @@ export function client(state = {orders : {}}, action) {
         ...state,
         clients : action.clients
     }
-    case clientConstants.TOGGLE_CLIENT_ACCOUNT :
+    case clientConstants.UPDATE_CLIENT_STATUS :
     return {
       ...state,
       clients : state.clients.map(client=>
         client.id===action.id ? {
           ...client,
-          active : action.active
+          status : action.status
         } : client)
     }
-    case clientConstants.GET_ORDERS : 
-    return {
+    case clientConstants.UPDATE_ORDER_STATUS :
+    return{
       ...state,
-      orders : {
-        ...state.orders,
-        [action.id] : action.orders
-      }
+      clients : state.clients.map(client=>client.id===action.clientId ?
+        {
+          ...client,
+          orders : client.orders.map(order=>order.id===action.orderId ? {...order, status : action.status, [action.status] : action.date} : order)
+        }    
+        : client)
     }
     default :
     return state

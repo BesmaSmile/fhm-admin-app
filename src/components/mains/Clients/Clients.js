@@ -28,7 +28,7 @@ const Clients = (props) => {
         {clientsRequest.error && <div>{clientsRequest.error}</div>}
         {!clientsRequest.pending && props.clients &&
           <ClientsList clients={props.clients}
-            activateClientAccount={props.activateClientAccount} />
+            updateClientStatus={props.updateClientStatus} />
         }
       </div>
     </div>
@@ -41,7 +41,7 @@ const mapState = (state) => ({
 
 const actionCreators = {
   getClients: clientActions.getClients,
-  activateClientAccount: clientActions.activateClientAccount
+  updateClientStatus: clientActions.updateClientStatus
 }
 
 export default connect(mapState, actionCreators)(Clients);

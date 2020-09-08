@@ -3,7 +3,7 @@ import {firebase} from './firebase';
 
 export const clientService={
   getClients,
-  activateClientAccount
+  updateClientStatus
 }
 
 function getClients(){
@@ -26,6 +26,8 @@ function getClients(){
         ordersList.push({ 
           ...orderData, 
           date : orderData.date.toDate(),
+          paid : orderData.paid && orderData.paid.toDate(),
+          delivered : orderData.delivered && orderData.delivered.toDate(),
           id : order.id,
           client : {
             id : client.id,
@@ -46,10 +48,10 @@ function getClients(){
   });
 }
 
-function activateClientAccount(id, active){
+function updateClientStatus(id, status){
   const db = firebase.firestore();
-  return db.collection('users').doc(id).update({active})
+  return db.collection('users').doc(id).update({status})
   .catch(error => {
-    throw `Echec ${active ? "d'activation" : "de désactivation" } du compte client`
+    throw `Echec ${status==='active' ? "d'activation" : "de désactivation" } du compte client`
   });
 }

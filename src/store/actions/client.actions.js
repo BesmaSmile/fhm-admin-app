@@ -3,7 +3,7 @@ import {clientConstants} from 'store/constants';
 
 export const clientActions= {
   getClients,
-  activateClientAccount
+  updateClientStatus
 }
 
 function getClients(){
@@ -15,10 +15,10 @@ function getClients(){
   }
 }
 
-function activateClientAccount(id, active){
+function updateClientStatus(id, status){
   return dispatch => {
-    return clientService.activateClientAccount(id, active).then((result)=>{
-      dispatch({ type: clientConstants.TOGGLE_CLIENT_ACCOUNT, id, active })
+    return clientService.updateClientStatus(id, status).then((result)=>{
+      dispatch({ type: clientConstants.UPDATE_CLIENT_STATUS, id, status })
       return result
     })
   }
