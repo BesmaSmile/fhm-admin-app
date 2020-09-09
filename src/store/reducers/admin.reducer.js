@@ -7,7 +7,13 @@ export function admin(state = {}, action) {
         ...state,
         administrators : action.administrators
     }
+    case adminConstants.REGISTER_ADMIN : 
+    return{
+      ...state,
+      administrators :[...state.administrators , action.user]
+    }
     default:
     return state;
   }
+
 }

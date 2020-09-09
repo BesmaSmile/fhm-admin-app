@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import { Link, useHistory } from "react-router-dom";
-import avatar from 'assets/img/avatar.svg';
+import avatar from 'assets/img/user.svg';
 import {connect} from 'react-redux';
 import {authActions} from 'store/actions';
 import { withRouter } from "react-router";
@@ -22,10 +22,10 @@ const Sidebar=(props)=>{
           <span className='cgrey txtac fs18 light'>Faci Hospitality Master</span>
         </div>
 
-        <div className='sidebar-user flex row aic padv20'>
+        <div className='sidebar-user flex row aic padv20 padh15'>
           <img className='circle' src={avatar} alt=''/>
           <div className='flex col marl20'>
-            <span className='cstronggrey medium fs16'>{props.user.username}</span>
+            <span className='cstronggrey medium fs20'>{props.user.username}</span>
             <span className='cgrey extralight fs12'>{props.user.role==='super-admin' ? 'Super admin' : 'Admin'}</span>
           </div>
         </div>

@@ -1,38 +1,40 @@
 import React, { useState } from 'react';
 import Form from 'components/misc/Form/Form';
-import { hooks } from 'functions/hooks';
-import { useSnackbar } from 'notistack';
 import { InputAdornment, IconButton } from '@material-ui/core';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
+import { adminActions } from 'store/actions';
+import { connect } from 'react-redux';
+import { hooks } from 'functions/hooks';
+import { useSnackbar } from 'notistack';
+import { useHistory } from "react-router-dom";
 
 const AdminForm = props => {
-  const { close, addAdmin } = props
-  const addAdminyRequest = hooks.useRequest()
+  const { close, registerAdmin, isFirstAdmin } = props
+  const registerRequest = hooks.useRequest()
   const { enqueueSnackbar } = useSnackbar();
+  const history=useHistory()
   const [_passwordVisible, _setPasswordVisible] = useState(false)
 
   const handleClickShowPassword = () => {
     _setPasswordVisible(!_passwordVisible)
   }
 
-  const onSubmit = values => {
-    addAdminyRequest.execute({
-      action: () => addAdmin(values),
-      success: (res) => {
-        enqueueSnackbar(`Le compte admin a bien été enregistrée !`, { variant: 'success' })
-        close()
+  const onSubmit = values => { 
+    const {secretKey, confirmPassword ,...user}=values
+    registerRequest.execute({
+      action : ()=>registerAdmin(user,isFirstAdmin, secretKey),
+      success : () => {
+        enqueueSnackbar(`Le compte admin a bien été enregistré !`, { variant: 'success' });
+        if(isFirstAdmin)
+          history.replace('/')
+        else close()
       },
-      failure: (error) => {
-        enqueueSnackbar(error.message, { variant: error.added ? 'warning' : 'error' })
-        if (error.added)
-          close()
-      }
+      failure : (error)=>enqueueSnackbar(error, { variant: 'error' })
     })
   }
 
-
-  const adminInputs = [
+  let adminInputs = [
     {
       name: 'username',
       label: "Nom de l'utilisateur",
@@ -64,23 +66,37 @@ const AdminForm = props => {
       name: 'role',
       label: "Rôle",
       type: 'select',
-      defaultValue: 'admin',
+      disabled : isFirstAdmin,
+      defaultValue: isFirstAdmin ? 'super-admin' : 'admin',
       validation: { required: "Champs requis" },
       options: (values) => [{ value: 'admin', name: 'Admin' },{ value: 'super-admin', name: 'Super-admin' }, ]
     }
   ]
+
+  if(isFirstAdmin){
+    adminInputs.push({
+      name:'secretKey',
+      label:'Clé secrète',
+      validation: {required: 'Champs requis'}
+    })
+  }
   return (
     <div className='AdminForm w400'>
       <Form title="Nouvel administrateur"
         inputs={adminInputs}
         onSubmit={onSubmit}
         submitText='Enregistrer'
-        pending={addAdminyRequest.pending}
-        isDialog={true}
+        pending={registerRequest.pending}
+        isDialog={!isFirstAdmin}
         cancel={close}
       />
     </div>
   )
 }
 
-export default AdminForm;
+const actionCreators = {
+  registerAdmin: adminActions.registerAdmin
+
+}
+
+export default connect(() => ({}), actionCreators)(AdminForm);

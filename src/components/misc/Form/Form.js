@@ -103,7 +103,7 @@ const Form = (props) => {
                                 onBlur={onBlur}
                                 value={value}
                                 name={name}
-                                disabled={disabled}>
+                                disabled={disabled || input.disabled}>
                                 {input.options(dependentSelection[input.watch]).map(option => (
                                   <MenuItem key={option.value} value={option.value}>{option.name}</MenuItem>
                                   ))
@@ -118,6 +118,7 @@ const Form = (props) => {
                                   onChange={e => onChange(e.target.checked)}
                                   color="primary"
                                   name={name}
+                                  disabled={disabled || input.disabled}
                                   inputProps={{ 'aria-label': 'primary checkbox' }}
                                 />}
                               label={input.label}/>
@@ -129,7 +130,7 @@ const Form = (props) => {
                                 onBlur={onBlur}
                                 value={value}
                                 name={name}
-                                disabled={disabled}
+                                disabled={disabled || input.disabled}
                                 error={errors[input.name] ? true : false}
                                 type={input.type || 'text'}
                                 {...adornments} />

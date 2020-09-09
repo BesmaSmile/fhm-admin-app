@@ -23,7 +23,7 @@ const AdminsList = (props) => {
 
   const rows = props.administrators.map(administrator => {
   
-    const activateAdminRequest = hooks.useRequest()
+    //const activateAdminRequest = hooks.useRequest()
 
     /*const toggleAccount = () => {
       const status = client.status==='pending' || client.status==='disabled' ? 'active' : 'disabled'
