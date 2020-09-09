@@ -1,8 +1,4 @@
-import React, { useEffect } from 'react';
-//import avatar from 'assets/img/avatar.png';
-import SvgIcon from 'components/misc/SvgIcon/SvgIcon';
-import CircularProgress from '@material-ui/core/CircularProgress';
-import Map from 'components/misc/Map/Map';
+import React from 'react';
 import TableList from 'components/misc/TableList/TableList';
 import { Button } from '@material-ui/core';
 import { useDialog } from 'components/misc/Dialog/Dialog';
@@ -37,7 +33,6 @@ const OrdersList = (props) => {
   ]
 
   const rows = props.orders.map(order => {
-    const status=order.paid ? 'paid' : (order.delivered ? 'delivered' : 'pending')
     const updateOrderStatusRequest = hooks.useRequest()
 
     const approveDelivery=()=>{
@@ -97,7 +92,7 @@ const OrdersList = (props) => {
       },
       //articles: { value: order.articles.length, render: <div className='clt-orderCell'>{order.articles.length}</div> },
       mount : {value : order.mount, render : <div className='clt-orderCell'>{order.mount} DA</div> },
-      action : {render : order.status!='paid' ? <Button disabled={updateOrderStatusRequest.pending} variant="contained" classes={{root : order.status=='pending' ? 'clt-deliveryButton' : 'clt-paymentButton'}} onClick={order.status==='pending' ? approveDelivery : approvePayment}>{order.status=='pending' ? 'Approuver livraison' :'Approuver paiement'} </Button>:''}
+      action : {render : order.status!=='paid' ? <Button disabled={updateOrderStatusRequest.pending} variant="contained" classes={{root : order.status==='pending' ? 'clt-deliveryButton' : 'clt-paymentButton'}} onClick={order.status==='pending' ? approveDelivery : approvePayment}>{order.status==='pending' ? 'Approuver livraison' :'Approuver paiement'} </Button>:''}
     }
 
   })

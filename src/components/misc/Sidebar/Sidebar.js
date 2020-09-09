@@ -50,7 +50,7 @@ Sidebar.defaultProps={
     {name:'Clients', path:'/clients'},
     {name:'Commandes', path:'/commandes'},
     {name:'Catalogue', path:'/catalogue'},
-    {name:'Utilisateurs', path:'/utilisateurs'}
+    {name:'Administrateurs', path:'/administrateurs'}
   ],
   className:'w270'
 }

@@ -1,52 +1,64 @@
-import React, {useState, useEffect} from 'react';
-import { OutlinedInput, Select, MenuItem, } from '@material-ui/core';
+import React, { useState, useEffect } from 'react';
+import { OutlinedInput, Select, MenuItem, IconButton, Tooltip } from '@material-ui/core';
+import AddIcon from '@material-ui/icons/Add';
 import Pagination from '@material-ui/lab/Pagination';
 import _ from 'lodash';
 import './TableList.scss';
 
-const TableList=props=>{
-  const defaultFilters={}
-  _.get(props,'filters', []).forEach(filter=>{
-    defaultFilters[filter.key]={value : filter.value || '', type :filter.type, fields : filter.fields}
+const TableList = props => {
+  const defaultFilters = {}
+  _.get(props, 'filters', []).forEach(filter => {
+    defaultFilters[filter.key] = { value: filter.value || '', type: filter.type, fields: filter.fields }
   })
-  const [_rows, _setRows]=useState(props.rows)
+  const [_rows, _setRows] = useState(props.rows)
   const [_filters, _setFilters] = useState(defaultFilters)
-  const [_pageSize, _setPageSize]=useState(20)
-  const [_page, _setPage]=useState(1)
-  const pageCount= Math.ceil(_rows.length/_pageSize)
+  const [_pageSize, _setPageSize] = useState(20)
+  const [_page, _setPage] = useState(1)
+  const pageCount = Math.ceil(_rows.length / _pageSize)
 
-  useEffect(()=>{
-    if(pageCount<_page)
+  useEffect(() => {
+    if (pageCount < _page)
       _setPage(1)
   }, [_pageSize])
 
-  useEffect(()=>{
+  useEffect(() => {
     _setRows(props.rows)
   }, [props.rows])
 
-  useEffect(()=>{
-    let rows =Object.assign([], props.rows)
-    rows = rows.filter(row=>{
-      return Object.keys(_filters).every(key=>{
-        const {value, fields, type}= _filters[key]
-        return fields.some(field=> (type==='select' &&( value==='all' || row[field].value===value)) 
-          || (type!=='select' && row[field].value.toLowerCase().includes(value.toLowerCase()))
+  useEffect(() => {
+    let rows = Object.assign([], props.rows)
+    rows = rows.filter(row => {
+      return Object.keys(_filters).every(key => {
+        const { value, fields, type } = _filters[key]
+        return fields.some(field => (type === 'select' && (value === 'all' || row[field].value === value))
+          || (type !== 'select' && row[field].value.toLowerCase().includes(value.toLowerCase()))
         )
       })
     })
     _setRows(rows)
   }, [props.rows, _filters])
 
-  const applyFilter=(e, fields, type )=>{
-    const filters =Object.assign({}, _filters)
-    filters[e.target.name] = {value : e.target.value, fields, type}
+  const applyFilter = (e, fields, type) => {
+    const filters = Object.assign({}, _filters)
+    filters[e.target.name] = { value: e.target.value, fields, type }
     _setFilters(filters)
   }
 
-  return(
+  return (
     <div className='TableList relw100'>
       <div className='tl-header'>
-        <div className='tl-title fs22 cstronggrey lh30 extralight'>{props.title}</div>
+        <div className='tl-title flex row jcsb aic'>
+          <div className='fs22 cstronggrey lh30 extralight'>{props.title}</div>
+          {props.withAddButton &&
+            <Tooltip title="Ajouter" placement="left">
+              <IconButton
+                size='small'
+                onClick={props.onAddClick}>
+                <AddIcon />
+              </IconButton>
+            </Tooltip>
+          }
+        </div>
         <div className='tl-filters flex row jcsb'>
           <div className='flex row aic'>
             {/*<div className='fs16 cgrey medium'>{props.subTitle}</div>*/}
@@ -55,34 +67,34 @@ const TableList=props=>{
               <OutlinedInput
                 value={_pageSize}
                 type='number'
-                onChange={(e)=>_setPageSize(parseInt(e.target.value))} />
+                onChange={(e) => _setPageSize(parseInt(e.target.value))} />
             </div>
             <div className='fs14 cstronggrey marr10'>lignes</div>
           </div>
-          {props.filters && 
+          {props.filters &&
             <div className='flex row'>
-              {props.filters.map((filter, i)=>{
-                return(
+              {props.filters.map((filter, i) => {
+                return (
                   <div key={i} className='flex row aic'>
                     <div className='fs14 cstronggrey marr10'>{filter.name}</div>
                     <div>
-                      {filter.type==='input' && 
+                      {filter.type === 'input' &&
                         <OutlinedInput
                           name={filter.key}
                           value={_.get(_filters[filter.key], 'value')}
                           placeholder={filter.name}
-                          onChange={(e)=>applyFilter(e, filter.fields, filter.type)} />
+                          onChange={(e) => applyFilter(e, filter.fields, filter.type)} />
                       }
                       {
-                        filter.type==='select' &&
+                        filter.type === 'select' &&
                         <Select
                           variant='outlined'
                           value={_.get(_filters[filter.key], 'value')}
-                          onChange={(e)=>applyFilter(e, filter.fields, filter.type)}
+                          onChange={(e) => applyFilter(e, filter.fields, filter.type)}
                           name={filter.key}>
                           {filter.options.map(option => (
                             <MenuItem key={option.value} value={option.value}>{option.name}</MenuItem>
-                            ))
+                          ))
                           }
                         </Select>
                       }
@@ -97,51 +109,51 @@ const TableList=props=>{
       </div>
       <div className='tl-content'>
         <table>
-          <thead><tr>{props.columns.map(column=><td key={column.key}>{column.name}</td>)}</tr></thead>
+          <thead><tr>{props.columns.map(column => <td key={column.key}>{column.name}</td>)}</tr></thead>
           <tbody>
-            {_rows.slice((_page-1)*_pageSize,_page*_pageSize).map((row)=>(
+            {_rows.slice((_page - 1) * _pageSize, _page * _pageSize).map((row) => (
               <tr key={row.id}>
-              {props.columns.map(column=><td key={column.key}>{row[column.key].render}</td>)}
+                {props.columns.map(column => <td key={column.key}>{row[column.key].render}</td>)}
               </tr>
             ))}
-            
+
           </tbody>
         </table>
         <div className='tl-foot flex jcfe'>
-          <Pagination count={pageCount} 
-            showFirstButton 
+          <Pagination count={pageCount}
+            showFirstButton
             showLastButton
             page={_page}
-            onChange={(e, page)=>_setPage(page)} />
+            onChange={(e, page) => _setPage(page)} />
         </div>
       </div>
     </div>
   )
 }
 
-TableList.defaultProps={
-  title : 'Striped Table with Hover',
-  subTitle : 'Here is a subtitle for this table',
-  columns : [
-    {key : 'id', name : 'id'}, 
-    {key : 'firstname', name : 'Prénom'},
-    {key : 'lastname', name : 'Nom'}
+TableList.defaultProps = {
+  title: 'Striped Table with Hover',
+  subTitle: 'Here is a subtitle for this table',
+  columns: [
+    { key: 'id', name: 'id' },
+    { key: 'firstname', name: 'Prénom' },
+    { key: 'lastname', name: 'Nom' }
   ],
-  rows : [
-    { 
-      id : '1',
-      firstname : 'Besma',
-      lastname : 'Smile'
+  rows: [
+    {
+      id: '1',
+      firstname: 'Besma',
+      lastname: 'Smile'
     },
-    { 
-      id : '2',
-      firstname : 'Rahma',
-      lastname : 'Houma'
+    {
+      id: '2',
+      firstname: 'Rahma',
+      lastname: 'Houma'
     },
-    { 
-      id : '3',
-      firstname : 'Célia',
-      lastname : 'Sissi'
+    {
+      id: '3',
+      firstname: 'Célia',
+      lastname: 'Sissi'
     },
   ]
 }

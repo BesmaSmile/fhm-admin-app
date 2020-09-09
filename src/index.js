@@ -31,7 +31,7 @@ ReactDOM.render(
           autoHideDuration={3000} 
           ref={notistackRef}
           action={(key) => (
-              <IconButton size="small" aria-label="close" onClick={onClickDismiss(key)}>
+              <IconButton size="small" label="fermer" onClick={onClickDismiss(key)}>
                 <CloseIcon classes={{root : 'snackbar-closeIcon'}} fontSize="small" />
               </IconButton>
           )}>

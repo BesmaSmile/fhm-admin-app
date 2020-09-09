@@ -29,7 +29,7 @@ const ImageUploader=props=>{
   return( 
     <div className='ImageUploader relw100 relh100'>
       {!_.isEmpty(image.preview) && 
-        <IconButton disabled={pending} size="small" aria-label="close" onClick={removeImage}>
+        <IconButton disabled={pending} size="small" label="supprimer" onClick={removeImage}>
           <CloseIcon fontSize="small" />
         </IconButton>
       }

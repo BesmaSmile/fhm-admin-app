@@ -4,7 +4,7 @@ import Home from 'components/mains/Home/Home';
 import Clients from 'components/mains/Clients/Clients';
 import Orders from 'components/mains/Orders/Orders';
 import Catalog from 'components/mains/Catalog/Catalog';
-import Users from 'components/mains/Users/Users';
+import Admins from 'components/mains/Admins/Admins';
 import { Route } from "react-router-dom";
 
 
@@ -16,7 +16,7 @@ const MainPage=(props)=> {
       <Route exact path="/clients" component={Clients}/>  
       <Route exact path="/commandes" component={Orders}/>  
       <Route exact path="/catalogue" component={Catalog}/>  
-      <Route exact path="/utilisateurs" component={Users}/>  
+      <Route exact path="/administrateurs" component={Admins}/>  
     </MainLayout>
   );
 }

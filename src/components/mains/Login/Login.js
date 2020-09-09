@@ -31,17 +31,16 @@ const Login=(props) =>{
   const loginInputs=[
     {
       name:'username',
-      label:"Nom d'utilisateur *",
+      label:"Nom d'utilisateur",
       validation: {required: "Nom d'utilisateur requis"}
     },
     {
       name:'password',
-      label:'Mot de passe *',
+      label:'Mot de passe',
       type: _passwordVisible ? 'text' : 'password',
       endAdornment:
         <InputAdornment position="end">
           <IconButton
-            aria-label="toggle password visibility"
             edge="end"
             onClick={handleClickShowPassword}
           >
