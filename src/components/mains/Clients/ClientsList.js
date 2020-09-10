@@ -11,11 +11,53 @@ import { hooks } from 'functions';
 import _ from 'lodash';
 import './Clients.scss';
 
+const AccountStatus=props=>{
+  const {client, updateClientStatus}=props
+  const { enqueueSnackbar } = useSnackbar();
+  const dialog = useDialog()
+  const activateAccountRequest = hooks.useRequest()
+
+    const toggleAccount = () => {
+      const status = client.status==='pending' || client.status==='disabled' ? 'active' : 'disabled'
+      activateAccountRequest.execute({
+        action: () => updateClientStatus(client.id, status),
+        success: () => enqueueSnackbar(`Le compte du client a bien été ${status==='active' ? 'activé' : 'désactivé'} !`, { variant: 'success' }),
+        failure: (error) => enqueueSnackbar(error, { variant: 'error' }),
+      })
+    }
+
+    const handleAccountClick = () => {
+      if (client.status==='active') {
+        dialog.openConfirmation({
+          title: "Désactiver le compte du client",
+          message: "Voulez vous désactiver le compte d'un client ?",
+          yesText: "Oui",
+          noText: "Non"
+        }).then(() => {
+          toggleAccount()
+        }).catch(error => console.log("rejected"))
+      }
+      else toggleAccount()
+    }
+  return(
+    <div className='clt-detailContainer pointer' onClick={handleAccountClick}>
+      <div className='clt-datailTop'>
+        {!activateAccountRequest.pending && <SvgIcon name={client.status==='active' ? 'valid' : 'invalid'} />}
+        {activateAccountRequest.pending && <CircularProgress size={20} />}
+      </div>
+      <div className='clt-clientCell'>
+        {!activateAccountRequest.pending && client.status==='active' && 'Activé'}
+        {!activateAccountRequest.pending && client.status==='disabled' && 'Désactivé'}
+        {!activateAccountRequest.pending && client.status==='pending' && 'Nouveau'}
+        {activateAccountRequest.pending && 'En cours...'}
+      </div>
+    </div>
+  )
+}
 
 const ClientsList = (props) => {
 
   const dialog = useDialog()
-  const { enqueueSnackbar } = useSnackbar();
   const columns = [
     { key: 'lastname', name: 'Nom' },
     { key: 'firstname', name: 'Prénom' },
@@ -35,30 +77,7 @@ const ClientsList = (props) => {
     const province = _.get(client, 'address.province')
     const municipality = _.get(client, 'address.municipality')
     const city = (province || municipality) && `${province ? province + ',' : ''} ${municipality}`
-    const activateAccountRequest = hooks.useRequest()
-
-    const toggleAccount = () => {
-      const status = client.status==='pending' || client.status==='disabled' ? 'active' : 'disabled'
-      activateAccountRequest.execute({
-        action: () => props.updateClientStatus(client.id, status),
-        success: () => enqueueSnackbar(`Le compte du client a bien été ${status==='active' ? 'activé' : 'désactivé'} !`, { variant: 'success' }),
-        failure: (error) => enqueueSnackbar(error, { variant: 'error' }),
-      })
-    }
-
-    const handleAccountClick = () => {
-      if (client.status==='active') {
-        dialog.openConfirmation({
-          title: "Désactiver le compte du client",
-          message: "Voulez vous désactiver le compte d'un client ?",
-          yesText: "Oui",
-          noText: "Non"
-        }).then(() => {
-          toggleAccount()
-        }).catch(error => console.log("rejected"))
-      }
-      else toggleAccount()
-    }
+    
 
     const handlePositionClick = () => {
       const location = _.get(client, 'address.location')
@@ -82,18 +101,7 @@ const ClientsList = (props) => {
       },
       status: {
         value: client.status,
-        render: <div className='clt-detailContainer pointer' onClick={handleAccountClick}>
-          <div className='clt-datailTop'>
-            {!activateAccountRequest.pending && <SvgIcon name={client.status==='active' ? 'valid' : 'invalid'} />}
-            {activateAccountRequest.pending && <CircularProgress size={20} />}
-          </div>
-          <div className='clt-clientCell'>
-            {!activateAccountRequest.pending && client.status==='active' && 'Activé'}
-            {!activateAccountRequest.pending && client.status==='disabled' && 'Désactivé'}
-            {!activateAccountRequest.pending && client.status==='pending' && 'Nouveau'}
-            {activateAccountRequest.pending && 'En cours...'}
-          </div>
-        </div>
+        render: <AccountStatus client={client} updateClientStatus={props.updateClientStatus}/>
       },
       orders: {
         value: client.orders.length,
