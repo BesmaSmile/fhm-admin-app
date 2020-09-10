@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import Form from 'components/misc/Form/Form';
 import AdminForm from 'components/misc/AdminForm/AdminForm';
 import { Button } from '@material-ui/core';
 import './RegisterSuperAdmin.scss';
@@ -21,32 +20,6 @@ const RegisterSuperAdmin = (props) => {
         )
       })
   }, [])
-
-  const registerInputs = [
-    {
-      name: 'username',
-      label: "Nom d'utilisateur",
-      validation: { required: "Champs requis" }
-    },
-    {
-      name: 'password',
-      label: 'Mot de passe',
-      type: 'password',
-      validation: { required: 'Champs requis' }
-    },
-    {
-      name: 'confirmPassword',
-      label: 'Confirmer mot de passe',
-      type: 'password',
-      validation: { required: 'Champs requis' },
-      combinedValdation: (values) => values.password === values.confirmPassword || "The passwords do not match"
-    },
-    {
-      name: 'secretKey',
-      label: 'Clé secrète',
-      validation: { required: 'Champs requis' }
-    }
-  ]
 
   return (
     <div className='RegisterSuperAdmin padv20 flex col aic'>
