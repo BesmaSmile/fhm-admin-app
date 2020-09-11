@@ -1,9 +1,11 @@
 import React, {useState, useEffect} from 'react';
 import { Link, useHistory } from "react-router-dom";
 import avatar from 'assets/img/user.svg';
+import Logo from 'components/misc/Logo/Logo';
 import {connect} from 'react-redux';
 import {authActions} from 'store/actions';
 import { withRouter } from "react-router";
+
 import './Sidebar.scss'
 
 const Sidebar=(props)=>{
@@ -17,11 +19,9 @@ const Sidebar=(props)=>{
   return(
     <div className={`Sidebar relh100vh ${props.className || ''}`}>
       <div className='sidebar-wrapper mar20'>
-        <div className='sidebar-logo flex jcc aic col  padv15'>
-          <div className='bauhaus93 fs50 lh50 cblue'>FHM</div>
-          <span className='cgrey txtac fs18 light'>Faci Hospitality Master</span>
+        <div className='padv15'>
+          <Logo/>
         </div>
-
         <div className='sidebar-user flex row aic padv20 padh15'>
           <img className='circle' src={avatar} alt=''/>
           <div className='flex col marl20'>
