@@ -9,12 +9,13 @@ import './Orders.scss';
 const Orders=(props)=>{
   const clientsRequest = hooks.useRequest()
 
-  const calculateTotal = (order) => {
-    const total = order.articles.map(article=>{
+
+  const calculateTotal = (articles) => {
+    const total = articles.map(article=>{
       const product=props.products.find(product=>product.id===article.id);
       return{
         ...article,
-        price : article.delivered ? article.price : (article.imported ? product.importationPrice : product.price)
+        price : article.deliveredAt ? article.price : (article.imported ? product.importationPrice : product.price)
       }
     }).reduce((article1, article2) => ({ 
       price : article1.price * article1.quantity + article2.price * article2.quantity,
@@ -46,20 +47,31 @@ const Orders=(props)=>{
   });
   
   if(props.products){
-    orders=orders.map(order=>({
-      ...order, 
-      mount : calculateTotal(order)
-    }))
+    orders=orders.map(order=>{
+      const articles=order.articles.map(article=>{
+        const product=props.products.find(product=>product.id===article.id);
+        return{
+          ...article,
+          product : product.nameFr,
+          price : article.deliveredAt ? article.price : (article.imported ? product.importationPrice : product.price)
+        }
+      })
+      return({
+        ...order, 
+        articles,
+        mount : calculateTotal(articles)
+      })
+    })
   }
 
   return (
     <div className='Orders relw100'>
       <div className='mar30'>
-        {clientsRequest.pending && <div>Chargement en cours...</div>}
-        {clientsRequest.error && <div>{clientsRequest.error}</div>}
-        {!clientsRequest.pending && props.clients &&
-          <OrdersList orders={orders} updateOrderStatus={props.updateOrderStatus}/>
-        }
+        <OrdersList orders={orders} 
+          loading={clientsRequest.pending}
+          error={clientsRequest.error}
+          updateOrderStatus={props.updateOrderStatus} 
+          reload={loadClients}/>
       </div>
     </div>
   )

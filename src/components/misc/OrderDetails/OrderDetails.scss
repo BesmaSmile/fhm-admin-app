@@ -1,3 +1,20 @@
 .OrderDetails{
-  color: red;
+  & .od-articleCell{
+    font-size: 14px;
+    color: var(--stronggrey)
+  }
+  & .od-dateTitle{
+    color: var(--stronggrey);
+    font-size: 14px;
+    margin: 10px 0;
+    font-weight: 300;
+  }
+  & .od-dateValue{
+    color: var(--stronggrey);
+    font-size: 14px;
+    margin: 10px 0;
+  }
+  & .TableList .tl-content table{
+    margin-bottom: 0;
+  }
 }
