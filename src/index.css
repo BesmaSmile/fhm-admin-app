@@ -34,3 +34,7 @@ a{
   color: var(--lightblue);
   font-weight: 500;
 }
+
+.MuiDialog-paperWidthSm{
+  max-width: 100vw !important;
+}
