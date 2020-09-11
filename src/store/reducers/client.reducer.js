@@ -13,7 +13,8 @@ export function client(state = {orders : {}}, action) {
       clients : state.clients.map(client=>
         client.id===action.id ? {
           ...client,
-          status : action.status
+          status : action.status,
+          updatedAt : action.updatedAt
         } : client)
     }
     case clientConstants.UPDATE_ORDER_STATUS :
@@ -22,7 +23,7 @@ export function client(state = {orders : {}}, action) {
       clients : state.clients.map(client=>client.id===action.clientId ?
         {
           ...client,
-          orders : client.orders.map(order=>order.id===action.orderId ? {...order, status : action.status, [action.status] : action.date} : order)
+          orders : client.orders.map(order=>order.id===action.orderId ? {...order, status : action.status, [`${action.status}At`] : action.date} : order)
         }    
         : client)
     }

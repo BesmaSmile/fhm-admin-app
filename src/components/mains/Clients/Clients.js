@@ -24,12 +24,11 @@ const Clients = (props) => {
   return (
     <div className='Clients relw100'>
       <div className='mar30'>
-        {clientsRequest.pending && <div>Chargement en cours...</div>}
-        {clientsRequest.error && <div>{clientsRequest.error}</div>}
-        {!clientsRequest.pending && props.clients &&
-          <ClientsList clients={props.clients}
-            updateClientStatus={props.updateClientStatus} />
-        }
+        <ClientsList clients={props.clients}
+          loading={clientsRequest.pending}
+          error={clientsRequest.error}
+          updateClientStatus={props.updateClientStatus} 
+          reload={loadClients}/>
       </div>
     </div>
   )

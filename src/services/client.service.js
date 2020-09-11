@@ -1,6 +1,5 @@
 
 import {firebase} from './firebase';
-
 export const clientService={
   getClients,
   updateClientStatus
@@ -15,6 +14,8 @@ function getClients(){
       const clientData=client.data()
       clients.push({
         ...clientData,
+        createdAt : clientData.createdAt && clientData.createdAt.toDate(),
+        updatedAt : clientData.updatedAt && clientData.updatedAt.toDate(),
         id : client.id
       })
     })
@@ -26,8 +27,8 @@ function getClients(){
         ordersList.push({ 
           ...orderData, 
           date : orderData.date.toDate(),
-          paid : orderData.paid && orderData.paid.toDate(),
-          delivered : orderData.delivered && orderData.delivered.toDate(),
+          paidAt : orderData.paidAt && orderData.paidAt.toDate(),
+          deliveredAt : orderData.deliveredAt && orderData.deliveredAt.toDate(),
           id : order.id,
           client : {
             id : client.id,
@@ -50,7 +51,9 @@ function getClients(){
 
 function updateClientStatus(id, status){
   const db = firebase.firestore();
-  return db.collection('users').doc(id).update({status})
+  const updatedAt =firebase.firestore.Timestamp.now()
+  return db.collection('users').doc(id).update({status, updatedAt})
+  .then(()=>({id, status, updatedAt: updatedAt.toDate()}))
   .catch(error => {
     throw `Echec ${status==='active' ? "d'activation" : "de désactivation" } du compte client`
   });

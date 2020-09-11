@@ -8,6 +8,7 @@ import { Link } from "react-router-dom";
 import { useDialog } from 'components/misc/Dialog/Dialog';
 import { useSnackbar } from 'notistack';
 import { hooks } from 'functions';
+import moment from 'moment';
 import _ from 'lodash';
 import './Clients.scss';
 
@@ -15,19 +16,19 @@ const AccountStatus=props=>{
   const {client, updateClientStatus}=props
   const { enqueueSnackbar } = useSnackbar();
   const dialog = useDialog()
-  const activateAccountRequest = hooks.useRequest()
+  const updateClientStatusRequest = hooks.useRequest()
 
     const toggleAccount = () => {
-      const status = client.status==='pending' || client.status==='disabled' ? 'active' : 'disabled'
-      activateAccountRequest.execute({
+      const status = client.status==='pending' || client.status==='disabled' ? 'enabled' : 'disabled'
+      updateClientStatusRequest.execute({
         action: () => updateClientStatus(client.id, status),
-        success: () => enqueueSnackbar(`Le compte du client a bien été ${status==='active' ? 'activé' : 'désactivé'} !`, { variant: 'success' }),
+        success: () => enqueueSnackbar(`Le compte du client a bien été ${status==='enabled' ? 'activé' : 'désactivé'} !`, { variant: 'success' }),
         failure: (error) => enqueueSnackbar(error, { variant: 'error' }),
       })
     }
 
     const handleAccountClick = () => {
-      if (client.status==='active') {
+      if (client.status==='enabled') {
         dialog.openConfirmation({
           title: "Désactiver le compte du client",
           message: "Voulez vous désactiver le compte d'un client ?",
@@ -42,14 +43,14 @@ const AccountStatus=props=>{
   return(
     <div className='clt-detailContainer pointer' onClick={handleAccountClick}>
       <div className='clt-datailTop'>
-        {!activateAccountRequest.pending && <SvgIcon name={client.status==='active' ? 'valid' : 'invalid'} />}
-        {activateAccountRequest.pending && <CircularProgress size={20} />}
+        {!updateClientStatusRequest.pending && <SvgIcon name={client.status==='enabled' ? 'valid' : 'invalid'} />}
+        {updateClientStatusRequest.pending && <CircularProgress size={20} />}
       </div>
       <div className='clt-clientCell'>
-        {!activateAccountRequest.pending && client.status==='active' && 'Activé'}
-        {!activateAccountRequest.pending && client.status==='disabled' && 'Désactivé'}
-        {!activateAccountRequest.pending && client.status==='pending' && 'Nouveau'}
-        {activateAccountRequest.pending && 'En cours...'}
+        {!updateClientStatusRequest.pending && client.status==='enabled' && 'Activé'}
+        {!updateClientStatusRequest.pending && client.status==='disabled' && 'Désactivé'}
+        {!updateClientStatusRequest.pending && client.status==='pending' && 'Nouveau'}
+        {updateClientStatusRequest.pending && 'En cours...'}
       </div>
     </div>
   )
@@ -61,6 +62,8 @@ const ClientsList = (props) => {
   const columns = [
     { key: 'lastname', name: 'Nom' },
     { key: 'firstname', name: 'Prénom' },
+    { key: 'createdAt', name: 'Créé le' },
+    { key: 'updatedAt', name: 'Modifié le' },
     { key: 'restaurant', name: 'Restaurant' },
     { key: 'phoneNumber', name: 'Téléphone' },
     { key: 'address', name: 'Adresse' },
@@ -69,11 +72,11 @@ const ClientsList = (props) => {
     
   ]
   const filters = [
-    { key : 'status',name: 'Statut', type: 'select', value: 'all', fields: ['status'], options: [{ value: 'all', name: 'Tout' },{ value: 'pending', name: 'Nouveau' }, { value: 'active', name: 'Activé' }, { value: 'disabled', name: 'Désactivé' }] },
-    { key : 'search', name: 'Rechercher', type: 'input', value :_.get(window.location, 'hash', '').substring(1), fields : ['lastname', 'firstname', 'restaurant', 'phoneNumber', 'address'] }
+    { key : 'status',name: 'Statut', type: 'select', value: 'all', fields: ['status'], options: [{ value: 'all', name: 'Tout' },{ value: 'pending', name: 'Nouveau' }, { value: 'enabled', name: 'Activé' }, { value: 'disabled', name: 'Désactivé' }] },
+    { key : 'search', name: 'Rechercher', type: 'input', value :_.get(window.location, 'hash', '').substring(1), fields : ['lastname', 'firstname', 'restaurant', 'phoneNumber', 'address', 'createdAt'] }
   ]
 
-  const rows = props.clients.map(client => {
+  const rows = _.get(props, 'clients', []).map(client => {
     const province = _.get(client, 'address.province')
     const municipality = _.get(client, 'address.municipality')
     const city = (province || municipality) && `${province ? province + ',' : ''} ${municipality}`
@@ -89,6 +92,8 @@ const ClientsList = (props) => {
     return {
       lastname: { value: client.lastname, render: <div className='clt-clientCell'>{client.lastname}</div> },
       firstname: { value: client.firstname, render: <div className='clt-clientCell'>{client.firstname}</div> },
+      createdAt: { value: moment(client.createdAt).format('DD/MM/YYYY HH:mm') , render: <div className='clt-clientCell'>{moment(client.createdAt).format('DD/MM/YYYY HH:mm')}</div> },
+      updatedAt:  { value: client.updatedAt ? moment(client.updatedAt).format('DD/MM/YYYY HH:mm') : '', render: <div className='clt-clientCell'>{client.updatedAt ?  moment(client.updatedAt).format('DD/MM/YYYY HH:mm') : ''}</div> },
       restaurant: { value: client.restaurant, render: <div className='clt-clientCell'>{client.restaurant || '----'}</div> },
       phoneNumber: { value: client.phoneNumber, render: <div className='clt-clientCell'>{client.phoneNumber}</div> },
 
@@ -118,10 +123,14 @@ const ClientsList = (props) => {
   return (
     <div className='clt-clientsList brad15 bwhite'>
       <TableList title='Clients'
-        subTitle={`${props.clients.length} client(s)`}
+        subTitle={`${_.get(props, 'clients.length', '--')} client(s)`}
         columns={columns}
         rows={rows}
-        filters={filters} />
+        filters={filters}
+        withRefresh={true}
+        onRefresh={props.reload}
+        loading={props.loading}
+        error={props.error} />
     </div>
   )
 }

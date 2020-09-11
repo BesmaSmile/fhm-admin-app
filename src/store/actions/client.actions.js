@@ -18,7 +18,7 @@ function getClients(){
 function updateClientStatus(id, status){
   return dispatch => {
     return clientService.updateClientStatus(id, status).then((result)=>{
-      dispatch({ type: clientConstants.UPDATE_CLIENT_STATUS, id, status })
+      dispatch({ type: clientConstants.UPDATE_CLIENT_STATUS, ...result })
       return result
     })
   }
