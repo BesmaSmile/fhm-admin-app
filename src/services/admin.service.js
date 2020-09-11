@@ -5,6 +5,7 @@ import {handleResponse} from 'functions';
 export const adminService={
   getAdmins,
   registerAdmin,
+  updateAdminStatus 
 }
 
 function getAdmins(){
@@ -16,6 +17,8 @@ function getAdmins(){
       const adminData=admin.data()
       administrators.push({
         ...adminData,
+        createdAt : adminData.createdAt && adminData.createdAt.toDate(),
+        updatedAt : adminData.updatedAt && adminData.updatedAt.toDate(),
         id : admin.id
       })
     })
@@ -42,9 +45,23 @@ function registerAdmin(user, isFirstAdmin, secretKey){
       case 'invalid_secret_key' :
       msg='La clé secrète est invalide'
       break;
+      case 'existing_username' : 
+      msg="Le nom d'utilisateur est déjà utilisé"
+      break;
       default :
       msg='Une erreur est survenue !'
     }
     throw msg
   })
+}
+
+function updateAdminStatus(id, status){
+  const db = firebase.firestore();
+  const updatedAt = firebase.firestore.Timestamp.now()
+  return db.collection('administrators').doc(id)
+  .update({status, updatedAt})
+  .then(()=>({id, status, updatedAt : updatedAt.toDate()}))
+  .catch(error => {
+    throw `Echec ${status==='active' ? "d'activation" : "de désactivation" } du compte administrateur`
+  });
 }

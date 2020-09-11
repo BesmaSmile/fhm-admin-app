@@ -26,11 +26,11 @@ const Admins=props=>{
   return (
     <div className='Admins relw100'>
       <div className='mar30'>
-        {adminsRequest.pending && <div>Chargement en cours...</div>}
-        {adminsRequest.error && <div>{adminsRequest.error}</div>}
-        {!adminsRequest.pending && props.administrators &&
-          <AdminsList administrators={props.administrators} />
-        }
+        <AdminsList administrators={props.administrators} 
+          loading={adminsRequest.pending}
+          error={adminsRequest.error}
+          updateAdminStatus={props.updateAdminStatus}
+          reload={loadAdmins} />
       </div>
     </div>
   )
@@ -41,7 +41,8 @@ const mapState = (state) => ({
 })
 
 const actionCreators = {
-  getAdmins: adminActions.getAdmins
+  getAdmins: adminActions.getAdmins,
+  updateAdminStatus : adminActions.updateAdminStatus
 }
 
 export default connect(mapState, actionCreators)(Admins);

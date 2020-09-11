@@ -5,6 +5,7 @@ import {authConstants} from 'store/constants';
 export const adminActions = {
   getAdmins,
   registerAdmin,
+  updateAdminStatus
 }
 
 function getAdmins() {
@@ -24,6 +25,15 @@ function registerAdmin(user, isFirstAdmin, secretKey){
       else 
         dispatch({ type: adminConstants.REGISTER_ADMIN, user })
       return user
+    })
+  }
+}
+
+function updateAdminStatus(id, status){
+  return dispatch => {
+    return adminService.updateAdminStatus(id, status).then((result)=>{
+      dispatch({ type: adminConstants.UPDATE_ADMIN_STATUS, ...result})
+      return result
     })
   }
 }

@@ -3,4 +3,30 @@
       font-size: 14px;
       color: var(-stronggrey)
   }
+  & .adm-dateCell{
+    font-size: 12px;
+    font-weight: 300;
+    color: var(--grey)
+  }
+  & .clt-detailContainer{
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    
+    & .clt-datailTop{
+      margin-right: 10px;
+      display: flex;
+      align-items: center;
+      & svg{
+        width: 20px;
+        height: 20px;
+      }      
+    }
+    & .MuiCircularProgress-root{
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: var(--blue)
+    }
+  }
 }
