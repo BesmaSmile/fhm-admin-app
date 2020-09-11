@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { OutlinedInput, Select, MenuItem, IconButton, Tooltip } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import RefreshIcon from '@material-ui/icons/Refresh';
 import Pagination from '@material-ui/lab/Pagination';
 import _ from 'lodash';
 import './TableList.scss';
@@ -12,7 +14,7 @@ const TableList = props => {
   })
   const [_rows, _setRows] = useState(props.rows)
   const [_filters, _setFilters] = useState(defaultFilters)
-  const [_pageSize, _setPageSize] = useState(20)
+  const [_pageSize, _setPageSize] = useState(props.showAll ? props.rows.length : 10)
   const [_page, _setPage] = useState(1)
   const pageCount = Math.ceil(_rows.length / _pageSize)
 
@@ -31,7 +33,7 @@ const TableList = props => {
       return Object.keys(_filters).every(key => {
         const { value, fields, type } = _filters[key]
         return fields.some(field => (type === 'select' && (value === 'all' || row[field].value === value))
-          || (type !== 'select' && row[field].value.toLowerCase().includes(value.toLowerCase()))
+          || (type !== 'select' && _.get(row[field],'value', '').toLowerCase().includes(value.toLowerCase()))
         )
       })
     })
@@ -49,83 +51,111 @@ const TableList = props => {
       <div className='tl-header'>
         <div className='tl-title flex row jcsb aic'>
           <div className='fs22 cstronggrey lh30 extralight'>{props.title}</div>
-          {props.withAddButton &&
-            <Tooltip title="Ajouter" placement="left">
-              <IconButton
-                size='small'
-                onClick={props.onAddClick}>
-                <AddIcon />
-              </IconButton>
-            </Tooltip>
-          }
-        </div>
-        <div className='tl-filters flex row jcsb'>
-          <div className='flex row aic'>
-            {/*<div className='fs16 cgrey medium'>{props.subTitle}</div>*/}
-            <div className='fs14 cstronggrey marr10'>Afficher</div>
-            <div className='tl-rowsNumber'>
-              <OutlinedInput
-                value={_pageSize}
-                type='number'
-                onChange={(e) => _setPageSize(parseInt(e.target.value))} />
-            </div>
-            <div className='fs14 cstronggrey marr10'>lignes</div>
+          <div>
+            {props.withRefresh &&
+              <Tooltip title="Rafraîchir" placement="left">
+                <IconButton disabled={props.loading}
+                  size='small'
+                  onClick={props.onRefresh}>
+                  <RefreshIcon />
+                </IconButton>
+              </Tooltip>
+            }
+            {props.withAddButton &&
+              <Tooltip title="Ajouter" placement="left">
+                <IconButton
+                  size='small'
+                  onClick={props.onAddClick}>
+                  <AddIcon />
+                </IconButton>
+              </Tooltip>
+            }
           </div>
-          {props.filters &&
-            <div className='flex row'>
-              {props.filters.map((filter, i) => {
-                return (
-                  <div key={i} className='flex row aic'>
-                    <div className='fs14 cstronggrey marr10'>{filter.name}</div>
-                    <div>
-                      {filter.type === 'input' &&
-                        <OutlinedInput
-                          name={filter.key}
-                          value={_.get(_filters[filter.key], 'value')}
-                          placeholder={filter.name}
-                          onChange={(e) => applyFilter(e, filter.fields, filter.type)} />
-                      }
-                      {
-                        filter.type === 'select' &&
-                        <Select
-                          variant='outlined'
-                          value={_.get(_filters[filter.key], 'value')}
-                          onChange={(e) => applyFilter(e, filter.fields, filter.type)}
-                          name={filter.key}>
-                          {filter.options.map(option => (
-                            <MenuItem key={option.value} value={option.value}>{option.name}</MenuItem>
-                          ))
-                          }
-                        </Select>
-                      }
-                    </div>
-                  </div>
-
-                )
-              })}
-            </div>
-          }
         </div>
+        {(!props.showAll || props.filters)&& 
+          <div className='tl-filters flex row jcsb'>
+            {!props.showAll && 
+              <div className='flex row aic'>
+                {/*<div className='fs16 cgrey medium'>{props.subTitle}</div>*/}
+                <div className='fs14 cstronggrey marr10'>Afficher</div>
+                <div className='tl-rowsNumber'>
+                  <OutlinedInput
+                    value={_pageSize}
+                    type='number'
+                    onChange={(e) => _setPageSize(parseInt(e.target.value))} />
+                </div>
+                <div className='fs14 cstronggrey marr10'>lignes</div>
+              </div>
+            }
+            {props.filters &&
+              <div className='flex row'>
+                {props.filters.map((filter, i) => {
+                  return (
+                    <div key={i} className='flex row aic'>
+                      <div className='fs14 cstronggrey marr10'>{filter.name}</div>
+                      <div>
+                        {filter.type === 'input' &&
+                          <OutlinedInput
+                            name={filter.key}
+                            value={_.get(_filters[filter.key], 'value')}
+                            placeholder={filter.name}
+                            onChange={(e) => applyFilter(e, filter.fields, filter.type)} />
+                        }
+                        {
+                          filter.type === 'select' &&
+                          <Select
+                            variant='outlined'
+                            value={_.get(_filters[filter.key], 'value')}
+                            onChange={(e) => applyFilter(e, filter.fields, filter.type)}
+                            name={filter.key}>
+                            {filter.options.map(option => (
+                              <MenuItem key={option.value} value={option.value}>{option.name}</MenuItem>
+                            ))
+                            }
+                          </Select>
+                        }
+                      </div>
+                    </div>
+
+                  )
+                })}
+              </div>
+            }
+          </div>
+        }
       </div>
       <div className='tl-content'>
-        <table>
-          <thead><tr>{props.columns.map(column => <td key={column.key}>{column.name}</td>)}</tr></thead>
-          <tbody>
-            {_rows.slice((_page - 1) * _pageSize, _page * _pageSize).map((row) => (
-              <tr key={row.id}>
-                {props.columns.map(column => <td key={column.key}>{row[column.key].render}</td>)}
-              </tr>
-            ))}
+        {props.loading && 
+          <div className='h200 flex jcc aic'>
+             <CircularProgress size={20} />
+          </div>
+        }
+        {props.error && 
+          <div className='h200 flex jcc aic cred'>
+             {props.error}
+          </div>
+        }
+        {!props.loading && !props.error && 
+          <table>
+            <thead><tr>{props.columns.map(column => <td key={column.key}>{column.name}</td>)}</tr></thead>
+            <tbody>
+              {_rows.slice((_page - 1) * _pageSize, _page * _pageSize).map((row) => (
+                <tr key={row.id}>
+                  {props.columns.map(column => <td key={column.key}>{row[column.key].render}</td>)}
+                </tr>
+              ))}
 
-          </tbody>
-        </table>
-        <div className='tl-foot flex jcfe'>
-          <Pagination count={pageCount}
-            showFirstButton
-            showLastButton
-            page={_page}
-            onChange={(e, page) => _setPage(page)} />
-        </div>
+            </tbody>
+          </table>}
+        {!props.showAll && 
+          <div className='tl-foot flex jcfe'>
+            <Pagination count={pageCount}
+              showFirstButton
+              showLastButton
+              page={_page}
+              onChange={(e, page) => _setPage(page)} />
+          </div>
+        }
       </div>
     </div>
   )
