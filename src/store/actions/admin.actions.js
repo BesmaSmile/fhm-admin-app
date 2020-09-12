@@ -21,6 +21,7 @@ function getAdmins() {
 function registerAdmin(user, isFirstAdmin, secretKey){
   return dispatch => {
     return adminService.registerAdmin(user, isFirstAdmin, secretKey).then(user=>{
+      console.log(user)
       if(isFirstAdmin)
         dispatch({ type: authConstants.LOGGED_IN, user })
       else 

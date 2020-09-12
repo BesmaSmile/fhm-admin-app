@@ -5,7 +5,8 @@ import PermissionsForm from 'components/misc/PermissionsForm/PermissionsForm';
 import SvgIcon from 'components/misc/SvgIcon/SvgIcon';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import SecurityIcon from '@material-ui/icons/Security';
-import { IconButton, Tooltip } from '@material-ui/core';
+import LockIcon from '@material-ui/icons/Lock';
+import { Button, IconButton, Tooltip } from '@material-ui/core';
 import { Link } from "react-router-dom";
 import { useDialog } from 'components/misc/Dialog/Dialog';
 import { useSnackbar } from 'notistack';
@@ -13,7 +14,7 @@ import { hooks } from 'functions';
 import moment from 'moment';
 import _ from 'lodash';
 
-const AdminStatus = props => {
+const AdminActions = props => {
   const { administrator, updateAdminStatus } = props
   const { enqueueSnackbar } = useSnackbar();
   const dialog = useDialog()
@@ -28,7 +29,7 @@ const AdminStatus = props => {
     })
   }
 
-  const handleAccountClick = () => {
+  const handleClick = () => {
     if (administrator.status === 'enabled') {
       dialog.openConfirmation({
         title: "Désactiver le compte de l'administrateur",
@@ -41,18 +42,16 @@ const AdminStatus = props => {
     }
     else toggleAccount()
   }
+
   return (
-    <div className='clt-detailContainer pointer' onClick={handleAccountClick}>
-      <div className='clt-datailTop'>
-        {!updateAdminStatusRequest.pending && <SvgIcon name={administrator.status === 'enabled' ? 'valid' : 'invalid'} />}
-        {updateAdminStatusRequest.pending && <CircularProgress size={20} />}
-      </div>
-      <div className='clt-clientCell'>
-        {!updateAdminStatusRequest.pending && administrator.status === 'enabled' && 'Activé'}
-        {!updateAdminStatusRequest.pending && administrator.status === 'disabled' && 'Désactivé'}
-        {updateAdminStatusRequest.pending && 'En cours...'}
-      </div>
-    </div>
+    <Button
+      disabled={updateAdminStatus.pending}
+      variant="outlined" 
+      size="small"
+      classes={{ root: administrator.status === 'enabled' ? 'adm-disableButton' : 'adm-enableButton' }}
+      onClick={handleClick}>
+      {administrator.status === 'enabled' ? 'Désactiver' : 'Activer'}
+    </Button>
   )
 }
 
@@ -65,6 +64,7 @@ const AdminsList = (props) => {
     { key: 'updatedAt', name: 'Modifié le' },
     { key: 'role', name: "Rôle" },
     { key: 'status', name: "Statut" },
+    { key: 'actions', name: "Actions" },
     { key: 'options', name: "Options" }
   ]
   const filters = [
@@ -86,7 +86,7 @@ const AdminsList = (props) => {
       const permissionsForm = <PermissionsForm
         permissions={administrator.permissions}
         close={dialog.close}
-        updateAdminPermissions={(permissions)=>props.updateAdminPermissions(administrator.id, permissions)} />
+        updateAdminPermissions={(permissions) => props.updateAdminPermissions(administrator.id, permissions)} />
       dialog.open(permissionsForm)
     }
     return {
@@ -94,14 +94,36 @@ const AdminsList = (props) => {
       createdAt: { value: administrator.createdAt ? moment(administrator.createdAt).format('DD/MM/YYYY HH:mm') : '', render: <div className='adm-dateCell'>{administrator.createdAt ? moment(administrator.createdAt).format('DD/MM/YYYY HH:mm') : '----'}</div> },
       updatedAt: { value: administrator.updatedAt ? moment(administrator.updatedAt).format('DD/MM/YYYY HH:mm') : '', render: <div className='adm-dateCell'>{administrator.updatedAt ? moment(administrator.updatedAt).format('DD/MM/YYYY HH:mm') : '----'}</div> },
       role: { value: administrator.role, render: <div className='adm-adminCell'>{administrator.role === 'super-admin' ? 'Super-admin' : 'Admin'}</div> },
-      status: { value: administrator.status, render: <AdminStatus administrator={administrator} updateAdminStatus={props.updateAdminStatus} /> },
+      status: {
+        value: administrator.status,
+        render: <div className='adm-detailContainer pointer'>
+          <div className='adm-datailTop'>
+            <SvgIcon name={administrator.status} />
+          </div>
+          <div className='adm-clientCell'>
+            {administrator.status === 'enabled' ? 'Activé'  : 'Désactivé'}
+          </div>
+        </div>
+      },
+      actions :{
+        render : <AdminActions administrator={administrator} updateAdminStatus={props.updateAdminStatus}/>
+      },
       options: {
-        render: <Tooltip title="Permission" placement="left">
-          <IconButton
-            onClick={openPermissionsForm}>
-            <SecurityIcon fontSize="small" />
-          </IconButton>
-        </Tooltip>
+        render: 
+        <div className='flex row'>
+          <Tooltip title="Permissions" placement="top">
+            <IconButton
+              onClick={openPermissionsForm}>
+              <SecurityIcon fontSize="small" />
+            </IconButton>
+          </Tooltip>
+          <Tooltip title="Réinitialiser mot de passe" placement="top">
+            <IconButton
+              onClick={openPermissionsForm}>
+              <LockIcon fontSize="small" />
+            </IconButton>
+          </Tooltip>
+        </div>
       }
     }
   })
@@ -117,7 +139,7 @@ const AdminsList = (props) => {
 
 
   return (
-    <div className='clt-adminsList brad15 bwhite'>
+    <div className='adm-adminsList brad15 bwhite'>
       <TableList title='Administrateurs'
         subTitle={`${_.get(props, 'administrators.length', '--')} administrateurs(s)`}
         columns={columns}

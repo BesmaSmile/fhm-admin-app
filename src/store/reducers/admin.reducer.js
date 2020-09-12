@@ -1,6 +1,7 @@
 import {adminConstants} from 'store/constants';
 
 export function admin(state = {}, action) {
+  console.log(action)
   switch(action.type) {
     case adminConstants.GET_ADMINS :
     return {
@@ -10,7 +11,7 @@ export function admin(state = {}, action) {
     case adminConstants.REGISTER_ADMIN : 
     return{
       ...state,
-      administrators :[...state.administrators , action.user]
+      administrators :[...state.administrators , {...action.user, createdAt : action.user.createdAt }]
     }
     case adminConstants.UPDATE_ADMIN : 
     return{

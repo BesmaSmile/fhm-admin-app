@@ -8,12 +8,12 @@
     font-weight: 300;
     color: var(--grey)
   }
-  & .clt-detailContainer{
+  & .adm-detailContainer{
     display: flex;
     flex-direction: row;
     align-items: flex-end;
     
-    & .clt-datailTop{
+    & .adm-datailTop{
       margin-right: 10px;
       display: flex;
       align-items: center;
@@ -27,6 +27,47 @@
       justify-content: center;
       align-items: center;
       color: var(--blue)
+    }
+  }
+  & .adm-enableButton, .adm-disableButton{
+    &.MuiButton-outlined{
+      width: 80px;
+      height: 25px;
+      font-size: 12px;
+      text-transform : none;
+      line-height: normal;
+      padding: 5px 10px;
+      & .MuiButton-label{
+        font-weight: 500;
+        white-space: nowrap;
+      }
+    }
+    &.Mui-disabled{
+      opacity: 0.6;
+    }
+  }
+  & .adm-enableButton.MuiButton-outlined{
+    border-color: var(--green);
+    & .MuiButton-label{
+      color: var(--green);
+    }
+    &:hover{
+      background-color: var(--green);
+      & .MuiButton-label{
+        color: var(--white);
+      }
+    }
+  }
+  & .adm-disableButton.MuiButton-outlined{
+    border-color: var(--red);
+    & .MuiButton-label{
+      color: var(--red);
+    }
+    &:hover{
+      background-color: var(--red);
+      & .MuiButton-label{
+        color: var(--white);
+      }
     }
   }
 }

@@ -52,8 +52,8 @@ const OrderActions = props => {
   return (
     <Button
       disabled={updateOrderStatusRequest.pending}
-      variant="contained"
-      classes={{ root: order.status === 'pending' ? 'clt-deliveryButton' : 'clt-paymentButton' }}
+      variant="outlined"
+      classes={{ root: order.status === 'pending' ? 'od-deliveryButton' : 'od-paymentButton' }}
       onClick={order.status === 'pending' ? approveDelivery : approvePayment}>
       {order.status === 'pending' ? 'Approuver livraison' : 'Approuver paiement'}
     </Button>
@@ -99,20 +99,20 @@ const OrdersList = (props) => {
     }
 
     return {
-      id: { value: order.id, render: <div className='clt-orderCell'>{order.id}</div> },
-      createdAt: { value: moment(order.createdAt).format('DD/MM/YYYY HH:mm'), render: <div className='clt-dateCell'>{moment(order.createdAt).format('DD/MM/YYYY HH:mm')}</div> },
+      id: { value: order.id, render: <div className='od-orderCell'>{order.id}</div> },
+      createdAt: { value: moment(order.createdAt).format('DD/MM/YYYY HH:mm'), render: <div className='od-dateCell'>{moment(order.createdAt).format('DD/MM/YYYY HH:mm')}</div> },
       status: {
         value: order.status,
-        render: <div className='clt-orderCell'>{order.status === 'paid' ? <span className='cgreen'>Payé</span> : (order.status === 'delivered' ? <span className='corange'>Livré</span> : <span className='cblue'>Nouveau</span>)}</div>
+        render: <div className='od-orderCell'>{order.status === 'paid' ? <span className='cgreen'>Payé</span> : (order.status === 'delivered' ? <span className='corange'>Livré</span> : <span className='cblue'>Nouveau</span>)}</div>
       },
       deliveredAt: {
         value: order.deliveredAt ? moment(order.deliveredAt).format('DD/MM/YYYY HH:mm') : '',
-        render: <div className='clt-dateCell'>{order.deliveredAt ? moment(order.deliveredAt).format('DD/MM/YYYY HH:mm') : '---'}</div>
+        render: <div className='od-dateCell'>{order.deliveredAt ? moment(order.deliveredAt).format('DD/MM/YYYY HH:mm') : '---'}</div>
       },
-      paidAt: { value: order.paidAt ? moment(order.paidAt).format('DD/MM/YYYY HH:mm') : '', render: <div className='clt-dateCell'>{order.paidAt ? moment(order.paidAt).format('DD/MM/YYYY HH:mm') : '----'}</div> },
+      paidAt: { value: order.paidAt ? moment(order.paidAt).format('DD/MM/YYYY HH:mm') : '', render: <div className='od-dateCell'>{order.paidAt ? moment(order.paidAt).format('DD/MM/YYYY HH:mm') : '----'}</div> },
       client: {
         value: `${order.client.lastname} ${order.client.firstname}`,
-        render: <div className='clt-orderCell'>
+        render: <div className='od-orderCell'>
           <Link to={{ pathname: '/clients', hash: _.get(order.client, 'phoneNumber') }}>
             {order.client.lastname} {order.client.firstname}
           </Link>
@@ -120,10 +120,10 @@ const OrdersList = (props) => {
       },
       phoneNumber: {
         value: _.get(order.client, 'phoneNumber'),
-        render: <div className='clt-orderCell'>{_.get(order.client, 'phoneNumber')}</div>
+        render: <div className='od-orderCell'>{_.get(order.client, 'phoneNumber')}</div>
       },
-      //articles: { value: order.articles.length, render: <div className='clt-orderCell'>{order.articles.length}</div> },
-      mount: { value: order.mount, render: <div className='clt-orderCell'>{order.mount} DA</div> },
+      //articles: { value: order.articles.length, render: <div className='od-orderCell'>{order.articles.length}</div> },
+      mount: { value: order.mount, render: <div className='od-orderCell'>{order.mount} DA</div> },
       actions: { render: order.status !== 'paid' ? <OrderActions order={order} updateOrderStatus={props.updateOrderStatus} /> : '' },
       options: {
         render: 

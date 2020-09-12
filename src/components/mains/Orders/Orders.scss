@@ -1,19 +1,16 @@
 .Orders{
-  & .clt-orderCell{
+  & .od-orderCell{
     font-size: 14px;
     color: var(--stronggrey);
   }
-  & .clt-deliveryButton, .clt-paymentButton{
-    &.MuiButton-contained{
-      color: var(--white);
+  & .od-deliveryButton, .od-paymentButton{
+    &.MuiButton-outlined{
       height: 25px;
       font-size: 12px;
       text-transform : none;
       line-height: normal;
-      box-shadow: none;
       padding: 5px 10px;
       & .MuiButton-label{
-        color: var(--white);
         font-weight: 500;
         white-space: nowrap;
       }
@@ -22,13 +19,31 @@
       opacity: 0.6;
     }
   }
-  & .clt-deliveryButton.MuiButton-contained{
-    background-color: var(--strongorange);
+  & .od-deliveryButton.MuiButton-outlined{
+    border-color: var(--strongorange);
+    & .MuiButton-label{
+      color: var(--strongorange);
+    }
+    &:hover{
+      background-color: var(--strongorange);
+      & .MuiButton-label{
+        color: var(--white);
+      }
+    }
   }
-  & .clt-paymentButton.MuiButton-contained{
-    background-color: var(--stronggreen);
+  & .od-paymentButton.MuiButton-outlined{
+    border-color: var(--green);
+    & .MuiButton-label{
+      color: var(--green);
+    }
+    &:hover{
+      background-color: var(--green);
+      & .MuiButton-label{
+        color: var(--white);
+      }
+    }
   }
-  & .clt-dateCell{
+  & .od-dateCell{
     font-size: 12px;
     font-weight: 300;
     color: var(--grey)
