@@ -9,7 +9,7 @@ const Admins=props=>{
   const adminsRequest = hooks.useRequest()
 
   useEffect(() => {
-    if (!props.clients) {
+    if (!props.administrators) {
       loadAdmins()
     }
     // eslint-disable-next-line

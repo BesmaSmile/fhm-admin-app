@@ -29,12 +29,14 @@ const Catalog = (props) => {
   )
 
   useEffect(() => {
-    categoriesRequest.execute({
-      action: props.getCategories
-    })
-    productsRequest.execute({
-      action: props.getProducts
-    })
+    if(!props.categories)
+      categoriesRequest.execute({
+        action: props.getCategories
+      })
+    if(!props.products)
+      productsRequest.execute({
+        action: props.getProducts
+      })
     // eslint-disable-next-line
   }, [])
 
