@@ -5,7 +5,8 @@ import {handleResponse} from 'functions';
 export const adminService={
   getAdmins,
   registerAdmin,
-  updateAdminStatus 
+  updateAdminStatus,
+  updateAdminPermissions 
 }
 
 function getAdmins(){
@@ -60,8 +61,19 @@ function updateAdminStatus(id, status){
   const updatedAt = firebase.firestore.Timestamp.now()
   return db.collection('administrators').doc(id)
   .update({status, updatedAt})
-  .then(()=>({id, status, updatedAt : updatedAt.toDate()}))
+  .then(()=>({status, updatedAt : updatedAt.toDate()}))
   .catch(error => {
-    throw `Echec ${status==='active' ? "d'activation" : "de désactivation" } du compte administrateur`
+    throw `Echec ${status==='enabled' ? "d'activation" : "de désactivation" } du compte administrateur`
+  });
+}
+
+function updateAdminPermissions(id, permissions){
+  const db = firebase.firestore();
+  const updatedAt = firebase.firestore.Timestamp.now()
+  return db.collection('administrators').doc(id)
+  .update({permissions, updatedAt})
+  .then(()=>({ permissions, updatedAt : updatedAt.toDate()}))
+  .catch(error => {
+    throw `Echec de modification des permissions d'administrateur`
   });
 }

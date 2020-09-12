@@ -50,16 +50,20 @@
       color: var(--blue);
       font-weight: bold;
     }
-    & .MuiSwitch-root{
+    & .MuiSwitch-root, .MuiCheckbox-root{
       margin-left: 15px;
     }
+    & .MuiIconButton-colorSecondary:hover{
+      background-color: rgba(155, 155, 155, 0.1);
+    }
     & .Mui-checked{
+      color: var(--green);
       & .MuiSwitch-thumb{
-        background-color: var(--blue);
+        background-color: var(--green);
       }
     }
     & .Mui-checked + .MuiSwitch-track{
-      background-color: var(--blue);
+      background-color: var(--green);
     }
     & .MuiFormControlLabel-label{
       font-size: 14px;

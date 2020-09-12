@@ -35,7 +35,8 @@ const Clients = (props) => {
 }
 
 const mapState = (state) => ({
-  clients: state.client.clients
+  clients: state.client.clients,
+  user : state.auth.user
 })
 
 const actionCreators = {

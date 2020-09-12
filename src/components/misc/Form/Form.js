@@ -1,6 +1,6 @@
 import React from 'react';
 import { useForm, useWatch, Controller } from "react-hook-form";
-import { OutlinedInput, InputLabel, FormControl, FormControlLabel, Select, MenuItem, Switch } from '@material-ui/core';
+import { OutlinedInput, InputLabel, FormControl, FormControlLabel, Select, MenuItem, Switch, Checkbox } from '@material-ui/core';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogTitle from '@material-ui/core/DialogTitle';
@@ -59,9 +59,7 @@ const Form = (props) => {
   }
 
   const cleanAndSubmit = (values) => {
-    console.log(values)
     const toSend = _.omitBy(values, value=>_.isNil(value) || value==='');
-    console.log(toSend)
     onSubmit(toSend)
   }
 
@@ -72,7 +70,7 @@ const Form = (props) => {
           if (input.content)
             return input.content
           else {
-            const type =['select', 'switch'].find(t=>t===input.type) || 'default'
+            const type =['select', 'switch', 'check'].find(t=>t===input.type) || 'default'
             const additionalValidation = input.combinedValdation ? { validate: value => input.combinedValdation(getValues()) } : {}
             const adornments = {
               endAdornment: input.endAdornment,
@@ -83,9 +81,11 @@ const Form = (props) => {
               <>
                 {(input.type !== 'select' || input.options(dependentSelection[input.watch]))
                   && (!input.hidden || !input.hidden(dependentSelection[input.watch])) &&
-                  <div key={input.name} witherror={errors[input.name] ? 'true' : 'false'} className='frm-inputField flex col marv10'>
+                  <div key={input.name} 
+                    witherror={errors[input.name] ? 'true' : 'false'} 
+                    className={`frm-inputField flex col ${type!=='check' ? 'marv10' : ''}`}>
                     <FormControl variant="outlined" key={input.name}>
-                      {type!=='switch' &&<InputLabel htmlFor="component-outlined">
+                      {type!=='switch' && type!=='check' &&<InputLabel htmlFor="component-outlined">
                         <span>{input.label} </span>
                       </InputLabel>}
                       <Controller
@@ -116,7 +116,18 @@ const Form = (props) => {
                                 <Switch
                                   checked={value}
                                   onChange={e => onChange(e.target.checked)}
-                                  color="primary"
+                                  name={name}
+                                  disabled={disabled || input.disabled}
+                                  inputProps={{ 'aria-label': 'primary checkbox' }}
+                                />}
+                              label={input.label}/>
+                            }
+                            {type==='check' &&
+                            <FormControlLabel
+                              control={
+                                <Checkbox
+                                  checked={value}
+                                  onChange={e => onChange(e.target.checked)}
                                   name={name}
                                   disabled={disabled || input.disabled}
                                   inputProps={{ 'aria-label': 'primary checkbox' }}

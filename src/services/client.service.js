@@ -55,6 +55,6 @@ function updateClientStatus(id, status){
   return db.collection('users').doc(id).update({status, updatedAt})
   .then(()=>({id, status, updatedAt: updatedAt.toDate()}))
   .catch(error => {
-    throw `Echec ${status==='active' ? "d'activation" : "de désactivation" } du compte client`
+    throw `Echec ${status==='enabled' ? "d'activation" : "de désactivation" } du compte client`
   });
 }

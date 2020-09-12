@@ -12,14 +12,13 @@ export function admin(state = {}, action) {
       ...state,
       administrators :[...state.administrators , action.user]
     }
-    case adminConstants.UPDATE_ADMIN_STATUS : 
+    case adminConstants.UPDATE_ADMIN : 
     return{
       ...state,
       administrators : state.administrators.map(administrator=>
         administrator.id===action.id ? {
           ...administrator,
-          status : action.status,
-          updatedAt : action.updatedAt,
+          ...action.updates
         } : administrator)
     }
     default:
