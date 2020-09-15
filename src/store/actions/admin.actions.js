@@ -6,7 +6,8 @@ export const adminActions = {
   getAdmins,
   registerAdmin,
   updateAdminStatus,
-  updateAdminPermissions
+  updateAdminPermissions,
+  changePassword
 }
 
 function getAdmins() {
@@ -43,6 +44,15 @@ function updateAdminStatus(id, status){
 function updateAdminPermissions(id, permissions){
   return dispatch => {
     return adminService.updateAdminPermissions(id, permissions).then((updates)=>{
+      dispatch({ type: adminConstants.UPDATE_ADMIN, id, updates})
+      return updates
+    })
+  }
+}
+
+function changePassword(id, password){
+  return dispatch => {
+    return adminService.changePassword(id, password).then((updates)=>{
       dispatch({ type: adminConstants.UPDATE_ADMIN, id, updates})
       return updates
     })

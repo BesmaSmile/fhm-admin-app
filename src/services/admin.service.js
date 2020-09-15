@@ -6,7 +6,8 @@ export const adminService={
   getAdmins,
   registerAdmin,
   updateAdminStatus,
-  updateAdminPermissions 
+  updateAdminPermissions ,
+  changePassword
 }
 
 function getAdmins(){
@@ -23,7 +24,7 @@ function getAdmins(){
         id : admin.id
       })
     })
-    return administrators
+    return administrators.sort((admin1,admin2)=>admin2.createdAt-admin1.createdAt)
   }).catch(error=>{
     console.log(error)
     throw 'Echec de chargement de la liste des administrateurs'
@@ -75,5 +76,20 @@ function updateAdminPermissions(id, permissions){
   .then(()=>({ permissions, updatedAt : updatedAt.toDate()}))
   .catch(error => {
     throw `Echec de modification des permissions d'administrateur`
+  });
+}
+
+function changePassword(id, password){
+  const options={
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json' 
+    },
+    body: JSON.stringify({id,password})
+  }
+  return fetch(`${apiConstants.URL}/changePassword`, options)
+  .then(handleResponse)
+  .catch(error => {
+    throw `Echec de changement du mot de passe`
   });
 }
