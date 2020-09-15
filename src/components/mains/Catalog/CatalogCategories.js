@@ -1,5 +1,7 @@
 import React from 'react';
 import {Button} from '@material-ui/core';
+import { ButtonWrapper } from 'components/misc/PermissionWrappers/PermissionWrappers';
+import { permissionConstants } from 'consts';
 
 const CatalogCategories=(props)=>{
   const {categories, selectedCategory, handleSelectCategory, openCategoryForm}=props
@@ -19,13 +21,19 @@ const CatalogCategories=(props)=>{
             {category.name}
           </Button>
         ))}
-         <Button variant="outlined" classes={{
-            root : 'ctg-categoryButton', 
-            outlined : 'ctg-categoryButton_outlined',
-            label : 'ctg-categoryButton_label'}}
+        <ButtonWrapper
+          neededPermission={permissionConstants.UPDATE_CATALOG}
+          button={(disabled) =><Button 
+            disabled={disabled}
+            variant="outlined" 
+            classes={{
+              root : 'ctg-categoryButton', 
+              outlined : 'ctg-categoryButton_outlined',
+              label : 'ctg-categoryButton_label'
+            }}
             onClick={openCategoryForm}>
             +
-          </Button>
+          </Button>}/>
       </div>
     </div>
   )

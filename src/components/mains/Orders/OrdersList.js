@@ -1,7 +1,9 @@
-import React, {useRef} from 'react';
+import React, { useRef } from 'react';
 import TableList from 'components/misc/TableList/TableList';
 import OrderDetails from 'components/misc/OrderDetails/OrderDetails';
 import PrintForm from 'components/misc/PrintForm/PrintForm';
+import { ButtonWrapper } from 'components/misc/PermissionWrappers/PermissionWrappers';
+import { permissionConstants } from 'consts';
 import { Button, IconButton, Tooltip } from '@material-ui/core';
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import PrintIcon from '@material-ui/icons/Print';
@@ -50,13 +52,16 @@ const OrderActions = props => {
     }).catch(error => { console.log(error); console.log("rejected") })
   }
   return (
-    <Button
-      disabled={updateOrderStatusRequest.pending}
-      variant="outlined"
-      classes={{ root: order.status === 'pending' ? 'od-deliveryButton' : 'od-paymentButton' }}
-      onClick={order.status === 'pending' ? approveDelivery : approvePayment}>
-      {order.status === 'pending' ? 'Approuver livraison' : 'Approuver paiement'}
-    </Button>
+    <ButtonWrapper
+      neededPermission={order.status === 'pending' ? permissionConstants.APPROVE_DELIVERY : permissionConstants.APPROVE_PAYMENT}
+      button={(disabled) => <Button
+        disabled={disabled || updateOrderStatusRequest.pending}
+        variant="outlined"
+        classes={{ root: order.status === 'pending' ? 'od-deliveryButton' : 'od-paymentButton' }}
+        onClick={order.status === 'pending' ? approveDelivery : approvePayment}>
+        {order.status === 'pending' ? 'Approuver livraison' : 'Approuver paiement'}
+      </Button>}
+    />
   )
 }
 const OrdersList = (props) => {
@@ -80,21 +85,21 @@ const OrdersList = (props) => {
     { key: 'search', name: 'Rechercher', type: 'input', value: _.get(window.location, 'hash', '').substring(1), fields: ['client', 'id', 'phoneNumber', 'createdAt', 'deliveredAt', 'paidAt'] }
   ]
 
-  const mypage=useRef()
+  const mypage = useRef()
 
-  const printOrder= useReactToPrint({
+  const printOrder = useReactToPrint({
     content: () => mypage.current,
   })
 
   const rows = _.get(props, 'orders', []).map(order => {
 
     const openOrder = () => {
-      const orderDetails = <OrderDetails order={order}/>
+      const orderDetails = <OrderDetails order={order} />
       dialog.open(orderDetails)
     }
 
-    const openPrintForm=()=>{
-      const printForm = <PrintForm order={order}/>
+    const openPrintForm = () => {
+      const printForm = <PrintForm order={order} />
       dialog.open(printForm)
     }
 
@@ -126,39 +131,40 @@ const OrdersList = (props) => {
       mount: { value: order.mount, render: <div className='od-orderCell'>{order.mount} DA</div> },
       actions: { render: order.status !== 'paid' ? <OrderActions order={order} updateOrderStatus={props.updateOrderStatus} /> : '' },
       options: {
-        render: 
-        <div className='flex row'>
-          <Tooltip title="Ouvrir" placement="top">
-            <IconButton
-              onClick={openOrder}>
-              <VisibilityIcon fontSize="small" />
-            </IconButton>
-          </Tooltip>
-          <Tooltip title="Imprimer" placement="top">
-            <IconButton
-              onClick={openPrintForm}>
-              <PrintIcon fontSize="small" />
-            </IconButton>
-          </Tooltip>
-           
-        </div>
+        render:
+
+          <div className='flex row'>
+            <Tooltip title="Ouvrir" placement="top">
+              <IconButton 
+                onClick={openOrder}>
+                <VisibilityIcon fontSize="small" />
+              </IconButton>
+            </Tooltip>
+            <Tooltip title="Imprimer" placement="top">
+              <IconButton
+                onClick={openPrintForm}>
+                <PrintIcon fontSize="small" />
+              </IconButton>
+            </Tooltip>
+
+          </div>
       }
     }
 
   })
 
   return (
-    <div className='ord-ordersList brad15 bwhite' ref={mypage}> 
-      <TableList title='Commandes' 
+    <div className='ord-ordersList brad15 bwhite' ref={mypage}>
+      <TableList title='Commandes'
         subTitle={`${_.get(props, 'orders.length', '--')} commandes(s)`}
         columns={columns}
         rows={rows}
-        filters={filters} 
+        filters={filters}
         withRefresh={true}
         onRefresh={props.reload}
         loading={props.loading}
-        error={props.error}/>
-    
+        error={props.error} />
+
     </div>
   )
 }

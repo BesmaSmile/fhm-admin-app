@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { Button } from '@material-ui/core';
 import { OutlinedInput } from '@material-ui/core';
+import { ButtonWrapper } from 'components/misc/PermissionWrappers/PermissionWrappers';
+import { permissionConstants } from 'consts';
 import { hooks } from 'functions/hooks';
 import { useSnackbar } from 'notistack';
 import CircularProgress from '@material-ui/core/CircularProgress';
@@ -94,14 +96,18 @@ const CatalogSubCategories = (props) => {
           </Button>
         </>
         :
-        <Button variant="outlined" classes={{
-          root: 'ctg-subCategoryButton',
-          outlined: 'ctg-subCategoryButton_outlined',
-          label: 'ctg-subCategoryButton_label'
-        }}
-          onClick={addOnclick}>
-          +
-        </Button>
+        <ButtonWrapper
+          neededPermission={permissionConstants.UPDATE_CATALOG}
+          button={(disabled) => <Button
+            disabled={disabled}
+            variant="outlined" classes={{
+              root: 'ctg-subCategoryButton',
+              outlined: 'ctg-subCategoryButton_outlined',
+              label: 'ctg-subCategoryButton_label'
+            }}
+            onClick={addOnclick}>
+            +
+        </Button>} />
       }
     </div>
   )

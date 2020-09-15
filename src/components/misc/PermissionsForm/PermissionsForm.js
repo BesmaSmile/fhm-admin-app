@@ -109,8 +109,8 @@ const PermissionsForm = props => {
           label : "Activer/désactiver le compte d'un administrateur"
         },
         {
-          name: permissionConstants.RESET_ADMIN_PASSWORD,
-          label: "Réinitialiser le mot de passe d'un administrateur"
+          name: permissionConstants.CHANGE_ADMIN_PASSWORD,
+          label: "Changer le mot de passe d'un administrateur"
         },
         {
           name: permissionConstants.READ_ADMIN_PERMISSIONS,

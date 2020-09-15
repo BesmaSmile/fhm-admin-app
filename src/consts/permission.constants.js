@@ -13,7 +13,7 @@ export const permissionConstants={
   UPDATE_CATALOG: 'update_catalog',
   READ_ADMIN :'read_admin',
   TOGGLE_ADMIN_ACCOUNT : 'toggle_admin_account',
-  RESET_ADMIN_PASSWORD : 'reset_admin_password', 
+  CHANGE_ADMIN_PASSWORD : 'change_admin_password', 
   READ_ADMIN_PERMISSIONS : 'read_admin_permissions',
   UPDATE_ADMIN_PERMISSIONS : 'update_admin_permissions'
 }

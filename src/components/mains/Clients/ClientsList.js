@@ -3,6 +3,8 @@ import React, { useEffect } from 'react';
 import SvgIcon from 'components/misc/SvgIcon/SvgIcon';
 import Map from 'components/misc/Map/Map';
 import TableList from 'components/misc/TableList/TableList';
+import {ButtonWrapper} from 'components/misc/PermissionWrappers/PermissionWrappers';
+import {permissionConstants} from 'consts';
 import { Button } from '@material-ui/core';
 import { Link } from "react-router-dom";
 import { useDialog } from 'components/misc/Dialog/Dialog';
@@ -41,14 +43,18 @@ const ClientActions = props => {
     else toggleAccount()
   }
   return (
-    <Button
-      disabled={updateClientStatus.pending}
-      variant="outlined" 
-      size="small"
-      classes={{ root: client.status === 'enabled' ? 'clt-disableButton' : 'clt-enableButton' }}
-      onClick={handleClick}>
-      {client.status === 'enabled' ? 'Désactiver' : 'Activer'}
-    </Button>
+    <ButtonWrapper 
+      neededPermission={permissionConstants.TOGGLE_CLIENT_ACCOUNT}
+      button={(disabled)=><Button
+        disabled={disabled || updateClientStatus.pending}
+        variant="outlined" 
+        size="small"
+        classes={{ root: client.status === 'enabled' ? 'clt-disableButton' : 'clt-enableButton' }}
+        onClick={handleClick}>
+        {client.status === 'enabled' ? 'Désactiver' : 'Activer'}
+      </Button>}
+      />
+    
   )
 }
 
@@ -110,7 +116,7 @@ const ClientsList = (props) => {
       },
       status: {
         value: client.status,
-        render: <div className='clt-detailContainer pointer'>
+        render: <div className='clt-detailContainer'>
           <div className='clt-datailTop'>
             <SvgIcon name={client.status} />
           </div>

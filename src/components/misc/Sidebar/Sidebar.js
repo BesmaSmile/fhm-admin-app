@@ -52,7 +52,7 @@ Sidebar.defaultProps = {
     { name: 'Catalogue', path: '/catalogue' },
     { name: 'Administrateurs', path: '/administrateurs' }
   ],
-  className: 'w270'
+  className: 'w240'
 }
 const mapState = (state) => ({
   user: state.auth.user

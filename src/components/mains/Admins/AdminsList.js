@@ -3,6 +3,8 @@ import TableList from 'components/misc/TableList/TableList';
 import AdminForm from 'components/misc/AdminForm/AdminForm';
 import PermissionsForm from 'components/misc/PermissionsForm/PermissionsForm';
 import ChangePasswordForm from 'components/misc/ChangePasswordForm/ChangePasswordForm';
+import { ButtonWrapper } from 'components/misc/PermissionWrappers/PermissionWrappers';
+import { permissionConstants } from 'consts';
 import SvgIcon from 'components/misc/SvgIcon/SvgIcon';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import SecurityIcon from '@material-ui/icons/Security';
@@ -45,14 +47,17 @@ const AdminActions = props => {
   }
 
   return (
-    <Button
-      disabled={updateAdminStatus.pending}
-      variant="outlined" 
-      size="small"
-      classes={{ root: administrator.status === 'enabled' ? 'adm-disableButton' : 'adm-enableButton' }}
-      onClick={handleClick}>
-      {administrator.status === 'enabled' ? 'Désactiver' : 'Activer'}
-    </Button>
+    <ButtonWrapper
+      neededPermission={permissionConstants.TOGGLE_ADMIN_ACCOUNT}
+      button={(disabled) =>
+        <Button
+          disabled={disabled || updateAdminStatus.pending}
+          variant="outlined"
+          size="small"
+          classes={{ root: administrator.status === 'enabled' ? 'adm-disableButton' : 'adm-enableButton' }}
+          onClick={handleClick}>
+          {administrator.status === 'enabled' ? 'Désactiver' : 'Activer'}
+        </Button>} />
   )
 }
 
@@ -92,10 +97,10 @@ const AdminsList = (props) => {
       }
     }*/
 
-   
 
-    const openChangePasswordForm=()=>{
-      const changePasswordForm=<ChangePasswordForm 
+
+    const openChangePasswordForm = () => {
+      const changePasswordForm = <ChangePasswordForm
         close={dialog.close}
         changePassword={(password) => props.changePassword(administrator.id, password)} />
       dialog.open(changePasswordForm)
@@ -108,34 +113,40 @@ const AdminsList = (props) => {
       role: { value: administrator.role, render: <div className='adm-adminCell'>{administrator.role === 'super-admin' ? 'Super-admin' : 'Admin'}</div> },
       status: {
         value: administrator.status,
-        render: <div className='adm-detailContainer pointer'>
+        render: <div className='adm-detailContainer'>
           <div className='adm-datailTop'>
             <SvgIcon name={administrator.status} />
           </div>
           <div className='adm-clientCell'>
-            {administrator.status === 'enabled' ? 'Activé'  : 'Désactivé'}
+            {administrator.status === 'enabled' ? 'Activé' : 'Désactivé'}
           </div>
         </div>
       },
-      actions :{
-        render : <AdminActions administrator={administrator} updateAdminStatus={props.updateAdminStatus}/>
+      actions: {
+        render: <AdminActions administrator={administrator} updateAdminStatus={props.updateAdminStatus} />
       },
       options: {
-        render: 
-        <div className='flex row'>
-          <Tooltip title="Permissions" placement="top">
-            <IconButton
-              onClick={()=>openPermissionsForm(administrator.id, administrator.permissions)}>
-              <SecurityIcon fontSize="small" />
-            </IconButton>
-          </Tooltip>
-          <Tooltip title="Changer mot de passe" placement="top">
-            <IconButton
-              onClick={openChangePasswordForm}>
-              <LockIcon fontSize="small" />
-            </IconButton>
-          </Tooltip>
-        </div>
+        render:
+          <div className='flex row'>
+            <ButtonWrapper
+              neededPermission={permissionConstants.READ_ADMIN_PERMISSIONS}
+              button={(disabled) =>
+                <Tooltip title="Permissions" placement="top">
+                  <IconButton disabled={disabled}
+                    onClick={() => openPermissionsForm(administrator.id, administrator.permissions)}>
+                    <SecurityIcon fontSize="small" />
+                  </IconButton>
+                </Tooltip>} />
+            <ButtonWrapper
+              neededPermission={permissionConstants.CHANGE_ADMIN_PASSWORD}
+              button={(disabled) =>
+                <Tooltip title="Changer mot de passe" placement="top">
+                  <IconButton disabled={disabled}
+                    onClick={openChangePasswordForm}>
+                    <LockIcon fontSize="small" />
+                  </IconButton>
+                </Tooltip>} />
+          </div>
       }
     }
   })
@@ -143,9 +154,9 @@ const AdminsList = (props) => {
   const openAdminForm = () => {
     const adminForm = <AdminForm
       registerAdmin={props.registerAdmin}
-      close={dialog.close} 
-      onSuccess={(id)=>openPermissionsForm(id)}
-      />
+      close={dialog.close}
+      onSuccess={(id) => openPermissionsForm(id)}
+    />
 
     dialog.open(adminForm, true)
   }
