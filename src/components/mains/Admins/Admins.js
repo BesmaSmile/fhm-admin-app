@@ -28,6 +28,7 @@ const Admins=props=>{
           loading={adminsRequest.pending}
           error={adminsRequest.error}
           updateAdminStatus={props.updateAdminStatus}
+          changePassword={props.changePassword}
           reload={loadAdmins}
           updateAdminPermissions={props.updateAdminPermissions} />
       </div>
@@ -43,6 +44,7 @@ const actionCreators = {
   getAdmins: adminActions.getAdmins,
   updateAdminStatus : adminActions.updateAdminStatus,
   updateAdminPermissions : adminActions.updateAdminPermissions,
+  changePassword : adminActions.changePassword
 }
 
 export default connect(mapState, actionCreators)(Admins);

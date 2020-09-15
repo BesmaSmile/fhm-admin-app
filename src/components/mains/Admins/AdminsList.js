@@ -2,6 +2,7 @@ import React from 'react';
 import TableList from 'components/misc/TableList/TableList';
 import AdminForm from 'components/misc/AdminForm/AdminForm';
 import PermissionsForm from 'components/misc/PermissionsForm/PermissionsForm';
+import ChangePasswordForm from 'components/misc/ChangePasswordForm/ChangePasswordForm';
 import SvgIcon from 'components/misc/SvgIcon/SvgIcon';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import SecurityIcon from '@material-ui/icons/Security';
@@ -72,6 +73,15 @@ const AdminsList = (props) => {
     { key: 'status', name: 'Statut', type: 'select', value: 'all', fields: ['status'], options: [{ value: 'all', name: 'Tout' }, { value: 'enabled', name: 'Activé' }, { value: 'disabled', name: 'Désactivé' }] },
     { key: 'search', name: 'Rechercher', type: 'input', value: _.get(window.location, 'hash', '').substring(1), fields: ['username', 'createdAt', 'updatedAt'] }
   ]
+
+  const openPermissionsForm = (id, permissions) => {
+    const permissionsForm = <PermissionsForm
+      permissions={permissions}
+      close={dialog.close}
+      updateAdminPermissions={(permissions) => props.updateAdminPermissions(id, permissions)} />
+    dialog.open(permissionsForm)
+  }
+
   const rows = _.get(props, 'administrators', []).map(administrator => {
 
     /*const handlePositionClick = () => {
@@ -81,14 +91,16 @@ const AdminsList = (props) => {
         dialog.open(mapLocation, false)
       }
     }*/
-    console.log(administrator)
-    const openPermissionsForm = () => {
-      const permissionsForm = <PermissionsForm
-        permissions={administrator.permissions}
+
+   
+
+    const openChangePasswordForm=()=>{
+      const changePasswordForm=<ChangePasswordForm 
         close={dialog.close}
-        updateAdminPermissions={(permissions) => props.updateAdminPermissions(administrator.id, permissions)} />
-      dialog.open(permissionsForm)
+        changePassword={(password) => props.changePassword(administrator.id, password)} />
+      dialog.open(changePasswordForm)
     }
+
     return {
       username: { value: administrator.username, render: <div className='adm-adminCell'>{administrator.username}</div> },
       createdAt: { value: administrator.createdAt ? moment(administrator.createdAt).format('DD/MM/YYYY HH:mm') : '', render: <div className='adm-dateCell'>{administrator.createdAt ? moment(administrator.createdAt).format('DD/MM/YYYY HH:mm') : '----'}</div> },
@@ -113,13 +125,13 @@ const AdminsList = (props) => {
         <div className='flex row'>
           <Tooltip title="Permissions" placement="top">
             <IconButton
-              onClick={openPermissionsForm}>
+              onClick={()=>openPermissionsForm(administrator.id, administrator.permissions)}>
               <SecurityIcon fontSize="small" />
             </IconButton>
           </Tooltip>
-          <Tooltip title="Réinitialiser mot de passe" placement="top">
+          <Tooltip title="Changer mot de passe" placement="top">
             <IconButton
-              onClick={openPermissionsForm}>
+              onClick={openChangePasswordForm}>
               <LockIcon fontSize="small" />
             </IconButton>
           </Tooltip>
@@ -131,7 +143,9 @@ const AdminsList = (props) => {
   const openAdminForm = () => {
     const adminForm = <AdminForm
       registerAdmin={props.registerAdmin}
-      close={dialog.close} />
+      close={dialog.close} 
+      onSuccess={(id)=>openPermissionsForm(id)}
+      />
 
     dialog.open(adminForm, true)
   }

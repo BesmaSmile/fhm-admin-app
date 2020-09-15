@@ -10,7 +10,7 @@ import { useSnackbar } from 'notistack';
 import { useHistory } from "react-router-dom";
 
 const AdminForm = props => {
-  const { close, registerAdmin, isFirstAdmin } = props
+  const { close, registerAdmin, isFirstAdmin, onSuccess } = props
   const registerRequest = hooks.useRequest()
   const { enqueueSnackbar } = useSnackbar();
   const history=useHistory()
@@ -24,11 +24,13 @@ const AdminForm = props => {
     const {secretKey, confirmPassword ,...user}=values
     registerRequest.execute({
       action : ()=>registerAdmin(user,isFirstAdmin, secretKey),
-      success : () => {
+      success : (result) => {
+        console.log(result)
         enqueueSnackbar(`Le compte admin a bien été enregistré !`, { variant: 'success' });
+        
         if(isFirstAdmin)
           history.replace('/')
-        else close()
+        else if(onSuccess) onSuccess(result.id); else close()
       },
       failure : (error)=>enqueueSnackbar(error, { variant: 'error' })
     })
