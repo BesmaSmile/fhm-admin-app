@@ -6,7 +6,7 @@
   }
   & .po-docContainer{
     overflow-y: scroll;
-    max-height: 80vh;
+    max-height: calc(95vh - 50px);
   }
   & .po-printButton{
     position: absolute;

@@ -18,12 +18,14 @@ const PageWrapper=connect(mapState)(props=>{
     'orders' :permissionConstants.READ_ORDER,
     'catalog' :permissionConstants.READ_CATALOG,
     'admins' :permissionConstants.READ_ADMIN,
+    'deliveryOrder' : permissionConstants.READ_DELIVERY_ORDER,
+    'purchaseOrder' : permissionConstants.READ_PURCHASE_ORDER,
   }
 
   if(permissions[associatedPermissions[name]])
     return (<>{page}</>)
   else return (
-    <div className='flex relw100 col aic jcc marb50'>
+    <div className='PageWrapper flex relw100 col aic jcc marb50'>
       <div className='pw-iconContainer marb40'>
         <SecurityIcon classes={{root :'pw-largIcon'}} fontSize='large'/>
         <CancelIcon classes={{root :'pw-smallIcon'}} fontSize='small'/>

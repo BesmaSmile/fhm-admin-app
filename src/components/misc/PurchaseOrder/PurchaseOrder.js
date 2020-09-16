@@ -4,6 +4,8 @@ import { Fab, Tooltip } from '@material-ui/core';
 import PrintIcon from '@material-ui/icons/Print';
 import TableList from 'components/misc/TableList/TableList';
 import QRCode from 'qrcode.react';
+import { ButtonWrapper } from 'components/misc/PermissionWrappers/PermissionWrappers';
+import { permissionConstants } from 'consts';
 import { useReactToPrint } from "react-to-print";
 import moment from 'moment';
 import _ from 'lodash';
@@ -16,8 +18,8 @@ const PurchaseOrder = props => {
 
   const printOrder = useReactToPrint({
     content: () => docRef.current,
-    documentTitle : `FHM - Commande N° ${order.id} (${isDeliveryOrder ? 'bon de livraison' : 'bon de commande'})`,
-    onAfterPrint: ()=>close()
+    documentTitle: `FHM - Commande N° ${order.id} (${isDeliveryOrder ? 'bon de livraison' : 'bon de commande'})`,
+    onAfterPrint: () => close()
   })
 
   const columns = [
@@ -25,7 +27,7 @@ const PurchaseOrder = props => {
     { key: 'origin', name: 'Importation/Locale' },
     ...(isDeliveryOrder ? [{ key: 'unitPrice', name: 'Prix unitaire' }] : []),
     { key: 'quantity', name: 'Quantité' },
-    ...(isDeliveryOrder ? [{ key: 'montant', name: 'Montant'  }] : []),
+    ...(isDeliveryOrder ? [{ key: 'montant', name: 'Montant' }] : []),
   ]
 
   const rows = [...order.articles, ...(isDeliveryOrder ? [{ isTotalRow: true }] : [])].map(article => {
@@ -48,7 +50,7 @@ const PurchaseOrder = props => {
         <div className='pad20 bgblue h1020 flex col' ref={docRef}>
           <div className='flex row jcsb aifs aic mart15'>
             <Logo />
-            <div className='fs30 bold cstrongblue'>{isDeliveryOrder ? "Bon de livraison" : "Bon de commande" }</div>
+            <div className='fs30 bold cstrongblue'>{isDeliveryOrder ? "Bon de livraison" : "Bon de commande"}</div>
           </div>
           <div className='flex row jcsb marv30'>
             <div className='flex col fs14 cstronggrey'>
@@ -67,8 +69,8 @@ const PurchaseOrder = props => {
                 <div className='extralight'>{order.id} </div>
                 <div className='extralight'>{moment(order.createdAt).format('DD/MM/YYYY HH:mm')} </div>
                 <div className='mart20'>
-                  <div className='extralight'>{order.client.lastname} {order.client.firstname}</div> 
-                  <div className='extralight'>{city}</div> 
+                  <div className='extralight'>{order.client.lastname} {order.client.firstname}</div>
+                  <div className='extralight'>{city}</div>
                   <div className='extralight'>{order.client.phoneNumber}</div>
                 </div>
               </div>
@@ -82,17 +84,20 @@ const PurchaseOrder = props => {
           </div>
           {isDeliveryOrder &&
             <div className='flex jcfe marb30'>
-              <QRCode value={order.id}/>
+              <QRCode value={order.id} />
             </div>
           }
         </div>
       </div>
       <div className='po-printButton'>
-        <Tooltip title="Imprimer" placement="top">
-          <Fab onClick={printOrder}>
-            <PrintIcon fontSize="small" />
-          </Fab>
-        </Tooltip>
+        <ButtonWrapper
+          neededPermission={isDeliveryOrder ? permissionConstants.PRINT_DELIVERY_ORDER : permissionConstants.PRINT_PURCHASE_ORDER}
+          button={(disabled) =>
+            <Tooltip title="Imprimer" placement="top">
+              <Fab disabled={disabled} onClick={printOrder}>
+                <PrintIcon fontSize="small" />
+              </Fab>
+            </Tooltip>} />
       </div>
     </div>
   )
