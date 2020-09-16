@@ -30,12 +30,6 @@ function getClients(){
           paidAt : orderData.paidAt && orderData.paidAt.toDate(),
           deliveredAt : orderData.deliveredAt && orderData.deliveredAt.toDate(),
           id : order.id,
-          client : {
-            id : client.id,
-            firstname : client.firstname,
-            lastname : client.lastname,
-            phoneNumber : client.phoneNumber
-          }
         })
       })
       client.orders=ordersList

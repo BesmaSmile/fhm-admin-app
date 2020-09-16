@@ -99,7 +99,7 @@ const OrdersList = (props) => {
     }
 
     const openPrintForm = () => {
-      const printForm = <PrintForm order={order} />
+      const printForm = <PrintForm order={order} close={dialog.close} />
       dialog.open(printForm)
     }
 

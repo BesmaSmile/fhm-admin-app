@@ -1,0 +1,19 @@
+.PurchaseOrder{
+  position: relative;
+  & .po-articleCell{
+    font-size: 14px;
+    color: var(--stronggrey)
+  }
+  & .po-docContainer{
+    overflow-y: scroll;
+    max-height: 80vh;
+  }
+  & .po-printButton{
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    & .MuiFab-label{
+      color: var(--blue)
+    }
+  }
+}

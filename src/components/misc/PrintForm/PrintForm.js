@@ -1,12 +1,11 @@
 import React, {useState} from 'react';
 import TabPanels from 'components/misc/TabPanels/TabPanels';
 import PurchaseOrder from 'components/misc/PurchaseOrder/PurchaseOrder';
-import DeliveryOrder from 'components/misc/DeliveryOrder/DeliveryOrder';
 
 const PrintForm=props=>{
   const tabs=[
-    {label : 'Bon de commande', content : <PurchaseOrder order={props.order}/>},
-    {label: 'Bon de livraison', content : <DeliveryOrder order={props.order}/>}
+    {label : 'Bon de commande', content : <PurchaseOrder order={props.order} close={props.close}/>},
+    {label: 'Bon de livraison', content : <PurchaseOrder isDeliveryOrder={true} order={props.order} close={props.close}/>}
   ]
   return(
     <TabPanels tabs={tabs} className='w700'/>

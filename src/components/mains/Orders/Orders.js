@@ -9,7 +9,6 @@ import './Orders.scss';
 const Orders=(props)=>{
   const clientsRequest = hooks.useRequest()
 
-
   const calculateTotal = (articles) => {
     const total = articles.map(article=>{
       const product=props.products.find(product=>product.id===article.id);
@@ -43,7 +42,7 @@ const Orders=(props)=>{
 
   let orders=[]
   _.get(props, 'clients', []).forEach(client => {
-    orders=[...orders, ...client.orders]
+    orders=[...orders, ..._.get(client, 'orders', []).map(order=>({...order, client}))]
   });
   
   if(props.products){
