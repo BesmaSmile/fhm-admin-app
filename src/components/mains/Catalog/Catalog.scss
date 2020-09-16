@@ -1,4 +1,23 @@
 .Catalog{
+  & .ctg-buttonContainer{
+    position: relative;
+    & .ctg-editTooltip{
+      position: absolute;
+      top: -2px;
+      right: 2px;
+      padding: 3px;
+      background-color: var(--lightblue);
+      border : 1px solid var(--white);
+      color: white;
+      visibility: hidden;
+      & .MuiSvgIcon-root{
+        font-size: 12px
+      }
+    }
+    &:hover .ctg-editTooltip{
+      visibility: visible;
+    }
+  }
   & .ctg-categories{
     /*position: absolute;
     left: 0;

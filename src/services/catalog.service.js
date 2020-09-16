@@ -6,7 +6,7 @@ export const catalogService={
   getCategories,
   getProducts, 
   setProduct,
-  addCategory,
+  setCategory,
   updateSubCategories 
 }
 
@@ -76,16 +76,16 @@ async function setProduct(product, pictureFile){
   }
 }
 
-async function addCategory(category, existingCategories){
-  console.log(category)
+async function setCategory(category, existingCategories){
   const collectionRef = firebase.firestore().collection('categories');
   let categories=Object.assign([], existingCategories)
-  const categoryRef=collectionRef.doc()
+  const categoryRef=category.id ? collectionRef.doc(category.id)  : collectionRef.doc()
   await categoryRef.set(category)
   .catch(error=>{
     console.log(error);
     throw {message :"Echec d'ajout d'une catégorie de produit !", added:false}
   });
+  categories=categories.filter(category=>category.id!==categoryRef.id)
   categories.splice(category.order-1, 0, {...category, id : categoryRef.id});
 
   if(category.order<=existingCategories.lenght){

@@ -84,7 +84,7 @@ const Catalog = (props) => {
   const openCategoryForm = (category) => {
     const categoryForm = <CategoryForm close={formDialog.close}
       categories={_.get(props, 'categories', [])}
-      addCategory={props.addCategory}
+      setCategory={props.setCategory}
       category={category} />
     formDialog.open(categoryForm, true)
   }
@@ -153,7 +153,7 @@ const actionCreators = {
   getCategories: catalogActions.getCategories,
   getProducts: catalogActions.getProducts,
   setProduct: catalogActions.setProduct,
-  addCategory: catalogActions.addCategory,
+  setCategory: catalogActions.setCategory,
   updateSubCategories: catalogActions.updateSubCategories
 }
 

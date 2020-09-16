@@ -5,16 +5,17 @@ import { useSnackbar } from 'notistack';
 import _ from 'lodash';
 
 const CategoryForm=props=>{
-  const {close, categories, addCategory, category} = props
-  const addCategoryRequest=hooks.useRequest()
+  const {close, categories, setCategory, category} = props
+  const setCategoryRequest=hooks.useRequest()
   const { enqueueSnackbar } = useSnackbar();
 
+  console.log(category)
   const onSubmit=values=>{
-    if(categories.find(category=>category.name===values.name))
+    if(!category && categories.find(category=>category.name===values.name))
       enqueueSnackbar(`La catégrorie de produit "${values.name}" existe déja!`, { variant: 'warning' })
     else
-      addCategoryRequest.execute({
-        action: () => addCategory({...values, order :parseInt(values.order) }, categories),
+      setCategoryRequest.execute({
+        action: () => setCategory({...values, order :parseInt(values.order), id :_.get(category, 'id') }, categories),
         success: (res) => {
           enqueueSnackbar(`La cétegorie de produit "${values.name}" a bien été enregistrée !`, { variant: 'success' })
           close()
@@ -32,6 +33,7 @@ const CategoryForm=props=>{
     {
       name: 'name',
       label: 'Nom de catégorie',
+      disabled : category, 
       defaultValue : _.get(category,'name'),
       validation: { required: 'Champs requis' }
     },
@@ -59,7 +61,7 @@ const CategoryForm=props=>{
         inputs={categoryInputs}
         onSubmit={onSubmit}
         submitText='Enregistrer'
-        pending={addCategoryRequest.pending}
+        pending={setCategoryRequest.pending}
         isDialog={true}
         cancel={close}
       />
