@@ -3,6 +3,18 @@
     font-size: 14px;
     color: var(--stronggrey);
   }
+  & .od-statusCell{
+
+    & div{
+      text-align: center;
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--white);
+      border-radius: 3px;
+      width: 70px;
+      padding: 3px 5px;
+    }
+  }
   & .od-deliveryButton, .od-paymentButton{
     &.MuiButton-outlined{
       height: 25px;
@@ -20,12 +32,12 @@
     }
   }
   & .od-deliveryButton.MuiButton-outlined{
-    border-color: var(--strongorange);
+    border-color: var(--lightblue);
     & .MuiButton-label{
-      color: var(--strongorange);
+      color: var(--lightblue);
     }
     &:hover{
-      background-color: var(--strongorange);
+      background-color: var(--lightblue);
       & .MuiButton-label{
         color: var(--white);
       }
@@ -46,6 +58,6 @@
   & .od-dateCell{
     font-size: 12px;
     font-weight: 300;
-    color: var(--grey)
+    color: var(--stronggrey)
   }
 }

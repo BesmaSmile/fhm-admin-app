@@ -11,10 +11,9 @@ const Orders=(props)=>{
 
   const calculateTotal = (articles) => {
     const total = articles.map(article=>{
-      const product=props.products.find(product=>product.id===article.id);
       return{
         ...article,
-        price : article.deliveredAt ? article.price : (article.imported ? product.importationPrice : product.price)
+        price : article.price
       }
     }).reduce((article1, article2) => ({ 
       price : article1.price * article1.quantity + article2.price * article2.quantity,
@@ -23,7 +22,6 @@ const Orders=(props)=>{
     return total.price
   }
 
-  
   useEffect(() => {
     if (!props.clients) {
       loadClients()

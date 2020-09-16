@@ -1,7 +1,12 @@
 .Clients{
   & .clt-clientCell{
-      font-size: 14px;
-      color: var(-stronggrey)
+    font-size: 14px;
+    color: var(-stronggrey)
+  }
+  & .clt-dateCell{
+    font-size: 12px;
+    font-weight: 300;
+    color: var(--stronggrey)
   }
   & .clt-detailContainer{
     display: flex;

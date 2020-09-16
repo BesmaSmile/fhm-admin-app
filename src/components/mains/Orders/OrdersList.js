@@ -105,16 +105,16 @@ const OrdersList = (props) => {
 
     return {
       id: { value: order.id, render: <div className='od-orderCell'>{order.id}</div> },
-      createdAt: { value: moment(order.createdAt).format('DD/MM/YYYY HH:mm'), render: <div className='od-dateCell'>{moment(order.createdAt).format('DD/MM/YYYY HH:mm')}</div> },
+      createdAt: { value: moment(order.createdAt).format('DD/MM/YYYY'), render: <div className='od-dateCell'>{moment(order.createdAt).format('DD/MM/YYYY')}</div> },
       status: {
         value: order.status,
-        render: <div className='od-orderCell'>{order.status === 'paid' ? <span className='cgreen'>Payé</span> : (order.status === 'delivered' ? <span className='corange'>Livré</span> : <span className='cblue'>Nouveau</span>)}</div>
+        render: <div className='od-statusCell'>{order.status === 'paid' ? <div className='bgreen'>Payé</div> : (order.status === 'delivered' ? <div className='blightblue'>Livré</div> : <div className='borange'>Nouveau</div>)}</div>
       },
       deliveredAt: {
-        value: order.deliveredAt ? moment(order.deliveredAt).format('DD/MM/YYYY HH:mm') : '',
-        render: <div className='od-dateCell'>{order.deliveredAt ? moment(order.deliveredAt).format('DD/MM/YYYY HH:mm') : '---'}</div>
+        value: order.deliveredAt ? moment(order.deliveredAt).format('DD/MM/YYYY') : '',
+        render: <div className='od-dateCell'>{order.deliveredAt ? moment(order.deliveredAt).format('DD/MM/YYYY') : '---'}</div>
       },
-      paidAt: { value: order.paidAt ? moment(order.paidAt).format('DD/MM/YYYY HH:mm') : '', render: <div className='od-dateCell'>{order.paidAt ? moment(order.paidAt).format('DD/MM/YYYY HH:mm') : '----'}</div> },
+      paidAt: { value: order.paidAt ? moment(order.paidAt).format('DD/MM/YYYY') : '', render: <div className='od-dateCell'>{order.paidAt ? moment(order.paidAt).format('DD/MM/YYYY') : '----'}</div> },
       client: {
         value: `${order.client.lastname} ${order.client.firstname}`,
         render: <div className='od-orderCell'>

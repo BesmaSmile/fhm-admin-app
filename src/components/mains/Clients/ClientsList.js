@@ -96,8 +96,8 @@ const ClientsList = (props) => {
     return {
       lastname: { value: client.lastname, render: <div className='clt-clientCell'>{client.lastname}</div> },
       firstname: { value: client.firstname, render: <div className='clt-clientCell'>{client.firstname}</div> },
-      createdAt: { value: moment(client.createdAt).format('DD/MM/YYYY HH:mm'), render: <div className='clt-clientCell'>{moment(client.createdAt).format('DD/MM/YYYY HH:mm')}</div> },
-      updatedAt: { value: client.updatedAt ? moment(client.updatedAt).format('DD/MM/YYYY HH:mm') : '', render: <div className='clt-clientCell'>{client.updatedAt ? moment(client.updatedAt).format('DD/MM/YYYY HH:mm') : ''}</div> },
+      createdAt: { value: moment(client.createdAt).format('DD/MM/YYYY'), render: <div className='clt-dateCell'>{moment(client.createdAt).format('DD/MM/YYYY')}</div> },
+      updatedAt: { value: client.updatedAt ? moment(client.updatedAt).format('DD/MM/YYYY') : '', render: <div className='clt-dateCell'>{client.updatedAt ? moment(client.updatedAt).format('DD/MM/YYYY') : ''}</div> },
       restaurant: { value: client.restaurant, render: <div className='clt-clientCell'>{client.restaurant || '----'}</div> },
       phoneNumber: { value: client.phoneNumber, render: <div className='clt-clientCell'>{client.phoneNumber}</div> },
 
