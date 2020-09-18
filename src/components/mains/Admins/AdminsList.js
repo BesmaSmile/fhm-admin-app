@@ -6,7 +6,6 @@ import ChangePasswordForm from 'components/misc/ChangePasswordForm/ChangePasswor
 import { ButtonWrapper } from 'components/misc/PermissionWrappers/PermissionWrappers';
 import { permissionConstants } from 'consts';
 import SvgIcon from 'components/misc/SvgIcon/SvgIcon';
-import CircularProgress from '@material-ui/core/CircularProgress';
 import SecurityIcon from '@material-ui/icons/Security';
 import LockIcon from '@material-ui/icons/Lock';
 import { Button, IconButton, Tooltip } from '@material-ui/core';

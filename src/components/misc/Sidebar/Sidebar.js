@@ -46,7 +46,7 @@ const Sidebar = (props) => {
 
 Sidebar.defaultProps = {
   items: [
-    { name: 'Accueil', path: '/accueil' },
+    { name: 'Dashboard', path: '/dashboard' },
     { name: 'Clients', path: '/clients' },
     { name: 'Commandes', path: '/commandes' },
     { name: 'Catalogue', path: '/catalogue' },

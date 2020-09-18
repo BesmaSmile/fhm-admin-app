@@ -23,7 +23,7 @@ const App=(props)=>{
       loading ? <div className='relh100vh flex col jcc aic'>Chargement de l'application...</div>
       : <Switch>
           <Route exact path="/">
-            {user ? <Redirect to="/accueil"/> 
+            {user ? <Redirect to="/dashboard"/> 
               : (superAdminExists 
                 ? <Redirect to="/login"/>
                 : <Redirect to="/inscription_super_admin"/>)

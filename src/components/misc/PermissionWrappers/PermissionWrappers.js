@@ -13,7 +13,7 @@ const mapState = (state) => ({
 const PageWrapper=connect(mapState)(props=>{
   const {permissions, page, name}=props
   const associatedPermissions = {
-    'home' : permissionConstants.READ_DASHBOARD,
+    'dashboard' : permissionConstants.READ_DASHBOARD,
     'clients' :permissionConstants.READ_CLIENT,
     'orders' :permissionConstants.READ_ORDER,
     'catalog' :permissionConstants.READ_CATALOG,

@@ -1,6 +1,6 @@
 import React from 'react';
 import MainLayout from 'layouts/MainLayout/MainLayout';
-import Home from 'components/mains/Home/Home';
+import Dashboard from 'components/mains/Dashboard/Dashboard';
 import Clients from 'components/mains/Clients/Clients';
 import Orders from 'components/mains/Orders/Orders';
 import Catalog from 'components/mains/Catalog/Catalog';
@@ -9,7 +9,7 @@ import { Route } from "react-router-dom";
 import {PageWrapper} from 'components/misc/PermissionWrappers/PermissionWrappers';
 
 const pages=[
-  {path : '/accueil', name:'home', component : <Home/> },
+  {path : '/dashboard', name:'dashboard', component : <Dashboard/> },
   {path : '/clients', name:'clients', component : <Clients/>},
   {path : '/commandes', name:'orders', component : <Orders/>},
   {path : '/catalogue', name:'catalog', component : <Catalog/>},

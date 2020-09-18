@@ -26,7 +26,7 @@ function getClients(){
         const orderData=order.data()
         ordersList.push({ 
           ...orderData, 
-          date : orderData.date.toDate(),
+          createdAt : orderData.createdAt.toDate(),
           paidAt : orderData.paidAt && orderData.paidAt.toDate(),
           deliveredAt : orderData.deliveredAt && orderData.deliveredAt.toDate(),
           id : order.id,

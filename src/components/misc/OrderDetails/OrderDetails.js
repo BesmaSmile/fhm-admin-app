@@ -33,7 +33,7 @@ const OrderDetails=props=>{
         <div className='od-dateTitle'>Paiement effectué le</div>
       </div>
       <div className='medium fs14 txtar'>
-        <div className='od-dateValue'>{moment(order.date).format('DD/MM/YYYY HH:mm')}</div>
+        <div className='od-dateValue'>{moment(order.createdAt).format('DD/MM/YYYY HH:mm')}</div>
         <div className='od-dateValue'>{order.deliveredAt ? moment(order.deliveredAt).format('DD/MM/YYYY HH:mm') : '----'} </div>
         <div className='od-dateValue'>{order.paidAt ? moment(order.paidAt).format('DD/MM/YYYY HH:mm') : '----'}</div>
       </div>
