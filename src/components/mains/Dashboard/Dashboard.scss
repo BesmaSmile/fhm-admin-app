@@ -1,0 +1,13 @@
+.Dashboard{
+  & .db-chartContainer{
+    box-shadow: 1px 1px 5px 0px rgba(0,0,0,0.3);
+    background-color: var(--white);
+    border-radius: 5px;
+    margin: 10px;
+    padding: 10px;
+    & .MuiCircularProgress-root{
+      color: var(--blue)
+    }
+  }
+
+}
