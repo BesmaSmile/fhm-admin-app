@@ -7,7 +7,8 @@ export const catalogService={
   getProducts, 
   setProduct,
   setCategory,
-  updateSubCategories 
+  updateSubCategories ,
+  updateStates
 }
 
 function getCategories(){
@@ -77,26 +78,24 @@ async function setProduct(product, pictureFile){
 }
 
 async function setCategory(category, existingCategories){
+  const batch = firebase.firestore().batch();
   const collectionRef = firebase.firestore().collection('categories');
   let categories=Object.assign([], existingCategories)
   const categoryRef=category.id ? collectionRef.doc(category.id)  : collectionRef.doc()
-  await categoryRef.set(category)
-  .catch(error=>{
-    console.log(error);
-    throw {message :"Echec d'ajout d'une catégorie de produit !", added:false}
-  });
+  batch.set(categoryRef, category)
   categories=categories.filter(category=>category.id!==categoryRef.id)
   categories.splice(category.order-1, 0, {...category, id : categoryRef.id});
-
-  if(category.order<=existingCategories.lenght){
+  console.log(categories)
+  if(category.order<=existingCategories.length){
     categories=categories.map((category,i)=>({...category, order :i+1}))
     const categoriesToUpdate=categories.filter(category=>category.id!==categoryRef.id)
+    console.log(categoriesToUpdate)
     for(const category of categoriesToUpdate)
-      await collectionRef.doc(category.id).update({order : category.order})
-      .catch(error=>{
-        console.log(error);
-        throw {message :"Echec de mise en ordre des catégorie !", added:true}
-      });
+      batch.update(collectionRef.doc(category.id), {order : category.order})
+    await batch.commit().catch(error=>{
+      console.log(error);
+      throw {message :"Veuiller modifier l'ordre des catégories !", added:true}
+    })
   }
   return categories
 }
@@ -107,5 +106,16 @@ function updateSubCategories(categoryId, subCategories){
   .catch(error=>{
     console.log(error);
     throw "Echec d'ajout d'une sous-catégorie de produit !"
+  });
+}
+
+function updateStates(categoryId, states){
+  console.log(categoryId)
+  console.log(states)
+  const collectionRef = firebase.firestore().collection('categories');
+  return collectionRef.doc(categoryId).update({states})
+  .catch(error=>{
+    console.log(error);
+    throw "Echec d'ajout d'un état de produit !"
   });
 }

@@ -63,15 +63,6 @@ const AdminForm = props => {
       type: 'password',
       validation: { required: 'Champs requis' },
       combinedValdation: (values) => values.password === values.confirmPassword || "Les mots de passe ne se correspondent pas"
-    },
-    {
-      name: 'role',
-      label: "Rôle",
-      type: 'select',
-      disabled : isFirstAdmin,
-      defaultValue: isFirstAdmin ? 'super-admin' : 'admin',
-      validation: { required: "Champs requis" },
-      options: (values) => [{ value: 'admin', name: 'Admin' },{ value: 'super-admin', name: 'Super-admin' }, ]
     }
   ]
 

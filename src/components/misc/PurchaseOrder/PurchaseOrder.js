@@ -47,10 +47,10 @@ const PurchaseOrder = props => {
   return (
     <div className='PurchaseOrder'>
       <div className='po-docContainer relw100'>
-        <div className='pad20 bgblue h1020 flex col' ref={docRef}>
+        <div className='pad20 h1020 flex col' ref={docRef}>
           <div className='flex row jcsb aifs aic mart15'>
             <Logo />
-            <div className='fs30 bold cstrongblue'>{isDeliveryOrder ? "Bon de livraison" : "Bon de commande"}</div>
+            <div className='fs30 bold cstrongmain'>{isDeliveryOrder ? "Bon de livraison" : "Bon de commande"}</div>
           </div>
           <div className='flex row jcsb marv30'>
             <div className='flex col fs14 cstronggrey'>

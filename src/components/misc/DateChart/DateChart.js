@@ -17,7 +17,7 @@ const OrderChart=props=>{
       break;
   }
 
-  const dates=[...new Set(elements.map(element=>moment(element.createdAt).format(format)))]; 
+  const dates=[...new Set(elements.sort((e1,e2)=>e1.createdAt-e2.createdAt).map(element=>moment(element.createdAt).format(format)))]; 
   const data=dates.map(date=>elements.filter(element=>moment(element.createdAt).format(format)===date).length)
 
   return (

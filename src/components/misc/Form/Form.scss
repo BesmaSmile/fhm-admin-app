@@ -33,13 +33,13 @@
       }
       &:hover{
         & .MuiOutlinedInput-notchedOutline{
-          border-color: var(--blue);
+          border-color: var(--main);
           border-width: 1px;
         }
       } 
     }
     & .Mui-focused .MuiOutlinedInput-notchedOutline{
-      border-color: var(--blue);
+      border-color: var(--main);
       border-width: 0.7px;
     }
     & .MuiInputLabel-root{
@@ -47,7 +47,7 @@
       font-size: 14px;
     }
     & .Mui-focused.MuiInputLabel-root{
-      color: var(--blue);
+      color: var(--main);
       font-weight: bold;
     }
     & .MuiSwitch-root, .MuiCheckbox-root{
@@ -113,7 +113,7 @@
     }
   }
   & .frm-submitButton.MuiButton-contained{
-    background-color: var(--lightblue);
+    background-color: var(--main);
   }
 
   & .frm-cancelButton{

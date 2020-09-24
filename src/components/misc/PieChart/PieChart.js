@@ -1,5 +1,5 @@
 import React, {useRef} from 'react';
-import { Pie } from 'react-chartjs-2';
+import { Doughnut } from 'react-chartjs-2';
 import 'chartjs-plugin-datalabels';
 
 const PieChart = props => {
@@ -15,13 +15,13 @@ const PieChart = props => {
       display: true,
       text: title,
       fontSize: 25,
-      fontColor: 'var(--blue)',
+      fontColor: '#4F4C4C',
       fontStyle: undefined,
       position :'left'
     },
     plugins: {
       datalabels: {
-        display: true,
+        display: false,
         color: 'white',
         backgroundColor: '#000',
         opacity: 0.7,
@@ -53,7 +53,7 @@ const PieChart = props => {
     datasets: datasets.map(dataset => ({ ...dataset, ...chartOptions, backgroundColor : color }))
   }
   return (
-    <Pie ref={chartRef} data={data} options={options} />
+    <Doughnut ref={chartRef} data={data} options={options} />
   )
 
 }

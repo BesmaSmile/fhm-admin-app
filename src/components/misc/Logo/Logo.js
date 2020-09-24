@@ -4,7 +4,7 @@ const Logo=props=>{
   const {lineHeight, bigSize, smallSize}=props
   return(
     <div className='Logo flex jcc aic col'>
-      <div className={`bauhaus93 fs${bigSize} lh${lineHeight} cblue`}>FHM</div>
+      <div className={`bauhaus93 fs${bigSize} lh${lineHeight} cmain`}>FHM</div>
       <span className={`cgrey txtac fs${smallSize} light cstronggrey`}>Faci Hospitality Master</span>
     </div>
   )

@@ -24,7 +24,7 @@ const ProductForm = props => {
     }
     else{
       setProductRequest.execute({
-        action: () => setProduct({...values,id : _.get(product, 'id')},_image.raw && _image.raw!==pictureUrl ? _image.raw : undefined),
+        action: () => setProduct({...values,price : parseInt(values.price),...(values.importationPrice ? {importationPrice : parseInt(values.importationPrice)} : {}), id : _.get(product, 'id')},_image.raw && _image.raw!==pictureUrl ? _image.raw : undefined),
         success: (res) => {
           enqueueSnackbar("Le produit a bien été enregistré !", { variant: 'success' })
           close()

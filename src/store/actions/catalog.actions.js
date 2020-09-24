@@ -6,7 +6,8 @@ export const catalogActions = {
   getProducts,
   setProduct,
   setCategory,
-  updateSubCategories
+  updateSubCategories,
+  updateStates
 }
 
 function getCategories() {
@@ -50,6 +51,15 @@ function updateSubCategories(categoryId, subCategories) {
     return catalogService.updateSubCategories(categoryId, subCategories).then(() => {
       dispatch({ type: catalogConstants.UPDATE_SUB_CATEGORIES, categoryId, subCategories })
       return subCategories;
+    })
+  }
+}
+
+function updateStates(categoryId, states) {
+  return dispatch => {
+    return catalogService.updateStates(categoryId, states).then(() => {
+      dispatch({ type: catalogConstants.UPDATE_STATES, categoryId, states })
+      return states;
     })
   }
 }

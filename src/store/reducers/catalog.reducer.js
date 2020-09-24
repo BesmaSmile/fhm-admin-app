@@ -32,6 +32,11 @@ export function catalog(state = {orders : {}}, action) {
       ...state,
       categories :state.categories.map(category=>(category.id===action.categoryId ? {...category, subCategories : action.subCategories} : category))
     }
+    case catalogConstants.UPDATE_STATES:
+    return {
+      ...state,
+      categories :state.categories.map(category=>(category.id===action.categoryId ? {...category, states : action.states} : category))
+    }
     default :
     return state
   }

@@ -15,7 +15,7 @@ const CategoryForm=props=>{
       enqueueSnackbar(`La catégrorie de produit "${values.name}" existe déja!`, { variant: 'warning' })
     else
       setCategoryRequest.execute({
-        action: () => setCategory({...values, order :parseInt(values.order), id :_.get(category, 'id') }, categories),
+        action: () => setCategory({...values, order :parseInt(values.order), ...(_.get(category, 'id') ? {id :_.get(category, 'id')} : {}) }, categories),
         success: (res) => {
           enqueueSnackbar(`La cétegorie de produit "${values.name}" a bien été enregistrée !`, { variant: 'success' })
           close()

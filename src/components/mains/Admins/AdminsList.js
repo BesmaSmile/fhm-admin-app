@@ -67,13 +67,11 @@ const AdminsList = (props) => {
     { key: 'username', name: "Nom d'utilisateur" },
     { key: 'createdAt', name: "Crée le " },
     { key: 'updatedAt', name: 'Modifié le' },
-    { key: 'role', name: "Rôle" },
     { key: 'status', name: "Statut" },
     { key: 'actions', name: "Actions" },
     { key: 'options', name: "Options" }
   ]
   const filters = [
-    { key: 'role', name: 'Rôle', type: 'select', value: 'all', fields: ['role'], options: [{ value: 'all', name: 'Tout' }, { value: 'admin', name: 'Admin' }, { value: 'super-admin', name: 'Super-admin' }] },
     { key: 'status', name: 'Statut', type: 'select', value: 'all', fields: ['status'], options: [{ value: 'all', name: 'Tout' }, { value: 'enabled', name: 'Activé' }, { value: 'disabled', name: 'Désactivé' }] },
     { key: 'search', name: 'Rechercher', type: 'input', value: _.get(window.location, 'hash', '').substring(1), fields: ['username', 'createdAt', 'updatedAt'] }
   ]
@@ -109,7 +107,6 @@ const AdminsList = (props) => {
       username: { value: administrator.username, render: <div className='adm-adminCell'>{administrator.username}</div> },
       createdAt: { value: administrator.createdAt ? moment(administrator.createdAt).format('DD/MM/YYYY HH:mm') : '', render: <div className='adm-dateCell'>{administrator.createdAt ? moment(administrator.createdAt).format('DD/MM/YYYY HH:mm') : '----'}</div> },
       updatedAt: { value: administrator.updatedAt ? moment(administrator.updatedAt).format('DD/MM/YYYY HH:mm') : '', render: <div className='adm-dateCell'>{administrator.updatedAt ? moment(administrator.updatedAt).format('DD/MM/YYYY HH:mm') : '----'}</div> },
-      role: { value: administrator.role, render: <div className='adm-adminCell'>{administrator.role === 'super-admin' ? 'Super-admin' : 'Admin'}</div> },
       status: {
         value: administrator.status,
         render: <div className='adm-detailContainer'>

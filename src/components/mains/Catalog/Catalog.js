@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import CatalogCategories from './CatalogCategories';
 import CatalogSubCategories from './CatalogSubCategories';
 import CatalogProductsList from './CatalogProductsList';
+import CatalogStates from './CatalogStates';
 import { ButtonWrapper } from 'components/misc/PermissionWrappers/PermissionWrappers';
 import { permissionConstants } from 'consts';
 import { catalogActions } from 'store/actions';
@@ -21,14 +22,26 @@ const Catalog = (props) => {
 
   const [_selectedCategory, _selectCategory] = useState()
   const [_selectedSubCategory, _selectSubCategory] = useState()
-  console.log(props.categories)
+  const [_toggledImportation, _toggleImportation]=useState(false)
+  const [_selectedStates, _selectStates] = useState([])
+
   const categories = _.get(props, 'categories', []).sort((c1, c2) => c1.order > c2.order ? 1 : -1)
   const subCategories = _.get(_selectedCategory, 'subCategories', [])
+  const states = _.get(_selectedCategory, 'states', [])
+  const importation=_.get(_selectedCategory, 'importation')
 
   const products = _.get(props, 'products', []).filter(product =>
     product.category === _.get(_selectedCategory, 'name')
     && (!_selectedSubCategory || product.subCategory === _selectedSubCategory)
+    && (_selectedStates.length===0 || _selectedStates.some(state=>state===product.state))
+    && (!_toggledImportation || !_.get(_selectedCategory, 'importation') || product.importationPrice>0)
   )
+
+  console.log(_toggledImportation)
+  console.log()
+
+  console.log( _.get(props, 'products', []).filter(product =>
+    product.category === _.get(_selectedCategory, 'name')))
 
   useEffect(() => {
     if (!props.categories)
@@ -56,8 +69,9 @@ const Catalog = (props) => {
   }, [props.categories])
 
   useEffect(() => {
-    if (_selectedCategory)
+    if (_selectedCategory){
       _selectSubCategory(_.get(_selectedCategory.subCategories, '0'))
+    }
   }, [_selectedCategory])
 
   const handleSelectCategory = (id) => {
@@ -67,6 +81,14 @@ const Catalog = (props) => {
 
   const handleSelectSubCategory = (subCategory) => {
     _selectSubCategory(subCategory)
+  }
+
+  const handleSelectState=(state)=>{
+    const selectedStates=Object.assign([], _selectedStates)
+    if(selectedStates.some(s=>s===state))
+      selectedStates=selectedStates.filter(s=>s==state)
+    else selectedStates=[...selectedStates, state]
+    _selectStates(selectedStates)
   }
 
   const openProductForm = (product, pictureUrl) => {
@@ -107,7 +129,7 @@ const Catalog = (props) => {
       <div className='pad20 flex row jcsb'>
         <div className='ctg-subCategories f1'>
           <div className='flex row aic'>
-            {subCategories.length === 0 && <div className='fs14 cblack marr10 clightblue'>Sous-catégories de produits</div>}
+            {subCategories.length === 0 && <div className='fs14 cblack marr10 cmain'>Sous-catégories de produits</div>}
             {subCategories &&
               <CatalogSubCategories
                 subCategories={subCategories}
@@ -139,8 +161,16 @@ const Catalog = (props) => {
         <div className='ctg-productList f1 marr10'>
           <CatalogProductsList products={products} openProductForm={openProductForm} />
         </div>
-        <div className='w250'></div>
-      </div>
+        <CatalogStates states={states} 
+          selectedStates={_selectedStates}
+          handleSelectState={handleSelectState}
+          updateStates={(states)=>props.updateStates(_selectedCategory.id, states)}
+          importation={importation}
+          toggledImportation={_toggledImportation}
+          handleToggleImportation={_toggleImportation}
+            
+          />
+      </div>)
     </div>
   )
 }
@@ -154,7 +184,8 @@ const actionCreators = {
   getProducts: catalogActions.getProducts,
   setProduct: catalogActions.setProduct,
   setCategory: catalogActions.setCategory,
-  updateSubCategories: catalogActions.updateSubCategories
+  updateSubCategories: catalogActions.updateSubCategories,
+  updateStates: catalogActions.updateStates
 }
 
 export default connect(mapState, actionCreators)(Catalog);

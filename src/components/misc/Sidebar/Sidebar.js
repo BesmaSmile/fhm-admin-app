@@ -26,7 +26,6 @@ const Sidebar = (props) => {
           <img className='circle' src={avatar} alt='' />
           <div className='flex col marl20'>
             <span className='cstronggrey medium fs20'>{props.user.username}</span>
-            <span className='cgrey extralight fs12'>{props.user.role === 'super-admin' ? 'Super admin' : 'Admin'}</span>
           </div>
         </div>
         <div className="sidebar-items padv20 flex col" >

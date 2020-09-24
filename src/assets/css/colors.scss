@@ -1,4 +1,7 @@
 :root {
+  --main: #2BD1B6;
+  --lightmain : #77dac9; //#5E72E3;
+  --strongmain:#187571;
   --blue:rgb(10, 119, 170); //#5E72E3;
   --lightblue: rgb(68, 170, 218);//rgb(131, 146, 228);
   --strongblue:rgb(2, 68, 99);//rgb(76, 99, 231);
@@ -13,6 +16,18 @@
   --red:rgb(245, 45, 10);
   --orange : orange;
   --strongorange : rgb(212, 143, 14);
+}
+
+.cmain{
+  color : var(--main)
+}
+
+.clightmain{
+  color : var(--lightmain)
+}
+
+.cstrongmain{
+  color : var(--strongmain)
 }
 
 .cblue{
@@ -61,6 +76,18 @@
 
 .corange{
   color:var(--orange )
+}
+
+.bmain{
+  background-color : var(--main)
+}
+
+.blightmain{
+  background-color : var(--lightmain)
+}
+
+.bstrongmain{
+  background-color : var(--strongmain)
 }
 
 .bblue{

@@ -3,7 +3,7 @@ export const hooks = {
   useRequest,
 }
 
-function useRequest(/*request, success, failure*/) {
+function useRequest() {
   const [pending, setPending] = useState()
   const [error, setError] = useState()
 

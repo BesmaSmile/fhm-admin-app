@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import foodImage from 'assets/img/food.jpg';
-import CircularProgress from '@material-ui/core/CircularProgress';
+import { Select, MenuItem, CircularProgress, FormControl, InputLabel } from '@material-ui/core';
+import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
+import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import { clientActions } from 'store/actions';
 import { connect } from 'react-redux';
 import { hooks } from 'functions';
@@ -10,29 +12,44 @@ import StatusChart from 'components/misc/StatusChart/StatusChart';
 import './Dashboard.scss';
 
 const CountCard = props => {
-  const { count, pending, title } = props
+  const { count, pending, title, icon, color } = props
   return (
-    <div className='db-chartContainer w100 flex col aic pad20'>
-      <div className='f1 flex aic jcc fs30 bold cblue'>
-        <div className='h50 flex jcc aic'>{pending && <CircularProgress size={30} />}</div>
-        <div className='mart10'>{!pending && count && <span>{count}</span>}</div>
+    <div className="db-chartContainer w150 flex row jcsb aic pad20" style={{backgroundColor : color}}>
+      {icon}
+      <div className='flex col aic aife fs30 medium cwhite'>
+        <div className='h30'>
+          {pending && <CircularProgress size={25} />}
+          {!pending && count && <span>{count}</span>}
+        </div>
+        <div className='mart10 fs12 cwhite extralight txtar'>{title}</div>
       </div>
-
-      <div className='fs16 cstronggrey extralight'>{title}</div>
     </div>
   )
 }
 const Dashboard = props => {
   const clientsRequest = hooks.useRequest()
   const [_filter, _setFilter] = useState("month")
-  const { clients, getClients } = props
-  let orders = []
+  const { getClients } = props
+  let orders = [], clients;
   _.get(props, 'clients', []).forEach(client => {
     orders = [...orders, ..._.get(client, 'orders', []).map(order => ({ ...order, client }))]
   });
+  switch (_filter) {
+    case 'month':
+      clients = _.get(props, 'clients', []).filter(client => client.createdAt.getMonth() === new Date().getMonth())
+      orders = orders.filter(order => order.createdAt.getMonth() === new Date().getMonth())
+      break;
+    case 'year':
+      clients = _.get(props, 'clients', []).filter(client => client.createdAt.getFullYear() === new Date().getFullYear())
+      orders = orders.filter(order => order.createdAt.getFullYear() === new Date().getFullYear())
+      break;
+    default :
+      clients = props.clients
+      break;
+  }
 
   useEffect(() => {
-    if (!clients) {
+    if (!props.clients) {
       loadClients()
     }
     // eslint-disable-next-line
@@ -46,22 +63,56 @@ const Dashboard = props => {
 
   const clientStatus = [
     { name: 'pending', label: 'Nouveau', color: '#9FA1AA' },
-    { name: 'enabled', label: 'Activé', color: 'rgb(21, 190, 49)' },
-    { name: 'disabled', label: 'Désactivé', color: 'rgb(245, 45, 10)' },
+    { name: 'enabled', label: 'Activé', color: '#4CD89F' },
+    { name: 'disabled', label: 'Désactivé', color: '#F66161' },
   ];
 
   const orderStatus = [
-    { name: 'pending', label: 'Nouveau', color: 'orange' },
-    { name: 'delivered', label: 'Délivré', color: 'rgb(68, 170, 218)' },
-    { name: 'paid', label: 'Payé', color: 'rgb(21, 190, 49)' },
+    { name: 'pending', label: 'Nouveau', color: '#ECA64B' },
+    { name: 'delivered', label: 'Délivré', color: '#5ED7E3' },
+    { name: 'paid', label: 'Payé', color: '#5EE36B' },
   ];
+
+  const filters = [
+    { value: 'all', name: 'Tout' },
+    { value: 'month', name: 'Mois courrant' },
+    { value: 'year', name: 'Année courrante' },
+  ]
 
   return (
     <div className='Dashboard relw100'>
       <div className='mar20'>
-        <div className='flex row'>
-          <CountCard pending={clientsRequest.pending} count={_.get(clients, 'length')} title='Clients' />
-          <CountCard pending={clientsRequest.pending} count={clients && _.get(orders, 'length')} title='Commandes' />
+        <div className='flex row jcsb'>
+          <div className='flex row'>
+            <CountCard pending={clientsRequest.pending}
+              color='#F4368B'
+              count={clients && clients.filter(client => client.status === 'pending').length}
+              title='Nouveaux Clients'
+              icon={<PeopleAltIcon />} />
+            <CountCard pending={clientsRequest.pending}
+              color='#DF8D21'
+              count={clients && orders.filter(order => order.status === 'pending').length}
+              title='Nouvelles commandes'
+              icon={<ShoppingCartIcon />} />
+            <CountCard pending={clientsRequest.pending}
+              color='#AF55BE'
+              count={_.get(clients, 'length')}
+              title='Total clients'
+              icon={<PeopleAltIcon />} />
+            <CountCard pending={clientsRequest.pending}
+              color='#2CA992'
+              count={clients && _.get(orders, 'length')}
+              title='Total commandes'
+              icon={<ShoppingCartIcon />} />
+          </div>
+          <Select classes={{ root: 'db-filter' }}
+            label="Filtrer"
+            onChange={(e) => { _setFilter(e.target.value) }}
+            value={_filter}>
+            {filters.map(filter => (
+              <MenuItem key={filter.value} value={filter.value}>{filter.name}</MenuItem>
+            ))}
+          </Select>
         </div>
         <div className='flex col'>
           <div className='flex row jcsb'>
@@ -70,7 +121,7 @@ const Dashboard = props => {
           </div>
           <div className='db-chartContainer'><DateChart filter={_filter} elements={clients || []} title="Clients" /></div>
           <div className='db-chartContainer'><DateChart filter={_filter} elements={orders || []} title="Commandes" /></div>
-          
+
         </div>
       </div>
     </div>

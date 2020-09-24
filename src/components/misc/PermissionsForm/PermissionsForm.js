@@ -130,7 +130,7 @@ const PermissionsForm = props => {
     formInputs.push({
       content : 
         <div className='mart20 marb10'>
-          <div className='medium fs20 cblue marb5'>{form[key].title}</div>
+          <div className='medium fs20 cmain marb5'>{form[key].title}</div>
           <Divider />
         </div>
     })

@@ -6,7 +6,7 @@
       top: -2px;
       right: 2px;
       padding: 3px;
-      background-color: var(--lightblue);
+      background-color: var(--main);
       border : 1px solid var(--white);
       color: white;
       visibility: hidden;
@@ -26,7 +26,7 @@
     box-shadow: 0px 0px 3px 0px var(--grey);
     & .ctg-categoryButton{
       min-width: unset;
-      color: var(--lightblue);
+      color: var(--main);
       font-size: 14px;
       text-transform : none;
       line-height: normal;
@@ -44,23 +44,26 @@
       border-color: var(--grey);
       border-width: 0.8px; 
       &:hover{
-        border-color: var(--lightblue);
-        background-color: rgba(68, 170, 218, 0.1);
+        border-color: var(--main);
+        background-color: rgba(20,182,154, 0.1);
       }
       &[active=true]{
-        color: var(--lightblue);
-        border-color: var(--lightblue);
-        background-color: rgba(68, 170, 218, 0.1);
+        color: var(--main);
+        border-color: var(--main);
+        background-color: rgba(20,182,154, 0.1);
         & .ctg-categoryButton_label{
-          color: var(--lightblue);
+          color: var(--main);
         }
       }
     }
   }
   & .ctg-subCategories{
+    & .MuiCircularProgress-root{
+      color: var(--main)
+    }
     & .ctg-subCategoryButton{
       min-width: unset;
-      color: var(--lightblue);
+      color: var(--main);
       font-size: 12px;
       text-transform : none;
       line-height: normal;
@@ -69,21 +72,111 @@
       margin-bottom: 5px;
       border-radius: 10px;
       & .ctg-subCategoryButton_label{
-        color: var(--lightblue);
+        color: var(--main);
         font-weight: 500;
         white-space: nowrap;
       }
     }
     & .ctg-subCategoryButton_outlined{
-      border-color: var(--lightblue);
+      border-color: var(--main);
       border-width: 0.8px; 
       &:hover{
-        background-color: rgba(68, 170, 218, 0.1);
+        background-color: rgba(20,182,154, 0.1);
       }
       &[active=true]{
-        background-color: rgba(68, 170, 218, 0.1);
+        background-color: rgba(20,182,154, 0.1);
       }
     }
+  }
+  & .ctg-newButton{
+    color: var(--white);
+    width: 230px;
+    height: 40px;
+    font-size: 14px;
+    text-transform : none;
+    line-height: normal;
+    & .ctg-newButton_label{
+      color: var(--white);
+      font-weight: 500;
+    }
+  }
+  & .ctg-newButton_contained{
+    background-color: var(--main);
+  }
+  & .ctg-productList{
+    & .ctg-productCard{
+      width: 180px;
+      height: 100px;
+      padding: 10px;
+      background-color: var(--white);
+      box-shadow: 0px 0px 3px 0px var(--grey);
+      margin-right: 10px;
+      margin-bottom: 10px;
+      border-radius: 3px;
+      & img{
+        border-radius: 5px;
+        object-fit: contain;
+      }
+      &[active=false]{
+        opacity: 0.5;
+        & .ctg-productPrice{
+          color : var(--grey)
+        }
+        & img{
+          filter: grayscale(100%);
+        }
+      }
+      & .ctg-truncateText{
+        white-space: nowrap;
+        overflow: hidden;
+        max-width: 100px;
+        text-overflow: ellipsis;
+      }
+    }
+  }
+  & .ctg-catalogStates{
+    height: calc(100vh - 230px);
+    min-height: 250px;
+    border-radius: 5px;
+    border: 0.8px solid var(--grey);
+    & .MuiCircularProgress-root{
+      color: var(--white)
+    }
+    & .Mui-checked{
+      color: var(--green);
+      & .MuiSwitch-thumb{
+        background-color: var(--green);
+      }
+    }
+    & .Mui-disabled.MuiFormControlLabel-label{
+      color: var(--grey)
+    }
+    & .Mui-checked + .MuiSwitch-track{
+      background-color: var(--green);
+    }
+    & .MuiFormControlLabel-label{
+      font-size: 14px;
+      color : var(--stronggrey)
+    }
+    & .ctg-addButton, .ctg-cancelButton{
+      padding: 3px;
+      color: white;
+      width: 20px;
+      height: 20px;
+      & .MuiSvgIcon-root{
+        font-size: 12px
+      }
+    }
+    & .ctg-addButton{
+      background-color: var(--main);
+      margin-right: 5px;
+    }
+    & .ctg-cancelButton{
+      background-color: var(--orange)
+    }
+  }
+
+  & .ctg-catalogStates, .ctg-subCategories{
     & .MuiOutlinedInput-root{
       height: fit-content;
       margin-top: 5px;
@@ -103,55 +196,14 @@
       }
       &:hover{
         & .MuiOutlinedInput-notchedOutline{
-          border-color: var(--blue);
+          border-color: var(--main);
           border-width: 1px;
         }
       } 
     }
     & .Mui-focused .MuiOutlinedInput-notchedOutline{
-      border-color: var(--blue);
+      border-color: var(--main);
       border-width: 0.7px;
-    }
-    & .MuiCircularProgress-root{
-      color: var(--blue)
-    }
-  }
-  & .ctg-newButton{
-    color: var(--white);
-    height: 40px;
-    font-size: 14px;
-    text-transform : none;
-    line-height: normal;
-    & .ctg-newButton_label{
-      color: var(--white);
-      font-weight: 500;
-    }
-  }
-  & .ctg-newButton_contained{
-    background-color: var(--lightblue);
-  }
-  & .ctg-productList{
-    & .ctg-productCard{
-      width: 180px;
-      height: 80px;
-      padding: 10px;
-      background-color: var(--white);
-      box-shadow: 0px 0px 3px 0px var(--grey);
-      margin-right: 10px;
-      margin-bottom: 10px;
-      border-radius: 3px;
-      & img{
-        border-radius: 5px;
-      }
-      &[active=false]{
-        opacity: 0.5;
-        & .ctg-productPrice{
-          color : var(--grey)
-        }
-        & img{
-          filter: grayscale(100%);
-        }
-      }
     }
   }
 }
