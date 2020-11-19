@@ -19,14 +19,10 @@ function getAdmins() {
   }
 }
 
-function registerAdmin(user, isFirstAdmin, secretKey){
+function registerAdmin(user){
   return dispatch => {
-    return adminService.registerAdmin(user, isFirstAdmin, secretKey).then(user=>{
-      console.log(user)
-      if(isFirstAdmin)
-        dispatch({ type: authConstants.LOGGED_IN, user })
-      else 
-        dispatch({ type: adminConstants.REGISTER_ADMIN, user })
+    return adminService.registerAdmin(user).then(user=>{
+      dispatch({ type: adminConstants.REGISTER_ADMIN, user })
       return user
     })
   }
@@ -53,6 +49,7 @@ function updateAdminPermissions(id, permissions){
 function changePassword(id, password){
   return dispatch => {
     return adminService.changePassword(id, password).then((updates)=>{
+      console.log(updates.updatedAt)
       dispatch({ type: adminConstants.UPDATE_ADMIN, id, updates})
       return updates
     })

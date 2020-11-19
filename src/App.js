@@ -1,47 +1,58 @@
-import React, {useState, useEffect} from 'react';
-import RegisterSuperAdmin from 'pages/register_super_admin';
+import React, { useState, useEffect } from 'react';
 import LoginPage from 'pages/login';
 import MainPage from 'pages/main';
-import { Route, Switch, Redirect } from "react-router-dom";
-import {authService} from 'services';
-import {connect} from 'react-redux';
+import { Route, Switch, Redirect, useHistory } from "react-router-dom";
+import { connect } from 'react-redux';
+import { firebase } from 'services';
+import { authActions } from 'store/actions';
 
-const App=(props)=>{
-  const {user} = props
-  const [loading, setLoading]= useState(!user)
-  const [superAdminExists, setSuperAdminExists]=useState()
-  useEffect(()=>{
-    if(!user)
-      authService.checkSuperUser().then(result=>{
-        setSuperAdminExists(result.exists)
-        setLoading(false)       
-      })
+
+const App = (props) => {
+  const { user } = props
+  const [loading, setLoading] = useState()
+  const history = useHistory()
+
+  useEffect(() => {
+    if (user) {
+      firebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION)
+        .then(() => {
+          firebase.auth().signInWithCustomToken(user.token)
+            .then(() => {
+              setLoading(false);
+              console.log("auth success")
+            })
+            .catch((error) => {
+              props.logout()
+              history.replace('/')
+            })
+        })
+    } else setLoading(false)
   }, [user])
-  return(
+  return (
     <>
-    {
-      loading ? <div className='relh100vh flex col jcc aic'>Chargement de l'application...</div>
-      : <Switch>
-          <Route exact path="/">
-            {user ? <Redirect to="/dashboard"/> 
-              : (superAdminExists 
-                ? <Redirect to="/login"/>
-                : <Redirect to="/inscription_super_admin"/>)
-            }
-          </Route>
-          {!user && superAdminExists  && <Route to="/login" component={LoginPage}/> }
-          {!user && !superAdminExists && <Route to="/inscription_super_admin" component={RegisterSuperAdmin} />}
-          
-          <MainPage/> 
-        </Switch>
-    }
-    </>   
+      {
+        loading ? <div className='relh100vh flex col jcc aic'>Chargement de l'application...</div>
+          : <Switch>
+            <Route exact path="/">
+              {user ? <Redirect to="/dashboard" />
+                : <Redirect to="/login" />
+              }
+            </Route>
+            {!user && <Route to="/login" component={LoginPage} />}
+            <MainPage />
+          </Switch>
+      }
+    </>
   )
 }
-const mapState=(state)=> ({
-   user : state.auth.user
+const mapState = (state) => ({
+  user: state.auth.user
 })
 
-export default connect(mapState)(App);
+const actionCreators = {
+  logout: authActions.logout
+}
+
+export default connect(mapState, actionCreators)(App);
 
 

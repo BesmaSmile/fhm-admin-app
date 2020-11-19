@@ -2,11 +2,27 @@ import React, {useRef} from 'react';
 import { Doughnut } from 'react-chartjs-2';
 import 'chartjs-plugin-datalabels';
 
+const tooltips = {
+  callbacks: {
+    label: (tooltipItem, data) => {
+      var dataset = data.datasets[tooltipItem.datasetIndex];
+      var total = dataset.data.reduce((previousValue, currentValue) => {
+        return previousValue + currentValue;
+      });
+      var currentValue = dataset.data[tooltipItem.index];
+      var percentage = Math.floor(((currentValue/total) * 100)+0.5);
+
+      return `${currentValue} (${percentage}%)`;
+    }
+  }
+} 
+
 const PieChart = props => {
   const { labels, datasets, title, color } = props
   const chartRef=useRef()
   const options = {
     //backgroundColor : color,
+    tooltips,
     legend: {
       display: true,
       position: 'left'

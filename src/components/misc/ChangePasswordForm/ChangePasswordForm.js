@@ -41,7 +41,7 @@ const ChangePasswordForm=props=>{
             edge="end"
             onClick={handleClickShowPassword}
           >
-            {_passwordVisible ? <Visibility /> : <VisibilityOff />}
+            {_passwordVisible ? <VisibilityOff /> : <Visibility /> }
           </IconButton>
         </InputAdornment>,
       validation: { required: 'Champs requis' }

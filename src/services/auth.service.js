@@ -1,34 +1,21 @@
-import {apiConstants} from 'consts';
-import {handleResponse} from 'functions';
+
+import {firebase} from './firebase';
 
 export const authService={
-  checkSuperUser,
   login
 }
 
-function checkSuperUser(){
-  return fetch(`${apiConstants.URL}/checkSuperAdmin`)
-  .then(handleResponse)
-}
-
 function login(user){
-  const options={
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json' 
-    },
-    body: JSON.stringify(user)
-  }
-  return fetch(`${apiConstants.URL}/auth`, options)
-  .then(handleResponse)
+  return firebase.functions().httpsCallable('auth')(user)
+  .then(result=>result.data)
   .catch(error=>{
-    console.log(error)
+    console.log(error.code)
     let msg=''
-    switch(error){
-      case 'invalid_credentials' :
+    switch(error.code){
+      case 'invalid-argument' :
       msg="Nom d'utilisateurs ou mot de passe incorrecte !"
       break;
-      case 'disabled_account' :
+      case 'failed-precondition' :
       msg="Votre compte a été désactivé. Contacter le Super-admin pour plus de détails !"
       break;
       default :

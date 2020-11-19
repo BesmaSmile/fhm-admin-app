@@ -7,6 +7,7 @@ import {connect} from 'react-redux';
 import { InputAdornment, IconButton  } from '@material-ui/core';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
+import Logo from 'components/misc/Logo/Logo';
 import { hooks } from 'functions';
 import { useSnackbar } from 'notistack';
 
@@ -44,7 +45,7 @@ const Login=(props) =>{
             edge="end"
             onClick={handleClickShowPassword}
           >
-              {_passwordVisible ? <Visibility /> : <VisibilityOff />}
+              {_passwordVisible ? <VisibilityOff /> : <Visibility /> }
           </IconButton>
         </InputAdornment>,
       validation: {required: 'Mot de passe requis'}
@@ -54,10 +55,7 @@ const Login=(props) =>{
   return (
     <div className='Login relh100vh flex col aic'>
       <div className='w300'>
-        <div className='flex jcc col marv20 txtac'>
-          <div className='bauhaus93 lh80 fs80 clightblue'>FHM</div>
-          <span className='cstronggrey fs18 light'>Faci Hospitality Master</span>
-        </div>
+        <div className='marb20'><Logo  smallSiz={18} bigSize={80} lineHeight={80}/></div>
         <Form inputs={loginInputs} 
           onSubmit={onSubmit} 
           submitText='Se connecter'
@@ -70,7 +68,6 @@ const Login=(props) =>{
 
 const actionCreators = {
   login: authActions.login
-
 }
 
 export default connect(()=>({}),actionCreators)(Login);

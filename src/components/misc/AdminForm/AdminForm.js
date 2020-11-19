@@ -7,13 +7,11 @@ import { adminActions } from 'store/actions';
 import { connect } from 'react-redux';
 import { hooks } from 'functions/hooks';
 import { useSnackbar } from 'notistack';
-import { useHistory } from "react-router-dom";
 
 const AdminForm = props => {
-  const { close, registerAdmin, isFirstAdmin, onSuccess } = props
+  const { close, registerAdmin, onSuccess } = props
   const registerRequest = hooks.useRequest()
-  const { enqueueSnackbar } = useSnackbar();
-  const history=useHistory()
+  const { enqueueSnackbar } = useSnackbar()
   const [_passwordVisible, _setPasswordVisible] = useState(false)
 
   const handleClickShowPassword = () => {
@@ -23,14 +21,10 @@ const AdminForm = props => {
   const onSubmit = values => { 
     const {secretKey, confirmPassword ,...user}=values
     registerRequest.execute({
-      action : ()=>registerAdmin(user,isFirstAdmin, secretKey),
+      action : ()=>registerAdmin(user),
       success : (result) => {
-        console.log(result)
         enqueueSnackbar(`Le compte admin a bien été enregistré !`, { variant: 'success' });
-        
-        if(isFirstAdmin)
-          history.replace('/')
-        else if(onSuccess) onSuccess(result.id); else close()
+        if(onSuccess) onSuccess(result.id); else close()
       },
       failure : (error)=>enqueueSnackbar(error, { variant: 'error' })
     })
@@ -52,7 +46,7 @@ const AdminForm = props => {
             edge="end"
             onClick={handleClickShowPassword}
           >
-            {_passwordVisible ? <Visibility /> : <VisibilityOff />}
+            {_passwordVisible ? <VisibilityOff /> : <Visibility /> }
           </IconButton>
         </InputAdornment>,
       validation: { required: 'Champs requis' }
@@ -60,19 +54,12 @@ const AdminForm = props => {
     {
       name: 'confirmPassword',
       label: 'Confirmer mot de passe',
-      type: 'password',
+      type: _passwordVisible ? 'text' : 'password',
       validation: { required: 'Champs requis' },
       combinedValdation: (values) => values.password === values.confirmPassword || "Les mots de passe ne se correspondent pas"
     }
   ]
 
-  if(isFirstAdmin){
-    adminInputs.push({
-      name:'secretKey',
-      label:'Clé secrète',
-      validation: {required: 'Champs requis'}
-    })
-  }
   return (
     <div className='AdminForm w400'>
       <Form title="Nouvel administrateur"
@@ -80,7 +67,7 @@ const AdminForm = props => {
         onSubmit={onSubmit}
         submitText='Enregistrer'
         pending={registerRequest.pending}
-        isDialog={!isFirstAdmin}
+        isDialog={true}
         cancel={close}
       />
     </div>

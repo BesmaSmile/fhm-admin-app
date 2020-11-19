@@ -22,25 +22,25 @@ const Catalog = (props) => {
 
   const [_selectedCategory, _selectCategory] = useState()
   const [_selectedSubCategory, _selectSubCategory] = useState()
-  const [_toggledImportation, _toggleImportation]=useState(false)
+  const [_toggledImportation, _toggleImportation] = useState(false)
   const [_selectedStates, _selectStates] = useState([])
 
   const categories = _.get(props, 'categories', []).sort((c1, c2) => c1.order > c2.order ? 1 : -1)
   const subCategories = _.get(_selectedCategory, 'subCategories', [])
   const states = _.get(_selectedCategory, 'states', [])
-  const importation=_.get(_selectedCategory, 'importation')
+  const importation = _.get(_selectedCategory, 'importation')
 
   const products = _.get(props, 'products', []).filter(product =>
     product.category === _.get(_selectedCategory, 'name')
     && (!_selectedSubCategory || product.subCategory === _selectedSubCategory)
-    && (_selectedStates.length===0 || _selectedStates.some(state=>state===product.state))
-    && (!_toggledImportation || !_.get(_selectedCategory, 'importation') || product.importationPrice>0)
+    && (_selectedStates.length === 0 || _selectedStates.some(state => state === product.state))
+    && (!_toggledImportation || !_.get(_selectedCategory, 'importation') || product.importationPrice > 0)
   )
 
   console.log(_toggledImportation)
   console.log()
 
-  console.log( _.get(props, 'products', []).filter(product =>
+  console.log(_.get(props, 'products', []).filter(product =>
     product.category === _.get(_selectedCategory, 'name')))
 
   useEffect(() => {
@@ -69,7 +69,7 @@ const Catalog = (props) => {
   }, [props.categories])
 
   useEffect(() => {
-    if (_selectedCategory){
+    if (_selectedCategory) {
       _selectSubCategory(_.get(_selectedCategory.subCategories, '0'))
     }
   }, [_selectedCategory])
@@ -83,11 +83,11 @@ const Catalog = (props) => {
     _selectSubCategory(subCategory)
   }
 
-  const handleSelectState=(state)=>{
-    const selectedStates=Object.assign([], _selectedStates)
-    if(selectedStates.some(s=>s===state))
-      selectedStates=selectedStates.filter(s=>s==state)
-    else selectedStates=[...selectedStates, state]
+  const handleSelectState = (state) => {
+    let selectedStates = Object.assign([], _selectedStates)
+    if (selectedStates.some(s => s === state))
+      selectedStates = selectedStates.filter(s => s !== state)
+    else selectedStates = [...selectedStates, state]
     _selectStates(selectedStates)
   }
 
@@ -161,15 +161,15 @@ const Catalog = (props) => {
         <div className='ctg-productList f1 marr10'>
           <CatalogProductsList products={products} openProductForm={openProductForm} />
         </div>
-        <CatalogStates states={states} 
+        <CatalogStates states={states}
           selectedStates={_selectedStates}
           handleSelectState={handleSelectState}
-          updateStates={(states)=>props.updateStates(_selectedCategory.id, states)}
+          updateStates={(states) => props.updateStates(_selectedCategory.id, states)}
           importation={importation}
           toggledImportation={_toggledImportation}
           handleToggleImportation={_toggleImportation}
-            
-          />
+
+        />
       </div>)
     </div>
   )
