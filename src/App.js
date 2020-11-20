@@ -19,7 +19,6 @@ const App = (props) => {
           firebase.auth().signInWithCustomToken(user.token)
             .then(() => {
               setLoading(false);
-              console.log("auth success")
             })
             .catch((error) => {
               props.logout()

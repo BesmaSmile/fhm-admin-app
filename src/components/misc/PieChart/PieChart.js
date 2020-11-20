@@ -6,13 +6,8 @@ const tooltips = {
   callbacks: {
     label: (tooltipItem, data) => {
       var dataset = data.datasets[tooltipItem.datasetIndex];
-      var total = dataset.data.reduce((previousValue, currentValue) => {
-        return previousValue + currentValue;
-      });
       var currentValue = dataset.data[tooltipItem.index];
-      var percentage = Math.floor(((currentValue/total) * 100)+0.5);
-
-      return `${currentValue} (${percentage}%)`;
+      return currentValue;
     }
   }
 } 
@@ -37,12 +32,19 @@ const PieChart = props => {
     },
     plugins: {
       datalabels: {
-        display: false,
+        display: true,
         color: 'white',
         backgroundColor: '#000',
         opacity: 0.7,
         borderRadius: 3,
         align: 'top',
+        formatter: function(value, context) {
+          var total =  context.dataset.data.reduce((previousValue, currentValue) => {
+            return previousValue + currentValue;
+          });
+          var percentage = Math.floor(((value/total) * 100)+0.5);
+          return  `${percentage || '0'}%`
+        }
       }
     }
   }

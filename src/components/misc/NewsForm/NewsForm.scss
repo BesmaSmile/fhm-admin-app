@@ -1,0 +1,15 @@
+.NewsForm{
+
+  & .nf-imgContainer{
+    position: relative;
+    border-radius: 10px;
+    border: 0.6px solid var(--lightgrey);
+    & .nf-imgIcon{
+      font-size: 40px
+    }
+    & .nf-replyIcon{
+      font-size: 40px;
+      color: var(--light);
+    }
+  }
+}

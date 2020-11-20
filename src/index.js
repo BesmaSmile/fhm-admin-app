@@ -18,7 +18,6 @@ import App from 'App';
 const notistackRef = createRef();
 
 const onClickDismiss = key => () => { 
-    console.log(notistackRef.current)
     notistackRef.current.closeSnackbar(key);
 }
 

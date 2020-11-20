@@ -20,6 +20,7 @@ const PageWrapper=connect(mapState)(props=>{
     'admins' :permissionConstants.READ_ADMIN,
     'deliveryOrder' : permissionConstants.READ_DELIVERY_ORDER,
     'purchaseOrder' : permissionConstants.READ_PURCHASE_ORDER,
+    'news': permissionConstants.READ_NEWS,
   }
 
   if(permissions[associatedPermissions[name]])

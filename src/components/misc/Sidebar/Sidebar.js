@@ -49,6 +49,7 @@ Sidebar.defaultProps = {
     { name: 'Clients', path: '/clients' },
     { name: 'Commandes', path: '/commandes' },
     { name: 'Catalogue', path: '/catalogue' },
+    { name: 'Nouveauté', path: '/news' },
     { name: 'Administrateurs', path: '/administrateurs' }
   ],
   className: 'w240'

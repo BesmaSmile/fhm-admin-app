@@ -1,6 +1,4 @@
 import { firebase } from './firebase';
-import { apiConstants } from 'consts';
-import { handleResponse } from 'functions';
 
 export const adminService = {
   getAdmins,
@@ -35,7 +33,7 @@ function registerAdmin(user) {
   return firebase.functions().httpsCallable('registerAdmin')(user)
     .then(result => result.data)
     .catch(error => {
-      console.log(error)
+      console.log(error.code)
       let msg = ''
       switch (error.code) {
         case 'already-exists':

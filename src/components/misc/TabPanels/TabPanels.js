@@ -23,12 +23,10 @@ const TabPanels = props => {
   const [_selectedTab, _setSelectedTab] = useState(0)
 
   const handleChange = (e, value) => {
-    console.log(value)
     _setSelectedTab(value)
   }
 
   const handleChangeIndex=(index)=>{
-    console.log(index)
     _setSelectedTab(index)
   }
   function a11yProps(index) {

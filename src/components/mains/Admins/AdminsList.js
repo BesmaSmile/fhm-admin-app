@@ -13,7 +13,7 @@ import { Link } from "react-router-dom";
 import { useDialog } from 'components/misc/Dialog/Dialog';
 import { useSnackbar } from 'notistack';
 import { hooks } from 'functions';
-import moment from 'moment';
+import {format} from 'date-fns';
 import _ from 'lodash';
 
 const AdminActions = props => {
@@ -105,8 +105,8 @@ const AdminsList = (props) => {
 
     return {
       username: { value: administrator.username, render: <div className='adm-adminCell'>{administrator.username}</div> },
-      createdAt: { value: administrator.createdAt ? moment(administrator.createdAt).format('DD/MM/YYYY HH:mm') : '', render: <div className='adm-dateCell'>{administrator.createdAt ? moment(administrator.createdAt).format('DD/MM/YYYY HH:mm') : '----'}</div> },
-      updatedAt: { value: administrator.updatedAt ? moment(administrator.updatedAt).format('DD/MM/YYYY HH:mm') : '', render: <div className='adm-dateCell'>{administrator.updatedAt ? moment(administrator.updatedAt).format('DD/MM/YYYY HH:mm') : '----'}</div> },
+      createdAt: { value: administrator.createdAt ? format(administrator.createdAt,'dd/MM/yyyy HH:mm') : '', render: <div className='adm-dateCell'>{administrator.createdAt ? format(administrator.createdAt,'dd/MM/yyyy HH:mm') : '----'}</div> },
+      updatedAt: { value: administrator.updatedAt ? format(administrator.updatedAt,'dd/MM/yyyy HH:mm') : '', render: <div className='adm-dateCell'>{administrator.updatedAt ? format(administrator.updatedAt,'dd/MM/yyyy HH:mm') : '----'}</div> },
       status: {
         value: administrator.status,
         render: <div className='adm-detailContainer'>

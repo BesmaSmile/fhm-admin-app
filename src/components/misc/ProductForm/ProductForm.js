@@ -60,7 +60,7 @@ const ProductForm = props => {
 
   const productInputs = [
     {
-      content : <div className='mart10 marb20'>
+      content : ()=> <div className='mart10 marb20'>
           <div className='pf-imgContainer  w150 h150'>
             <ImageUploader image={_image} updateImage={onUpdateImage}
               preview={(image) => <img className='relw100 relh100' src={image} alt='produit' />}
@@ -104,7 +104,6 @@ const ProductForm = props => {
       validation: { required: "Champs requis" },
       watch: 'category',
       options: (watchedValue) => {
-        console.log(watchedValue)
         const category = watchedValue && categories.find(category => category.name === watchedValue)
         return _.get(category, 'subCategories') && category.subCategories.map(subCategory => ({ value: subCategory, name: subCategory }))
       }

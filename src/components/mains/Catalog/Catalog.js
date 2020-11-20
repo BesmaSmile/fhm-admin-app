@@ -37,12 +37,6 @@ const Catalog = (props) => {
     && (!_toggledImportation || !_.get(_selectedCategory, 'importation') || product.importationPrice > 0)
   )
 
-  console.log(_toggledImportation)
-  console.log()
-
-  console.log(_.get(props, 'products', []).filter(product =>
-    product.category === _.get(_selectedCategory, 'name')))
-
   useEffect(() => {
     if (!props.categories)
       categoriesRequest.execute({

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect} from 'react';
 import { useForm, useWatch, Controller } from "react-hook-form";
 import { OutlinedInput, InputLabel, FormControl, FormControlLabel, Select, MenuItem, Switch, Checkbox } from '@material-ui/core';
 import DialogContent from '@material-ui/core/DialogContent';
@@ -38,128 +38,159 @@ const FormLayout = ({ isDialog, title, content, submitAction, submitButton, canc
 
 const Form = (props) => {
   const { title, inputs, onSubmit, submitText, pending, disabled, isDialog, cancel } = props
-  const { handleSubmit, errors, getValues, control, setValue } = useForm();
-  console.log(getValues())
-  const defaultValues = {}
-  inputs.forEach(input => {
-    if (input.defaultValue) defaultValues[input.name] = input.defaultValue
+  let inputElements = []
+  inputs.forEach(lineInputs => {
+    if (Array.isArray(lineInputs)) {
+      lineInputs.forEach(input => {
+        inputElements.push(input)
+      })
+    }
+    else inputElements.push(lineInputs)
   })
 
-  const dependentSelection = useWatch({
+  const defaultValues = {}
+
+  inputElements.forEach(input => {
+    if (input.defaultValue) {
+      _.set(defaultValues, input.name, input.defaultValue)
+    }
+  })
+  const { handleSubmit, errors, control, setValue,getValues } = useForm();
+
+  const values = useWatch({
     control,
     defaultValue: defaultValues
   })
 
+  useEffect(() => {
+    if (Object.keys(errors).length > 0) {
+      var element = document.querySelector(`div[witherror=true] .frm-error`);
+      if (element)
+        element.scrollIntoView({ behavior: "smooth", block: "center", inline: "nearest" });
+    }
+  }, [errors]);
+
   const resetWatchingInputs = (e) => {
     const { name } = e.target
-    const watchingInputs = inputs.filter(input => input.watch === name)
+    const watchingInputs = inputElements.filter(input => input.watch === name)
     watchingInputs.forEach(watchingInput => {
       setValue(watchingInput.name)
     });
   }
 
   const cleanAndSubmit = (values) => {
-    const toSend = _.omitBy(values, value=>_.isNil(value) || value==='');
+    const toSend = _.omitBy(values, value => _.isNil(value) || value === '');
     onSubmit(toSend)
   }
 
   const formContent = () => (
-    <div className='flex col'>
-      {
-        inputs.map(input => {
-          if (input.content)
-            return input.content
-          else {
-            const type =['select', 'switch', 'check'].find(t=>t===input.type) || 'default'
-            const additionalValidation = input.combinedValdation ? { validate: value => input.combinedValdation(getValues()) } : {}
-            const adornments = {
-              endAdornment: input.endAdornment,
-              startAdornment: input.startAdornment
-            }
+    <div className='flex col padh5'>
+      {inputs.map((lineInputs, i) => {
+        if (lineInputs.content)
+          return lineInputs.content(values)
+        else {
+          if (!Array.isArray(lineInputs)) lineInputs = [lineInputs];
+          return (
+            <div key={`frm-lineInput${i}`} className='frm-lineInputs relw100'>
+              {lineInputs.map(input => {
+                if (input.content)
+                  return input.content(values)
+                else {
+                  const type = ['select', 'switch', 'check'].find(t => t === input.type) || 'default'
+                  const additionalValidation = input.combinedValdation ? { validate: value => input.combinedValdation(getValues()) } : {}
+                  const adornments = {
+                    endAdornment: input.endAdornment,
+                    startAdornment: input.startAdornment
+                  }
 
-            return (
-              <>
-                {(input.type !== 'select' || input.options(dependentSelection[input.watch]))
-                  && (!input.hidden || !input.hidden(dependentSelection[input.watch])) &&
-                  <div key={input.name} 
-                    witherror={errors[input.name] ? 'true' : 'false'} 
-                    className={`frm-inputField flex col ${type!=='check' ? 'marv10' : ''}`}>
-                    <FormControl variant="outlined" key={input.name}>
-                      {type!=='switch' && type!=='check' &&<InputLabel htmlFor="component-outlined">
-                        <span>{input.label} </span>
-                      </InputLabel>}
-                      <Controller
-                        control={control}
-                        name={input.name}
-                        defaultValue={input.defaultValue}
-                        rules={{ ...input.validation, ...additionalValidation }}
-                        render={({ onChange, onBlur, value, name }) => (
-                          <>
-                            {type === 'select' && 
-                              <Select
-                                label={input.label}
-                                error={errors[input.name] ? true : false}
-                                onChange={(e) => { onChange(e); resetWatchingInputs(e); }}
-                                onBlur={onBlur}
-                                value={value}
-                                name={name}
-                                disabled={disabled || input.disabled}>
-                                {input.options(dependentSelection[input.watch]).map(option => (
-                                  <MenuItem key={option.value} value={option.value}>{option.name}</MenuItem>
-                                  ))
-                                }
-                              </Select>
-                            }
-                            {type==='switch' &&
-                            <FormControlLabel
-                              control={
-                                <Switch
-                                  checked={value}
-                                  onChange={e => onChange(e.target.checked)}
-                                  name={name}
-                                  disabled={disabled || input.disabled}
-                                  inputProps={{ 'aria-label': 'primary checkbox' }}
-                                />}
-                              label={input.label}/>
-                            }
-                            {type==='check' &&
-                            <FormControlLabel
-                              control={
-                                <Checkbox
-                                  checked={value}
-                                  onChange={e => onChange(e.target.checked)}
-                                  name={name}
-                                  disabled={disabled || input.disabled}
-                                  inputProps={{ 'aria-label': 'primary checkbox' }}
-                                />}
-                              label={input.label}/>
-                            }
-                            {type==='default' &&
-                              <OutlinedInput
-                                label={input.label}
-                                onChange={onChange}
-                                onBlur={onBlur}
-                                value={value}
-                                name={name}
-                                disabled={disabled || input.disabled}
-                                error={errors[input.name] ? true : false}
-                                type={input.type || 'text'}
-                                {...adornments} />
-                            }
-                          </>
-                            
-                        )} />
+                  return (
+                    <>
+                      {(input.type !== 'select' || input.options(_.get(values, input.watch)))
+                        && (!input.hidden || !input.hidden(_.get(values, input.watch))) &&
+                        <div key={input.name}
+                          witherror={_.get(errors, input.name) ? 'true' : 'false'}
+                          className={`frm-inputField flex col ${type !== 'check' ? 'marv10' : ''}`}>
+                          <FormControl variant="outlined" key={input.name}>
+                            {type !== 'switch' && type !== 'check' && <InputLabel shrink={input.shrink} htmlFor="component-outlined">
+                              <span>{input.label} </span>
+                            </InputLabel>}
+                            <Controller
+                              control={control}
+                              name={input.name}
+                              defaultValue={input.defaultValue}
+                              rules={{ ...input.validation, ...additionalValidation }}
+                              render={({ onChange, onBlur, value, name }) => (
+                                <>
+                                  {type === 'select' &&
+                                    <Select
+                                      label={input.label}
+                                      error={errors[input.name] ? true : false}
+                                      onChange={(e) => { onChange(e); resetWatchingInputs(e); }}
+                                      onBlur={onBlur}
+                                      value={value}
+                                      name={name}
+                                      disabled={disabled || input.disabled}>
+                                      {input.options(_.get(values, input.watch)).map(option => (
+                                        <MenuItem key={option.value} value={option.value}>{option.name}</MenuItem>
+                                      ))
+                                      }
+                                    </Select>
+                                  }
+                                  {type === 'switch' &&
+                                    <FormControlLabel
+                                      control={
+                                        <Switch
+                                          checked={value}
+                                          onChange={e => onChange(e.target.checked)}
+                                          name={name}
+                                          disabled={disabled || input.disabled}
+                                          inputProps={{ 'aria-label': 'primary checkbox' }}
+                                        />}
+                                      label={input.label} />
+                                  }
+                                  {type === 'check' &&
+                                    <FormControlLabel
+                                      control={
+                                        <Checkbox
+                                          checked={value}
+                                          onChange={e => onChange(e.target.checked)}
+                                          name={name}
+                                          disabled={disabled || input.disabled}
+                                          inputProps={{ 'aria-label': 'primary checkbox' }}
+                                        />}
+                                      label={input.label} />
+                                  }
+                                  {type === 'default' &&
+                                    <OutlinedInput
+                                      label={input.label}
+                                      placeholder={input.placeholder}
+                                      onChange={onChange}
+                                      multiline={input.multiline}
+                                      rows={input.rows}
+                                      onBlur={onBlur}
+                                      value={value}
+                                      name={name}
+                                      disabled={disabled || input.disabled}
+                                      error={_.get(errors, input.name) ? true : false}
+                                      type={input.type || 'text'}
+                                      {...adornments} />
+                                  }
+                                </>
 
-                    </FormControl>
-                    <div className='frm-error fs12 marl3 mart5 cred light' >{errors[input.name] && errors[input.name].message}</div>
-                  </div>
+                              )} />
+
+                          </FormControl>
+                          <div className='frm-error fs12 marl3 mart5 cred light' >{_.get(errors, `${input.name}.message`)}</div>
+                        </div>
+                      }
+                    </>
+                  )
                 }
-              </>
-            )
-          }
-
-        })
-      }
+              })}
+            </div>
+          )
+        }
+      })}
     </div>
   )
   const submitButton = (onClick) => (

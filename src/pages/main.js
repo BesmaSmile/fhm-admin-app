@@ -5,6 +5,7 @@ import Clients from 'components/mains/Clients/Clients';
 import Orders from 'components/mains/Orders/Orders';
 import Catalog from 'components/mains/Catalog/Catalog';
 import Admins from 'components/mains/Admins/Admins';
+import News from 'components/mains/News/News';
 import { Route } from "react-router-dom";
 import {PageWrapper} from 'components/misc/PermissionWrappers/PermissionWrappers';
 
@@ -13,6 +14,7 @@ const pages=[
   {path : '/clients', name:'clients', component : <Clients/>},
   {path : '/commandes', name:'orders', component : <Orders/>},
   {path : '/catalogue', name:'catalog', component : <Catalog/>},
+  {path : '/news', name:'news', component : <News/>},
   {path : '/administrateurs', name:'admins', component : <Admins/>},
 ]
 const MainPage=(props)=> {

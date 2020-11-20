@@ -1,10 +1,9 @@
 
 import React, { useEffect, useRef } from 'react';
 import mapboxgl from 'mapbox-gl';
-import { apiConstants } from 'consts';
 import './Map.scss';
 
-mapboxgl.accessToken = apiConstants.MAPBOXGL_TOKEN
+mapboxgl.accessToken = process.env.REACT_APP_MAPBOXGL_TOKEN
 
 const Map = props => {
   const {zoom, lng, lat}=props

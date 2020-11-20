@@ -24,4 +24,3 @@ function login(user){
     throw msg
   })
 }
-

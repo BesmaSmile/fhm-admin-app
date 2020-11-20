@@ -60,8 +60,6 @@ async function setProduct(product, pictureFile){
     console.log(err);
     throw {message : "Echec d'enregistrement du produit" };
   })
-  //const {id}=result
-  console.log(productRef)
   if(pictureFile){
     const path=`${product.category}/${productRef.id}`
     await storageService.uploadFile(path, pictureFile) 
@@ -85,11 +83,11 @@ async function setCategory(category, existingCategories){
   batch.set(categoryRef, category)
   categories=categories.filter(category=>category.id!==categoryRef.id)
   categories.splice(category.order-1, 0, {...category, id : categoryRef.id});
-  console.log(categories)
+
   if(category.order<=existingCategories.length){
     categories=categories.map((category,i)=>({...category, order :i+1}))
     const categoriesToUpdate=categories.filter(category=>category.id!==categoryRef.id)
-    console.log(categoriesToUpdate)
+
     for(const category of categoriesToUpdate)
       batch.update(collectionRef.doc(category.id), {order : category.order})
     await batch.commit().catch(error=>{
@@ -110,8 +108,6 @@ function updateSubCategories(categoryId, subCategories){
 }
 
 function updateStates(categoryId, states){
-  console.log(categoryId)
-  console.log(states)
   const collectionRef = firebase.firestore().collection('categories');
   return collectionRef.doc(categoryId).update({states})
   .catch(error=>{

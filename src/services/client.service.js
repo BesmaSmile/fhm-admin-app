@@ -34,7 +34,6 @@ function getClients(){
       })
       client.orders=ordersList
     }
-    console.log(clients)
     return clients;
   })
   .catch(error=>{

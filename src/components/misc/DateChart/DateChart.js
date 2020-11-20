@@ -1,24 +1,26 @@
 import React from 'react';
 import LineChart from 'components/misc/LineChart/LineChart';
-import moment from 'moment';
+import {format} from 'date-fns';
+import { be } from 'date-fns/esm/locale';
 
 const OrderChart=props=>{
   const {filter, elements, title}=props
-  let format;
+  let frm;
   switch(filter){
     case 'month':
-      format='DD/MM/YYYY'
+      frm='dd/MM/yyyy'
       break;
     case 'year':
-      format='MM/YYYY'
+      frm='MM/yyyy'
       break;
     case 'all':
-      format='YYYY'
+      frm='yyyy'
       break;
+    default : break;
   }
 
-  const dates=[...new Set(elements.sort((e1,e2)=>e1.createdAt-e2.createdAt).map(element=>moment(element.createdAt).format(format)))]; 
-  const data=dates.map(date=>elements.filter(element=>moment(element.createdAt).format(format)===date).length)
+  const dates=[...new Set(elements.sort((e1,e2)=>e1.createdAt-e2.createdAt).map(element=>format(element.createdAt, frm)))]; 
+  const data=dates.map(date=>elements.filter(element=>format(element.createdAt, frm)===date).length)
 
   return (
     <div className='relw100'>

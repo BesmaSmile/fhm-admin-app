@@ -49,7 +49,6 @@ function updateAdminPermissions(id, permissions){
 function changePassword(id, password){
   return dispatch => {
     return adminService.changePassword(id, password).then((updates)=>{
-      console.log(updates.updatedAt)
       dispatch({ type: adminConstants.UPDATE_ADMIN, id, updates})
       return updates
     })

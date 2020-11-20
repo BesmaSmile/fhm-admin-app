@@ -7,7 +7,7 @@ import QRCode from 'qrcode.react';
 import { ButtonWrapper } from 'components/misc/PermissionWrappers/PermissionWrappers';
 import { permissionConstants } from 'consts';
 import { useReactToPrint } from "react-to-print";
-import moment from 'moment';
+import {format} from 'date-fns';
 import _ from 'lodash';
 import './PurchaseOrder.scss';
 
@@ -67,7 +67,7 @@ const PurchaseOrder = props => {
               </div>
               <div className='flex col cstronggrey marl10'>
                 <div className='extralight'>{order.id} </div>
-                <div className='extralight'>{moment(order.createdAt).format('DD/MM/YYYY HH:mm')} </div>
+                <div className='extralight'>{format(order.createdAt,'dd/MM/yyyy HH:mm')} </div>
                 <div className='mart20'>
                   <div className='extralight'>{order.client.lastname} {order.client.firstname}</div>
                   <div className='extralight'>{city}</div>

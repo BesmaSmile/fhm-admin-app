@@ -9,7 +9,6 @@ const CategoryForm=props=>{
   const setCategoryRequest=hooks.useRequest()
   const { enqueueSnackbar } = useSnackbar();
 
-  console.log(category)
   const onSubmit=values=>{
     if(!category && categories.find(category=>category.name===values.name))
       enqueueSnackbar(`La catégrorie de produit "${values.name}" existe déja!`, { variant: 'warning' })

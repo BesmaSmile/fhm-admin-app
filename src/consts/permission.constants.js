@@ -15,5 +15,7 @@ export const permissionConstants={
   TOGGLE_ADMIN_ACCOUNT : 'toggle_admin_account',
   CHANGE_ADMIN_PASSWORD : 'change_admin_password', 
   READ_ADMIN_PERMISSIONS : 'read_admin_permissions',
-  UPDATE_ADMIN_PERMISSIONS : 'update_admin_permissions'
+  UPDATE_ADMIN_PERMISSIONS : 'update_admin_permissions',
+  READ_NEWS: 'read_news',
+  ADD_NEWS: 'add_news'
 }

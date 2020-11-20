@@ -10,7 +10,6 @@ function updateOrderStatus(clientId, orderId, status){
   return dispatch => {
     return orderService.updateOrderStatus(clientId, orderId, status)
     .then((result)=>{
-      console.log(result)
       dispatch({ type: clientConstants.UPDATE_ORDER_STATUS, ...result })
       return result
     })

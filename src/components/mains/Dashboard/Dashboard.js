@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import foodImage from 'assets/img/food.jpg';
-import { Select, MenuItem, CircularProgress, FormControl, InputLabel } from '@material-ui/core';
+import { Select, MenuItem, CircularProgress } from '@material-ui/core';
 import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import { clientActions } from 'store/actions';

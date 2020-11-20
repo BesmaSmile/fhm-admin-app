@@ -14,9 +14,8 @@ const PermissionsForm = props => {
 
   const onSubmit = values => {
     const toSend = _.pickBy(values, value=>value===true);
-    console.log(toSend)
     updateAdminPermissionsRequest.execute({
-      action: () => updateAdminPermissions(values),
+      action: () => updateAdminPermissions(toSend),
       success: (res) => {
         enqueueSnackbar(`Les permissions on bien été attribuées à l'administrateur !`, { variant: 'success' })
         close()
@@ -97,6 +96,19 @@ const PermissionsForm = props => {
         }
       ]
     },
+    news: {
+      title: 'Gestion de nouveauté',
+      permissions: [
+        {
+          name: permissionConstants.READ_NEWS,
+          label:'Afficher la liste des nouveauté'
+        },
+        {
+          name: permissionConstants.ADD_NEWS,
+          label:'Ajouter des nouveautés'
+        },
+      ]
+    },
     admin: {
       title: 'Gestion des administrateurs',
       permissions: [
@@ -128,11 +140,12 @@ const PermissionsForm = props => {
   let formInputs = []
   Object.keys(form).forEach(key => {
     formInputs.push({
-      content : 
+      content : () =>(
         <div className='mart20 marb10'>
           <div className='medium fs20 cmain marb5'>{form[key].title}</div>
           <Divider />
         </div>
+      )
     })
     form[key].permissions.forEach(permission=>{
       formInputs.push({

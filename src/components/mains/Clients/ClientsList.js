@@ -10,7 +10,7 @@ import { Link } from "react-router-dom";
 import { useDialog } from 'components/misc/Dialog/Dialog';
 import { useSnackbar } from 'notistack';
 import { hooks } from 'functions';
-import moment from 'moment';
+import {format} from 'date-fns';
 import _ from 'lodash';
 import './Clients.scss';
 
@@ -96,8 +96,8 @@ const ClientsList = (props) => {
     return {
       lastname: { value: client.lastname, render: <div className='clt-clientCell'>{client.lastname}</div> },
       firstname: { value: client.firstname, render: <div className='clt-clientCell'>{client.firstname}</div> },
-      createdAt: { value: moment(client.createdAt).format('DD/MM/YYYY'), render: <div className='clt-dateCell'>{moment(client.createdAt).format('DD/MM/YYYY')}</div> },
-      updatedAt: { value: client.updatedAt ? moment(client.updatedAt).format('DD/MM/YYYY') : '', render: <div className='clt-dateCell'>{client.updatedAt ? moment(client.updatedAt).format('DD/MM/YYYY') : ''}</div> },
+      createdAt: { value: format(client.createdAt,'dd/MM/yyyy'), render: <div className='clt-dateCell'>{format(client.createdAt,'dd/MM/yyyy')}</div> },
+      updatedAt: { value: client.updatedAt ? format(client.updatedAt,'dd/MM/yyyy') : '', render: <div className='clt-dateCell'>{client.updatedAt ? format(client.updatedAt,'dd/MM/yyyy') : ''}</div> },
       restaurant: { value: client.restaurant, render: <div className='clt-clientCell'>{client.restaurant || '----'}</div> },
       phoneNumber: { value: client.phoneNumber, render: <div className='clt-clientCell'>{client.phoneNumber}</div> },
 
