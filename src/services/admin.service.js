@@ -25,7 +25,7 @@ function getAdmins() {
       return administrators.sort((admin1, admin2) => admin2.createdAt - admin1.createdAt)
     }).catch(error => {
       console.log(error.code)
-      throw 'Echec de chargement de la liste des administrateurs'
+      throw  Error('Echec de chargement de la liste des administrateurs')
     })
 }
 
@@ -52,9 +52,11 @@ function updateAdminStatus(id, status) {
   return db.collection('administrators').doc(id)
     .update({ status, updatedAt })
     .then(() => ({ status, updatedAt: updatedAt.toDate() }))
-    .catch(error => {
-      throw `Echec ${status === 'enabled' ? "d'activation" : "de désactivation"} du compte administrateur`
-    });
+    
+      .then(()=>{   throw Error(`Echec ${status === 'enabled' ? "d'activation" : "de désactivation"} du compte administrateur`) })
+    /*.catch(error => {
+      throw Error(`Echec ${status === 'enabled' ? "d'activation" : "de désactivation"} du compte administrateur`)
+    });*/
 }
 
 function updateAdminPermissions(id, permissions) {
@@ -64,14 +66,14 @@ function updateAdminPermissions(id, permissions) {
     .update({ permissions, updatedAt })
     .then(() => ({ permissions, updatedAt: updatedAt.toDate() }))
     .catch(error => {
-      throw `Echec de modification des permissions d'administrateur`
+      throw  Error(`Echec de modification des permissions d'administrateur`)
     });
 }
 
 function changePassword(id, password) {
   return firebase.functions().httpsCallable('changePassword')({ id, password })
     .then(result => ({ updatedAt: new Date(result.data.updatedAt) }))
-      .catch(error => {
-        throw `Echec de changement du mot de passe`
-      });
+    .catch(error => {
+      throw  Error(`Echec de changement du mot de passe`)
+    });
 }

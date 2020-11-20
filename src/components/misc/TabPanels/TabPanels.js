@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Paper, Tabs, Tab, AppBar, Typography, Box } from '@material-ui/core';
+import { Paper, Tabs, Tab } from '@material-ui/core';
 import SwipeableViews from 'react-swipeable-views';
 import './TabPanels.scss';
 

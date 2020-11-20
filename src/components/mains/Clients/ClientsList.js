@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 //import avatar from 'assets/img/avatar.png';
 import SvgIcon from 'components/misc/SvgIcon/SvgIcon';
 import Map from 'components/misc/Map/Map';
@@ -25,7 +25,7 @@ const ClientActions = props => {
     updateClientStatusRequest.execute({
       action: () => updateClientStatus(client.id, status),
       success: () => enqueueSnackbar(`Le compte du client a bien été ${status === 'enabled' ? 'activé' : 'désactivé'} !`, { variant: 'success' }),
-      failure: (error) => enqueueSnackbar(error, { variant: 'error' }),
+      failure: (error) => enqueueSnackbar(error.message, { variant: 'error' }),
     })
   }
 

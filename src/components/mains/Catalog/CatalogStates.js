@@ -51,7 +51,7 @@ const CatalogStates = props => {
           enqueueSnackbar(`L'état de produit "${_stateForm.value}" a bien été enregistrée !`, { variant: 'success' })
         },
         failure: (error) => {
-          enqueueSnackbar(error, { variant: 'error' })
+          enqueueSnackbar(error.message, { variant: 'error' })
         }
       })
   }

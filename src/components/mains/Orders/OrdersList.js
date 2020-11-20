@@ -13,7 +13,6 @@ import { hooks } from 'functions';
 import _ from 'lodash';
 import {format} from 'date-fns';
 import { Link } from "react-router-dom";
-import { useReactToPrint } from "react-to-print";
 import './Orders.scss';
 
 const OrderActions = props => {
@@ -32,7 +31,7 @@ const OrderActions = props => {
       updateOrderStatusRequest.execute({
         action: () => updateOrderStatus(order.client.id, order.id, 'delivered'),
         success: () => enqueueSnackbar(`La livraison a bien été approuvée`, { variant: 'success' }),
-        failure: (error) => enqueueSnackbar(error, { variant: 'error' }),
+        failure: (error) => enqueueSnackbar(error.message, { variant: 'error' }),
       })
     }).catch(error => { console.log("rejected") })
   }
@@ -47,7 +46,7 @@ const OrderActions = props => {
       updateOrderStatusRequest.execute({
         action: () => props.updateOrderStatus(order.client.id, order.id, 'paid'),
         success: () => enqueueSnackbar(`Le paiement a bien été approuvé`, { variant: 'success' }),
-        failure: (error) => enqueueSnackbar(error, { variant: 'error' }),
+        failure: (error) => enqueueSnackbar(error.message, { variant: 'error' }),
       })
     }).catch(error => { console.log("rejected") })
   }
@@ -86,10 +85,6 @@ const OrdersList = (props) => {
   ]
 
   const mypage = useRef()
-
-  const printOrder = useReactToPrint({
-    content: () => mypage.current,
-  })
 
   const rows = _.get(props, 'orders', []).map(order => {
 

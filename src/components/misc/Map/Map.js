@@ -19,6 +19,7 @@ const Map = props => {
     });
     const positionMarker = new mapboxgl.Marker({color:'var(--green)'})
     positionMarker.setLngLat([lng,lat]).addTo(map);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return (

@@ -1,5 +1,5 @@
+/* eslint-disable no-throw-literal */
 
-import { news } from 'store/reducers/news.reducer';
 import {firebase} from './firebase';
 import {storageService} from './storage.service';
 
@@ -25,7 +25,7 @@ function getNews(){
   })
   .catch(error=>{
     console.log(error);
-    throw 'Echec de chargement de la liste des nouvelle !'
+    throw Error('Echec de chargement de la liste des nouveautés !')
   });
 }
 
@@ -35,7 +35,7 @@ async function addNews(news, pictureFile){
   const newsRef = await collectionRef.add({...news, createdAt})
   .catch(err=>{
     console.log(err);
-    throw {message : "Echec d'enregistrement de la nouvelle" };
+    throw {message : "Echec d'enregistrement de la nouveaté" };
   })
   //const {id}=result
 

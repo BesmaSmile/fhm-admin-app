@@ -65,20 +65,26 @@ const News = (props) => {
   return (
     <div className='News relw100'>
       <div className='news-header pad20 flex jcsb'>
-        <div className='medium fs25 cstronggrey'>Nouveauté</div>
-        <ButtonWrapper
-          neededPermission={permissionConstants.ADD_NEWS}
-          button={(disabled) => <Button variant="contained"
-            disabled={disabled || newsRequest.pending}
-            classes={{
-              root: 'news-newButton',
-              contained: 'news-newButton_contained',
-              label: 'news-newButton_label'
-            }}
-            onClick={() => openNewsForm()}
-          >
-            Ajouter nouvelle
-        </Button>} />
+        {!newsRequest.pending && props.news && 
+          <>
+            <div className='medium fs25 cstronggrey'>Nouveauté</div>
+            <ButtonWrapper
+              neededPermission={permissionConstants.ADD_NEWS}
+              button={(disabled) => <Button variant="contained"
+                disabled={disabled || newsRequest.pending}
+                classes={{
+                  root: 'news-newButton',
+                  contained: 'news-newButton_contained',
+                  label: 'news-newButton_label'
+                }}
+                onClick={() => openNewsForm()}
+              >
+                Ajouter nouvelle
+            </Button>} />
+          </>
+        }
+        {newsRequest.pending && <div>Chargement en cours...</div>}
+        {newsRequest.error && <div className='cred'>{newsRequest.error.message}</div>}
       </div>
       <div className='mar30'>
         {props.news && (

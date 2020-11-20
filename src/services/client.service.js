@@ -38,7 +38,7 @@ function getClients(){
   })
   .catch(error=>{
     console.log(error);
-    throw 'Echec de chargement de la liste des clients !'
+    throw Error('Echec de chargement de la liste des clients !')
   });
 }
 
@@ -48,6 +48,6 @@ function updateClientStatus(id, status){
   return db.collection('users').doc(id).update({status, updatedAt})
   .then(()=>({id, status, updatedAt: updatedAt.toDate()}))
   .catch(error => {
-    throw `Echec ${status==='enabled' ? "d'activation" : "de désactivation" } du compte client`
+    throw Error(`Echec ${status==='enabled' ? "d'activation" : "de désactivation" } du compte client`)
   });
 }

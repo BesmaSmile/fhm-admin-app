@@ -21,7 +21,7 @@ const PermissionsForm = props => {
         close()
       },
       failure: (error) => {
-        enqueueSnackbar(error, { variant: 'error' })
+        enqueueSnackbar(error.message, { variant: 'error' })
       }
     })
   }

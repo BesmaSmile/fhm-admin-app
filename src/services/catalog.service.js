@@ -1,3 +1,4 @@
+/* eslint-disable no-throw-literal */
 
 import {firebase} from './firebase';
 import {storageService} from './storage.service';
@@ -27,7 +28,7 @@ function getCategories(){
   })
   .catch(error=>{
     console.log(error);
-    throw 'Echec de chargement des catégories de produit !'
+    throw Error('Echec de chargement des catégories de produit !')
   });
 }
 
@@ -47,7 +48,7 @@ function getProducts(){
   })
   .catch(error=>{
     console.log(error);
-    throw 'Echec de chargement des produits !'
+    throw  Error('Echec de chargement des produits !')
   });
 }
 
@@ -58,14 +59,23 @@ async function setProduct(product, pictureFile){
   await productRef.set(toSend)
   .catch(err=>{
     console.log(err);
-    throw {message : "Echec d'enregistrement du produit" };
+    throw Error("Echec d'enregistrement du produit" );
   })
   if(pictureFile){
     const path=`${product.category}/${productRef.id}`
     await storageService.uploadFile(path, pictureFile) 
     .catch(err=>{
       console.log(err);
-      throw {message : "Echec de chargement de l'image du produit. Réassayer !",pictureUploadFailed:true, path }
+      throw {
+        message : "Echec de chargement de l'image du produit. Réassayer !",
+        pictureUploadFailed:true, 
+        path,
+        product : {
+          ...product,
+          id : productRef.id, 
+          image : productRef.id
+        }
+      }
     })
   }
   return {
@@ -103,7 +113,7 @@ function updateSubCategories(categoryId, subCategories){
   return collectionRef.doc(categoryId).update({subCategories})
   .catch(error=>{
     console.log(error);
-    throw "Echec d'ajout d'une sous-catégorie de produit !"
+    throw  Error("Echec d'ajout d'une sous-catégorie de produit !")
   });
 }
 
@@ -112,6 +122,6 @@ function updateStates(categoryId, states){
   return collectionRef.doc(categoryId).update({states})
   .catch(error=>{
     console.log(error);
-    throw "Echec d'ajout d'un état de produit !"
+    throw  Error("Echec d'ajout d'un état de produit !")
   });
 }

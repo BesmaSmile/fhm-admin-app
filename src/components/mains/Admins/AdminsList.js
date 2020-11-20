@@ -9,7 +9,6 @@ import SvgIcon from 'components/misc/SvgIcon/SvgIcon';
 import SecurityIcon from '@material-ui/icons/Security';
 import LockIcon from '@material-ui/icons/Lock';
 import { Button, IconButton, Tooltip } from '@material-ui/core';
-import { Link } from "react-router-dom";
 import { useDialog } from 'components/misc/Dialog/Dialog';
 import { useSnackbar } from 'notistack';
 import { hooks } from 'functions';
@@ -27,7 +26,7 @@ const AdminActions = props => {
     updateAdminStatusRequest.execute({
       action: () => updateAdminStatus(administrator.id, status),
       success: () => enqueueSnackbar(`Le compte de l'administrateur a bien été ${status === 'enabled' ? 'activé' : 'désactivé'} !`, { variant: 'success' }),
-      failure: (error) => enqueueSnackbar(error, { variant: 'error' }),
+      failure: (error) => enqueueSnackbar(error.message, { variant: 'error' }),
     })
   }
 

@@ -40,7 +40,7 @@ const CatalogSubCategories = (props) => {
           enqueueSnackbar(`La sous-cétegorie de produit "${_subCategoryForm.value}" a bien été enregistrée !`, { variant: 'success' })
         },
         failure: (error) => {
-          enqueueSnackbar(error, { variant: 'error' })
+          enqueueSnackbar(error.message, { variant: 'error' })
         }
       })
   }

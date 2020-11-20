@@ -11,7 +11,7 @@ function updateOrderStatus(clientId, orderId, status){
   .doc(orderId).update({status, [`${status}At`] : date })
   .then(result=>({clientId, orderId, status, date :date.toDate() }))
   .catch(error => {
-    throw `Echec d'approbation ${status==='delivered' ? 'de la livraion' : 'du paiement'} !`
+    throw Error(`Echec d'approbation ${status==='delivered' ? 'de la livraion' : 'du paiement'} !`)
   });
 }
 

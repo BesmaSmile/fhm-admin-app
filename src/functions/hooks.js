@@ -16,6 +16,7 @@ function useRequest() {
         success(result)
       }
     }).catch((err) => {
+      console.log(err)
       setPending(false)
       setError(err)
       if (failure)
