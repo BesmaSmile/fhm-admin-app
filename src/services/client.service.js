@@ -38,7 +38,7 @@ function getClients(){
   })
   .catch(error=>{
     console.log(error);
-    throw 'Echec de chargement de la liste des clients !'
+    throw Error('Echec de chargement de la liste des clients !')
   });
 }
 

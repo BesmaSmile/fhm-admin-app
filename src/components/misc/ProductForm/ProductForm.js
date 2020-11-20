@@ -48,8 +48,9 @@ const ProductForm = props => {
     uploadPictureRequest.execute({
       action : ()=> storageService.uploadFile(_retryUploadingPicture.path, _.get(image, 'raw',_image.raw) ),
       success : ()=> {
-        enqueueSnackbar("L'imagea bien été enregistrée !", { variant: 'success' })
+        enqueueSnackbar("L'image a bien été enregistrée !", { variant: 'success' })
         close()
+        window.location.reload();
       },
       failure : ()=>{
         enqueueSnackbar("Echec de chargement de l'image. Réessayer !", { variant: 'error' })

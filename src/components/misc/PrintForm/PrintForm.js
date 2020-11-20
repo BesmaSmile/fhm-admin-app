@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import TabPanels from 'components/misc/TabPanels/TabPanels';
 import PurchaseOrder from 'components/misc/PurchaseOrder/PurchaseOrder';
 import { PageWrapper } from 'components/misc/PermissionWrappers/PermissionWrappers';

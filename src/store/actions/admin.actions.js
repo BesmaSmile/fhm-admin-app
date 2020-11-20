@@ -1,6 +1,5 @@
 import { adminService } from 'services';
 import { adminConstants } from 'store/constants';
-import {authConstants} from 'store/constants';
 
 export const adminActions = {
   getAdmins,

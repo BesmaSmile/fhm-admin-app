@@ -5,7 +5,6 @@ import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import { hooks } from 'functions/hooks';
 import { useSnackbar } from 'notistack';
-import _ from 'lodash';
 
 const ChangePasswordForm=props=>{
   const {close, changePassword} = props
@@ -25,7 +24,7 @@ const ChangePasswordForm=props=>{
         close()
       },
       failure: (error) => {
-        enqueueSnackbar(error, { variant :'error' })
+        enqueueSnackbar(error.message, { variant :'error' })
       }
     })
   }

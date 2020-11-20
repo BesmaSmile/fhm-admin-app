@@ -1,7 +1,6 @@
 import React from 'react';
 import LineChart from 'components/misc/LineChart/LineChart';
 import {format} from 'date-fns';
-import { be } from 'date-fns/esm/locale';
 
 const OrderChart=props=>{
   const {filter, elements, title}=props

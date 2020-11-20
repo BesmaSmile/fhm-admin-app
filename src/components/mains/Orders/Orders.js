@@ -8,6 +8,7 @@ import './Orders.scss';
 
 const Orders=(props)=>{
   const clientsRequest = hooks.useRequest()
+  const productsRequest = hooks.useRequest()
 
   const calculateTotal = (articles) => {
     const total = articles.map(article=>{
@@ -27,7 +28,9 @@ const Orders=(props)=>{
       loadClients()
     }
     if(!props.catalog){
-      props.getProducts()
+      productsRequest.execute({
+        action: props.getProducts
+      })
     }
     // eslint-disable-next-line
   }, [])
@@ -61,6 +64,7 @@ const Orders=(props)=>{
     })
   }
 
+  console.log(clientsRequest.error)
   return (
     <div className='Orders relw100'>
       <div className='mar30'>

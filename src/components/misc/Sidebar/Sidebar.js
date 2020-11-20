@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Link, useHistory } from "react-router-dom";
 import avatar from 'assets/img/user.svg';
 import Logo from 'components/misc/Logo/Logo';

@@ -21,6 +21,7 @@ const TableList = props => {
   useEffect(() => {
     if (pageCount < _page)
       _setPage(1)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [_pageSize])
 
   useEffect(() => {
@@ -132,7 +133,7 @@ const TableList = props => {
         }
         {props.error && 
           <div className='h200 flex jcc aic cred'>
-             {props.error}
+             {props.error.message}
           </div>
         }
         {!props.loading && !props.error && 

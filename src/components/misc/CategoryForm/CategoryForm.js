@@ -20,7 +20,7 @@ const CategoryForm=props=>{
           close()
         },
         failure: (error) => {
-          enqueueSnackbar(error.message, { variant: error.added ? 'warning' : 'error' })
+          enqueueSnackbar(error.message.message, { variant: error.added ? 'warning' : 'error' })
           if(error.added)
             close()
         }

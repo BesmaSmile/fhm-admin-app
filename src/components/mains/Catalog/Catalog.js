@@ -117,7 +117,7 @@ const Catalog = (props) => {
           />
         }
         {categoriesRequest.pending && <div>Chargement en cours...</div>}
-        {categoriesRequest.error && <div>{categoriesRequest.error}</div>}
+        {categoriesRequest.error && <div className='cred'>{categoriesRequest.error.message}</div>}
       </div>
 
       <div className='pad20 flex row jcsb'>

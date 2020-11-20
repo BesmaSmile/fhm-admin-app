@@ -1,6 +1,5 @@
 import React from 'react';
 import PieChart from 'components/misc/PieChart/PieChart';
-import {format} from 'date-fns';
 
 const StatusChart=props=>{
   const {elements, status, title}=props 
